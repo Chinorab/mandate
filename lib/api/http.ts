@@ -1,6 +1,9 @@
 import "server-only";
 import { NextResponse } from "next/server";
+import type { AgentDeps } from "@/lib/agents/shopping";
 import { getDb } from "@/lib/db/client";
+import { gateDeps } from "@/lib/payments/deps";
+import { getToolkit } from "@/lib/payments/toolkit";
 import { createDrafter } from "@/lib/mandate/draft";
 import { NoSessionError, getSession } from "@/lib/session";
 import { createVaultClient, paypalConfigured } from "@/lib/payments/vault";
@@ -10,6 +13,12 @@ import type { ApiResult, MandateDeps } from "./mandates";
 export async function mandateDeps(): Promise<MandateDeps> {
   return { db: await getDb(), drafter: createDrafter(), vault: paypalConfigured() ? createVaultClient() : null };
 }
+
+export async function agentDeps(): Promise<AgentDeps> {
+  return { gate: await gateDeps(), toolkit: await getToolkit() };
+}
+
+export { gateDeps };
 
 /** Resolves the demo session, runs the handler, and turns its result into a JSON response. */
 export async function respond<T>(run: (sessionId: string) => Promise<ApiResult<T>>): Promise<NextResponse> {

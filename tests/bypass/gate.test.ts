@@ -276,7 +276,7 @@ describe("static boundary: money moves only through lib/payments", () => {
     expect(offenders.map(rel)).toEqual([]);
   });
 
-  it.todo("the shopping agent registers no raw money moving tool (lands with the tool registry, T053)");
+  // The registered tool list check lives in tests/bypass/tools.test.ts.
 });
 
 describe("audit trail", () => {

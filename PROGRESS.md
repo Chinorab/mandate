@@ -4,7 +4,14 @@ Deadline: 2026-11-12 12:00 PT (Devpost `paypalaihackathon`). Demo must stay test
 Targets: Grand Prizes, Best Use of Agentic Commerce, AG Grid sponsor prize (Render prize if hosted on Render).
 
 ## Current step
-US1 keyless part DONE 2026-10-18 (T036..T042): draft with Claude (or by hand), inline term editing, sign with SHA-256 fingerprint, verify, discard, routes, New mandate page from the canvas, PayPal link step written. 132 unit/contract tests + 14 Playwright runs green. BLOCKED on keys: sandbox scripts T012..T020, LinkPayPal verification (T043), linked e2e (T044). Next keyless work: tool registry T053 + shopping agent T054 (needs ANTHROPIC_API_KEY to run, not to write), cart routes T055 + contract tests T048, check page T057.
+US2 keyless part DONE 2026-10-18 (T048, T053..T057): tool registry (closed allow list, Agent Toolkit read only), shopping agent on the SDK tool runner with a server stored transcript, cart and agent routes with contract tests, agent chat page and Mandate check page from the canvas. 155 unit/contract tests + 22 Playwright runs green. BLOCKED on keys: sandbox scripts T012..T020, LinkPayPal (T043), live agent + PayPal e2e (T044, T058). Next keyless work: US3 amend (T059..T065, blocked page "Widen the mandate"), then US4 history/revoke/receipt.
+
+## US2 facts
+- Tools (`lib/agents/tools.ts`): search_catalog (fit labels from the deterministic check, `lib/agents/fit.ts`), present_options, add_to_cart, check_cart, pay_cart (= payCart), order_status, get_order (Agent Toolkit, only for orders on this mandate, only when PayPal keys exist).
+- Agent Toolkit (`lib/payments/toolkit.ts`): `@paypal/agent-toolkit/openai` entry used provider neutral (getTools + handleToolCall); actions enabled: orders.get, disputes.list/get, shipment.create/get, transactions.list; money tools refused by name.
+- Agent (`lib/agents/shopping.ts`): claude-sonnet-5-5, max 8 iterations, refusal fallback, transcript in table `agent_thread` (migration 0002), open tool calls closed at the step limit. Display mapping `lib/agents/transcript.ts` + `display.ts`.
+- Dev only fixture: POST `/api/dev/scenario` (needs `MANDATE_DEV_SCENARIOS=1` in `.env.development.local`, 404 otherwise) creates an active mandate, a passing and a blocked cart and a sample conversation for e2e.
+- Pages: `/mandates/[code]` (chat), `/mandates/[code]/check/[cartId]` (check, Pay With Linked PayPal, Cancel Purchase). NavLink streams behind Suspense (Next 16 runtime data rule).
 
 ## US1 facts
 - `lib/mandate/draft.ts`: Claude extracts raw fields (dollars, color phrase, expiry kind); `interpretDraft` converts by code (cents, ET 11:59 PM expiries via `lib/time/et.ts`, assumption notes). No model key -> 503 and the UI offers "Fill In the Terms Myself" (manual draft).

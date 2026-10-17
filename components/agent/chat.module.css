@@ -1,0 +1,324 @@
+/* design/project/AgentChat.dc.html */
+
+.main {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 32px var(--gutter) 48px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  align-items: flex-start;
+}
+
+.aside {
+  flex: 1 1 280px;
+  max-width: 340px;
+  min-width: 0;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+}
+
+.asideHead {
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--hairline-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.asideHead h2 {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-2);
+}
+
+.asideCode {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.asideCode > span:first-child {
+  font-family: var(--font-mono);
+  font-size: 14px;
+}
+
+.budget {
+  padding: 18px 20px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.budget span:first-child {
+  font-size: var(--text-small);
+  color: var(--ink-3);
+}
+
+.budgetValue {
+  font-size: 40px;
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.facts {
+  margin: 0;
+  padding: 8px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 14px;
+}
+
+.facts div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.facts dt {
+  color: var(--ink-3);
+}
+
+.facts dd {
+  margin: 0;
+  text-align: right;
+}
+
+.asideFoot {
+  padding: 14px 20px;
+  border-top: 1px solid var(--hairline-soft);
+  font-size: 14px;
+}
+
+.conv {
+  flex: 999 1 560px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.mine {
+  align-self: flex-end;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-end;
+}
+
+.mine p {
+  margin: 0;
+  padding: 12px 16px;
+  background: var(--ink);
+  color: var(--surface);
+  border-radius: var(--radius);
+}
+
+.theirs {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 760px;
+}
+
+.theirs p {
+  margin: 0;
+}
+
+.who {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--text-small);
+  color: var(--ink-3);
+}
+
+.cards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+}
+
+.card {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid var(--hairline-soft);
+}
+
+.card:last-child {
+  border-bottom: 0;
+}
+
+.thumb {
+  width: 64px;
+  height: 64px;
+  background: var(--surface-hover);
+  border-radius: var(--radius-tag);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-3);
+}
+
+.cardText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.cardText strong {
+  font-weight: 500;
+}
+
+.cardText span:nth-child(2) {
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+.cardText span:nth-child(3) {
+  font-size: var(--text-small);
+  color: var(--ink-3);
+}
+
+.cardPrice {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-end;
+}
+
+.cardPrice > span:first-child {
+  font-size: 20px;
+  font-variant-numeric: tabular-nums;
+}
+
+.event {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 16px;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  font-size: 14px;
+}
+
+.eventRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.failed {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--ink-2);
+}
+
+.composer {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+  padding-top: 8px;
+  border-top: 1px solid var(--hairline);
+  flex-wrap: wrap;
+}
+
+.composer .field {
+  flex: 1 1 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.composer label {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.composer textarea {
+  resize: vertical;
+  min-height: var(--control-h);
+  padding: 12px 14px;
+  background: var(--surface);
+  border: 1px solid var(--control-border);
+  border-radius: var(--radius);
+}
+
+.status {
+  font-size: 14px;
+  color: var(--ink-3);
+}
+
+.notice {
+  display: flex;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  background: var(--awaiting-bg);
+  color: var(--awaiting-fg);
+  font-size: 14px;
+}
+
+.notice svg {
+  flex: none;
+  margin-top: 2px;
+}
+
+.error {
+  background: var(--blocked-bg);
+  color: var(--blocked-fg);
+}
+
+@media (max-width: 640px) {
+  .main {
+    padding: 24px 16px 40px;
+  }
+  .aside {
+    max-width: none;
+  }
+  .card {
+    grid-template-columns: 48px minmax(0, 1fr);
+  }
+  .thumb {
+    width: 48px;
+    height: 48px;
+  }
+  .cardPrice {
+    grid-column: 2;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}

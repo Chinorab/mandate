@@ -4,7 +4,10 @@
  * The ssr entry renders in both server and client components.
  */
 import {
+  ArrowLeft,
   ArrowRight,
+  Robot,
+  Sneaker,
   CheckCircle,
   CheckSquare,
   Clock,
@@ -37,6 +40,9 @@ export const Icon = {
   fail: MinusCircle,
   edit: PencilSimple,
   next: ArrowRight,
+  back: ArrowLeft,
+  agent: Robot,
+  product: Sneaker,
   download: DownloadSimple,
   close: X,
 } as const;

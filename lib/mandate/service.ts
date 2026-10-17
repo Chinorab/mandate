@@ -2,10 +2,10 @@
  * Mandate lifecycle for the buyer: draft, edit, sign, link PayPal, verify, discard (US1).
  * Every function is scoped to the caller's demo session (FR-033) and never returns vault tokens.
  */
-import { and, desc, eq } from "drizzle-orm";
+import { and, desc, eq, sql } from "drizzle-orm";
 import { audit } from "@/lib/audit";
 import type { Db } from "@/lib/db/client";
-import { mandate, mandateVersion } from "@/lib/db/schema";
+import { mandate, mandateVersion, order } from "@/lib/db/schema";
 import type { VaultClient } from "@/lib/payments/vault";
 import { fingerprint } from "./canonical";
 import { draftTermsSchema, type DraftResult, type DraftTerms, type Drafter } from "./draft";
@@ -33,6 +33,8 @@ export type MandateView = {
   outOfScope: string | null;
   version: { versionNo: number; sha256: string; signedAt: string } | null;
   linked: boolean;
+  spentCents: number;
+  ordersUsed: number;
   createdAt: string;
   revokedAt: string | null;
 };
@@ -76,6 +78,10 @@ async function toView(db: Db, m: typeof mandate.$inferSelect): Promise<MandateVi
       assumptions = v.assumptions as Assumption[];
     }
   }
+  const [agg] = await db
+    .select({ spent: sql<number>`coalesce(sum(${order.amountCents}), 0)::int`, count: sql<number>`count(*)::int` })
+    .from(order)
+    .where(and(eq(order.mandateId, m.id), eq(order.status, "captured")));
   return {
     code: m.code,
     status: m.status,
@@ -86,6 +92,8 @@ async function toView(db: Db, m: typeof mandate.$inferSelect): Promise<MandateVi
     outOfScope: m.status === "draft" ? meta.outOfScope : null,
     version,
     linked: Boolean(m.vaultPaymentTokenId),
+    spentCents: Number(agg?.spent ?? 0),
+    ordersUsed: Number(agg?.count ?? 0),
     createdAt: m.createdAt.toISOString(),
     revokedAt: m.revokedAt?.toISOString() ?? null,
   };

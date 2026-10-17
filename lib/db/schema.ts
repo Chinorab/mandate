@@ -273,3 +273,18 @@ export const modelUsageDay = pgTable("model_usage_day", {
   day: date("day", { mode: "string" }).primaryKey(),
   calls: integer("calls").notNull().default(0),
 });
+
+/** Shopping agent conversation per mandate, stored server side so the browser cannot rewrite it. */
+export const agentThread = pgTable("agent_thread", {
+  mandateId: uuid("mandate_id")
+    .primaryKey()
+    .references(() => mandate.id),
+  sessionId: uuid("session_id")
+    .notNull()
+    .references(() => demoSession.id),
+  // Raw Messages API params (text, tool_use, tool_result and thinking blocks kept unchanged).
+  messages: jsonb("messages").notNull().default(sql`'[]'::jsonb`),
+  // ISO time of each message, same length as messages.
+  times: jsonb("times").notNull().default(sql`'[]'::jsonb`),
+  updatedAt: ts("updated_at").notNull().defaultNow(),
+});

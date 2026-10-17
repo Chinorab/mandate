@@ -49,7 +49,14 @@ function Note({ kind, children }: { kind: "assumption" | "missing"; children: Re
 function colorsText(t: DraftTerms) {
   const allowed = t.required?.colors;
   const excluded = t.forbidden?.colors;
-  const names = (ids: string[]) => ids.map((c, i) => (i === 0 ? COLOR_LABELS[c as keyof typeof COLOR_LABELS] : COLOR_LABELS[c as keyof typeof COLOR_LABELS].toLowerCase())).join(", ");
+  const names = (ids: string[]) =>
+    ids
+      .map((c, i) =>
+        i === 0
+          ? COLOR_LABELS[c as keyof typeof COLOR_LABELS]
+          : COLOR_LABELS[c as keyof typeof COLOR_LABELS].toLowerCase(),
+      )
+      .join(", ");
   return {
     main: allowed?.length ? names(allowed) : "Any color",
     sub: excluded?.length ? `Excludes ${names(excluded).toLowerCase()}` : null,
@@ -85,7 +92,19 @@ type RowProps = {
   onCancel: () => void;
 };
 
-function Row({ k, label, children, terms, open, editable, busy, assumption, onEdit, onSave, onCancel }: RowProps) {
+function Row({
+  k,
+  label,
+  children,
+  terms,
+  open,
+  editable,
+  busy,
+  assumption,
+  onEdit,
+  onSave,
+  onCancel,
+}: RowProps) {
   const Editor = EDITORS[k];
   return (
     <div className={`${s.row} ${open ? s.rowEditing : ""}`}>
@@ -154,7 +173,11 @@ export function MandateBuilder() {
       await fn();
     } catch (e) {
       if (e instanceof ApiCallError) {
-        setError({ message: e.message, canFillByHand: e.code.includes("cap") || e.code.includes("not_configured") || e.status === 503 });
+        setError({
+          message: e.message,
+          canFillByHand:
+            e.code.includes("cap") || e.code.includes("not_configured") || e.status === 503,
+        });
       } else setError({ message: "Something went wrong. Try again." });
     } finally {
       setBusy(false);
@@ -163,7 +186,9 @@ export function MandateBuilder() {
 
   const draftTerms = () =>
     run(async () => {
-      const r = mandate ? await mandateApi.redraft(mandate.code, instructions) : await mandateApi.draft(instructions);
+      const r = mandate
+        ? await mandateApi.redraft(mandate.code, instructions)
+        : await mandateApi.draft(instructions);
       show(r.mandate);
     });
   const fillByHand = () =>
@@ -171,7 +196,8 @@ export function MandateBuilder() {
       const text = instructions.trim() || "Terms entered by hand";
       show((await mandateApi.draft(text, true)).mandate);
     });
-  const saveTerms = (next: DraftTerms) => run(async () => show((await mandateApi.update(mandate!.code, next)).mandate));
+  const saveTerms = (next: DraftTerms) =>
+    run(async () => show((await mandateApi.update(mandate!.code, next)).mandate));
   const sign = () => run(async () => show((await mandateApi.sign(mandate!.code)).mandate));
   const discard = () =>
     run(async () => {
@@ -186,7 +212,8 @@ export function MandateBuilder() {
 
   const isDraft = !mandate || mandate.status === "draft";
   const t = mandate?.terms;
-  const assumed = (k: TermKey) => mandate?.assumptions.find((a) => a.term === ASSUMPTION_FOR[k])?.text;
+  const assumed = (k: TermKey) =>
+    mandate?.assumptions.find((a) => a.term === ASSUMPTION_FOR[k])?.text;
   const missing = new Set(mandate?.missing ?? []);
 
   const rowProps = (k: TermKey) => ({
@@ -224,11 +251,17 @@ export function MandateBuilder() {
                 maxLength={1000}
                 onChange={(e) => setInstructions(e.target.value)}
               />
-              <span className={s.help}>Include a budget, what to buy, and when it should stop.</span>
+              <span className={s.help}>
+                Include a budget, what to buy, and when it should stop.
+              </span>
             </div>
             <div className={s.actions}>
               {mandate ? (
-                <Button variant="secondary" onClick={draftTerms} disabled={busy || !instructions.trim()}>
+                <Button
+                  variant="secondary"
+                  onClick={draftTerms}
+                  disabled={busy || !instructions.trim()}
+                >
                   Update Terms
                 </Button>
               ) : (
@@ -237,12 +270,21 @@ export function MandateBuilder() {
                 </Button>
               )}
               {!instructions.trim() ? (
-                <Button variant="secondary" onClick={() => setInstructions(EXAMPLE)} disabled={busy}>
+                <Button
+                  variant="secondary"
+                  onClick={() => setInstructions(EXAMPLE)}
+                  disabled={busy}
+                >
                   Use the Example
                 </Button>
               ) : null}
               {!mandate ? (
-                <Button variant="link" onClick={fillByHand} disabled={busy} style={{ color: "var(--ink-2)" }}>
+                <Button
+                  variant="link"
+                  onClick={fillByHand}
+                  disabled={busy}
+                  style={{ color: "var(--ink-2)" }}
+                >
                   Fill In the Terms Myself
                 </Button>
               ) : null}
@@ -257,16 +299,32 @@ export function MandateBuilder() {
             <span>
               {error.message}{" "}
               {error.canFillByHand && !mandate ? (
-                <button type="button" onClick={fillByHand} style={{ background: "none", border: 0, padding: 0, color: "inherit", textDecoration: "underline" }}>
-                  Fill in the terms myself
-                </button>
+                <>
+                  You can still set the terms yourself.{" "}
+                  <button
+                    type="button"
+                    onClick={fillByHand}
+                    style={{
+                      background: "none",
+                      border: 0,
+                      padding: 0,
+                      color: "inherit",
+                      textDecoration: "underline",
+                    }}
+                  >
+                    Fill in the terms myself
+                  </button>
+                </>
               ) : null}
             </span>
           </div>
         ) : null}
         <div className={s.note}>
           <StateIcon name="active" size={20} />
-          <span>Your agent cannot reach payment unless the cart passes every term. You can revoke this mandate at any time.</span>
+          <span>
+            Your agent cannot reach payment unless the cart passes every term. You can revoke this
+            mandate at any time.
+          </span>
         </div>
       </section>
 
@@ -275,7 +333,9 @@ export function MandateBuilder() {
           {!mandate || !t ? (
             <div className={s.empty}>
               <h2 id="card-title">Mandate terms</h2>
-              <p style={{ margin: 0 }}>Your terms appear here, one by one, before anything is signed.</p>
+              <p style={{ margin: 0 }}>
+                Your terms appear here, one by one, before anything is signed.
+              </p>
             </div>
           ) : (
             <>
@@ -300,18 +360,33 @@ export function MandateBuilder() {
 
               {editing === "budget" ? (
                 <div className={`${s.budget} ${s.rowEditing}`}>
-                  <BudgetEditor terms={t} busy={busy} onSave={saveTerms} onCancel={() => setEditing(null)} />
+                  <BudgetEditor
+                    terms={t}
+                    busy={busy}
+                    onSave={saveTerms}
+                    onCancel={() => setEditing(null)}
+                  />
                 </div>
               ) : (
                 <div className={s.budget}>
                   <div className={s.budgetValue}>
                     <span className={s.caption}>Budget</span>
-                    <span className={s.amount}>{t.budgetCents !== undefined ? formatUsd(t.budgetCents) : "Not set"}</span>
-                    <span className={s.sub}>Maximum total for this mandate, tax and shipping included</span>
-                    {missing.has("budgetCents") ? <Note kind="missing">Add a budget before signing.</Note> : null}
+                    <span className={s.amount}>
+                      {t.budgetCents !== undefined ? formatUsd(t.budgetCents) : "Not set"}
+                    </span>
+                    <span className={s.sub}>
+                      Maximum total for this mandate, tax and shipping included
+                    </span>
+                    {missing.has("budgetCents") ? (
+                      <Note kind="missing">Add a budget before signing.</Note>
+                    ) : null}
                   </div>
                   {isDraft ? (
-                    <IconButton label="Edit budget" onClick={() => setEditing("budget")} disabled={busy}>
+                    <IconButton
+                      label="Edit budget"
+                      onClick={() => setEditing("budget")}
+                      disabled={busy}
+                    >
                       <StateIcon name="edit" size={18} />
                     </IconButton>
                   ) : null}
@@ -321,11 +396,17 @@ export function MandateBuilder() {
               <dl className={s.terms}>
                 <Row {...rowProps("category")} label="Category">
                   <span>{t.category ? CATEGORIES[t.category] : "Not set"}</span>
-                  {missing.has("category") ? <Note kind="missing">Choose what your agent may buy.</Note> : null}
+                  {missing.has("category") ? (
+                    <Note kind="missing">Choose what your agent may buy.</Note>
+                  ) : null}
                 </Row>
                 {sized || t.required?.size ? (
                   <Row {...rowProps("size")} label="Size">
-                    <span>{t.required?.size ? `${SIZE_SYSTEM_LABELS[t.required.size.system]} ${t.required.size.value}` : "Any size"}</span>
+                    <span>
+                      {t.required?.size
+                        ? `${SIZE_SYSTEM_LABELS[t.required.size.system]} ${t.required.size.value}`
+                        : "Any size"}
+                    </span>
                   </Row>
                 ) : null}
                 <Row {...rowProps("colors")} label="Colors">
@@ -333,14 +414,20 @@ export function MandateBuilder() {
                   {colors!.sub ? <span className={s.secondary}>{colors!.sub}</span> : null}
                 </Row>
                 <Row {...rowProps("purchases")} label="Orders">
-                  <span className="num">{t.maxPurchases === 1 ? "1 order" : `${t.maxPurchases ?? 1} orders`}</span>
+                  <span className="num">
+                    {t.maxPurchases === 1 ? "1 order" : `${t.maxPurchases ?? 1} orders`}
+                  </span>
                 </Row>
                 <Row {...rowProps("merchants")} label="Allowed merchants">
                   <span>{merchantsText(t)}</span>
                 </Row>
                 <Row {...rowProps("expires")} label="Expires">
-                  <span className="num">{t.expiresAt ? formatEt(new Date(t.expiresAt)) : "Not set"}</span>
-                  {missing.has("expiresAt") ? <Note kind="missing">Choose when this mandate stops.</Note> : null}
+                  <span className="num">
+                    {t.expiresAt ? formatEt(new Date(t.expiresAt)) : "Not set"}
+                  </span>
+                  {missing.has("expiresAt") ? (
+                    <Note kind="missing">Choose when this mandate stops.</Note>
+                  ) : null}
                 </Row>
                 {t.semantic?.length ? (
                   <div className={s.row}>
@@ -349,7 +436,9 @@ export function MandateBuilder() {
                       {t.semantic.map((p) => (
                         <span key={p.id}>{p.text}</span>
                       ))}
-                      <span className={s.secondary}>Judged for each cart. If it cannot be judged, the cart does not pass.</span>
+                      <span className={s.secondary}>
+                        Judged for each cart. If it cannot be judged, the cart does not pass.
+                      </span>
                     </dd>
                     <span aria-hidden="true" />
                   </div>
@@ -361,7 +450,12 @@ export function MandateBuilder() {
                   <Button variant="link" onClick={discard} disabled={busy}>
                     Discard Draft
                   </Button>
-                  <Button onClick={sign} disabled={busy || missing.size > 0 || Boolean(mandate.outOfScope) || editing !== null}>
+                  <Button
+                    onClick={sign}
+                    disabled={
+                      busy || missing.size > 0 || Boolean(mandate.outOfScope) || editing !== null
+                    }
+                  >
                     <StateIcon name="edit" size={18} />
                     Sign Mandate
                   </Button>
@@ -371,7 +465,10 @@ export function MandateBuilder() {
                 <div className={`${s.foot} ${s.footStack}`}>
                   {mandate.status === "awaiting_link" ? (
                     <>
-                      <p style={{ margin: 0 }}>Link PayPal once. Your agent can then pay inside this mandate, and nowhere else.</p>
+                      <p style={{ margin: 0 }}>
+                        Link PayPal once. Your agent can then pay inside this mandate, and nowhere
+                        else.
+                      </p>
                       <LinkPayPal code={mandate.code} onLinked={onLinked} />
                     </>
                   ) : mandate.status === "active" ? (

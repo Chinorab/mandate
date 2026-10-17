@@ -103,7 +103,7 @@ test("drafting without a model explains itself and offers the manual path", asyn
   await page.getByRole("button", { name: "Use the Example" }).click();
   await page.getByRole("button", { name: "Draft Terms" }).click();
   const alert = page.getByRole("region", { name: "Instructions" }).getByRole("alert");
-  await expect(alert).toContainText("fill in the terms by hand");
+  await expect(alert).toContainText("set the terms yourself");
   await alert.getByRole("button", { name: "Fill in the terms myself" }).click();
   await expect(page.getByText(/^Draft MDT/)).toBeVisible();
 });

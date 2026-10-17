@@ -1,8 +1,10 @@
 /** Browser side calls to the mandate API. Types only from the server modules. */
 import type { DraftTerms } from "@/lib/mandate/draft";
+import type { ChatItem } from "@/lib/agents/display";
+import type { CheckView } from "@/lib/api/carts";
 import type { MandateView } from "@/lib/mandate/service";
 
-export type { DraftTerms, MandateView };
+export type { ChatItem, CheckView, DraftTerms, MandateView };
 
 export class ApiCallError extends Error {
   constructor(
@@ -44,4 +46,16 @@ export const mandateApi = {
   confirmLink: (code: string, vaultSetupToken: string) =>
     call<One>(`/api/mandates/${code}/vault/confirm`, { method: "POST", body: { vaultSetupToken } }),
   clientToken: () => call<{ accessToken: string; expiresIn: number }>("/api/paypal/client-token"),
+};
+
+export const agentApi = {
+  thread: (code: string) => call<{ items: ChatItem[] }>(`/api/agent/thread?mandate=${encodeURIComponent(code)}`),
+  send: (code: string, message: string) => call<{ items: ChatItem[] }>("/api/agent/chat", { method: "POST", body: { mandateCode: code, message } }),
+};
+
+export const cartApi = {
+  view: (id: string) => call<{ view: CheckView }>(`/api/carts/${id}/check`),
+  check: (id: string) => call<{ view: CheckView }>(`/api/carts/${id}/check`, { method: "POST" }),
+  pay: (id: string) => call<{ orderCode: string; view: CheckView }>(`/api/carts/${id}/pay`, { method: "POST" }),
+  cancel: (id: string) => call<{ status: string }>(`/api/carts/${id}/cancel`, { method: "POST" }),
 };
