@@ -1,0 +1,9 @@
+node_modules/
+.next/
+coverage/
+pnpm-lock.yaml
+design/
+specs/
+.specify/
+playwright-report/
+test-results/

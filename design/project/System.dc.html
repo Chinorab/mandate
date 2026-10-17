@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Mandate system and favicon</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&amp;family=Geist+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F5F3;color:#121518;font-family:'Geist',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:#121518}a:hover{color:#454A50}
+.num{font-variant-numeric:tabular-nums}
+.mono{font-family:'Geist Mono',ui-monospace,SFMono-Regular,Menlo,monospace}
+button{font:inherit}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #F4F5F3">
+  <main style="max-width: 1240px; margin: 0 auto; padding: 56px 32px 80px; display: flex; flex-direction: column; gap: 56px">
+
+    <div style="display: flex; flex-direction: column; gap: 8px">
+      <h1 style="margin: 0; font-size: 40px; font-weight: 300; letter-spacing: -0.025em">System</h1>
+      <p style="margin: 0; color: #454A50; max-width: 70ch">Geist and Geist Mono. One ink accent. Corners at 4px, tags at 3px. One pixel hairlines, no gradients. Every state carries an icon and a label.</p>
+    </div>
+
+    <section aria-labelledby="fav" style="display: flex; flex-direction: column; gap: 20px">
+      <h2 id="fav" style="margin: 0; font-size: 20px; font-weight: 500">Favicon and mark</h2>
+      <div style="display: flex; gap: 32px; flex-wrap: wrap; align-items: flex-end">
+        <figure style="margin: 0; display: flex; flex-direction: column; gap: 10px; align-items: flex-start">
+          <svg width="180" height="180" viewBox="0 0 24 24" role="img" aria-label="Mandate mark at 180 pixels"><rect width="24" height="24" rx="4" fill="#121518"></rect><path d="M6.5 11.2l3.2 3.2L17.5 6.6" stroke="#FBFBFA" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path><path d="M6.5 18h11" stroke="#FBFBFA" stroke-width="1.6" stroke-linecap="round"></path></svg>
+          <figcaption class="mono" style="font-size: 12px; color: #61676D">180 apple touch icon</figcaption>
+        </figure>
+        <figure style="margin: 0; display: flex; flex-direction: column; gap: 10px; align-items: flex-start">
+          <svg width="64" height="64" viewBox="0 0 24 24" role="img" aria-label="Mandate mark at 64 pixels"><rect width="24" height="24" rx="4" fill="#121518"></rect><path d="M6.5 11.2l3.2 3.2L17.5 6.6" stroke="#FBFBFA" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path><path d="M6.5 18h11" stroke="#FBFBFA" stroke-width="1.6" stroke-linecap="round"></path></svg>
+          <figcaption class="mono" style="font-size: 12px; color: #61676D">64</figcaption>
+        </figure>
+        <figure style="margin: 0; display: flex; flex-direction: column; gap: 10px; align-items: flex-start">
+          <svg width="32" height="32" viewBox="0 0 24 24" role="img" aria-label="Mandate mark at 32 pixels"><rect width="24" height="24" rx="4" fill="#121518"></rect><path d="M6.5 11.2l3.2 3.2L17.5 6.6" stroke="#FBFBFA" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path><path d="M6.5 18h11" stroke="#FBFBFA" stroke-width="1.8" stroke-linecap="round"></path></svg>
+          <figcaption class="mono" style="font-size: 12px; color: #61676D">32</figcaption>
+        </figure>
+        <figure style="margin: 0; display: flex; flex-direction: column; gap: 10px; align-items: flex-start">
+          <svg width="16" height="16" viewBox="0 0 16 16" role="img" aria-label="Mandate favicon at 16 pixels"><rect width="16" height="16" rx="3" fill="#121518"></rect><path d="M4 7.6l2.2 2.2L12 4.3" stroke="#FBFBFA" stroke-width="1.8" fill="none" stroke-linecap="square"></path><path d="M4 12.5h8" stroke="#FBFBFA" stroke-width="1.5"></path></svg>
+          <figcaption class="mono" style="font-size: 12px; color: #61676D">16 favicon</figcaption>
+        </figure>
+        <figure style="margin: 0; display: flex; flex-direction: column; gap: 10px; align-items: flex-start">
+          <div style="padding: 16px; background: #1A1D21; border-radius: 4px; display: flex; gap: 16px; align-items: center">
+            <svg width="32" height="32" viewBox="0 0 24 24" role="img" aria-label="Mandate mark on a dark tab bar"><rect width="24" height="24" rx="4" fill="#FBFBFA"></rect><path d="M6.5 11.2l3.2 3.2L17.5 6.6" stroke="#121518" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path><path d="M6.5 18h11" stroke="#121518" stroke-width="1.8" stroke-linecap="round"></path></svg>
+            <svg width="16" height="16" viewBox="0 0 16 16" role="img" aria-label="Mandate favicon on dark"><rect width="16" height="16" rx="3" fill="#FBFBFA"></rect><path d="M4 7.6l2.2 2.2L12 4.3" stroke="#121518" stroke-width="1.8" fill="none" stroke-linecap="square"></path><path d="M4 12.5h8" stroke="#121518" stroke-width="1.5"></path></svg>
+          </div>
+          <figcaption class="mono" style="font-size: 12px; color: #61676D">Dark browser chrome</figcaption>
+        </figure>
+      </div>
+      <p style="margin: 0; font-size: 14px; color: #454A50; max-width: 70ch">A check above a signature line: approved, then signed. Ship favicon.svg, favicon.ico at 16 and 32, and apple-touch-icon.png at 180.</p>
+    </section>
+
+    <section aria-labelledby="states" style="display: flex; flex-direction: column; gap: 20px">
+      <h2 id="states" style="margin: 0; font-size: 20px; font-weight: 500">States</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 1px; background: #D7DAD6; border: 1px solid #D7DAD6; border-radius: 4px; overflow: hidden">
+        <div style="background: #FBFBFA; padding: 20px; display: flex; flex-direction: column; gap: 10px">
+          <span style="align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; padding: 4px 9px 4px 7px; background: #E2EFE5; color: #14612F; border-radius: 3px; font-size: 13px; font-weight: 500"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M8 12.5l2.8 2.8L16 9.8"></path></svg>Compliant</span>
+          <span style="font-size: 14px; color: #454A50">Check passed. Circle check. <span class="mono">#14612F on #E2EFE5</span></span>
+        </div>
+        <div style="background: #FBFBFA; padding: 20px; display: flex; flex-direction: column; gap: 10px">
+          <span style="align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; padding: 4px 9px 4px 7px; background: #F9E9DE; color: #983809; border-radius: 3px; font-size: 13px; font-weight: 500"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.2 3h7.6L21 8.2v7.6L15.8 21H8.2L3 15.8V8.2z"></path><path d="M8 12h8"></path></svg>Blocked</span>
+          <span style="font-size: 14px; color: #454A50">Stopped before payment. Octagon. <span class="mono">#983809 on #F9E9DE</span></span>
+        </div>
+        <div style="background: #FBFBFA; padding: 20px; display: flex; flex-direction: column; gap: 10px">
+          <span style="align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; padding: 4px 9px 4px 7px; background: #E4EAF6; color: #1C4399; border-radius: 3px; font-size: 13px; font-weight: 500"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4M5 4h11l-2 4 2 4H5"></path></svg>In dispute</span>
+          <span style="font-size: 14px; color: #454A50">Case open. Flag. <span class="mono">#1C4399 on #E4EAF6</span></span>
+        </div>
+        <div style="background: #FBFBFA; padding: 20px; display: flex; flex-direction: column; gap: 10px">
+          <span style="align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; padding: 4px 9px 4px 7px; background: #E6E8E9; color: #3E434A; border-radius: 3px; font-size: 13px; font-weight: 500"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v16H4zM8 12.5l2.8 2.8L16 9.8"></path></svg>Resolved</span>
+          <span style="font-size: 14px; color: #454A50">Case closed. Square check. <span class="mono">#3E434A on #E6E8E9</span></span>
+        </div>
+        <div style="background: #FBFBFA; padding: 20px; display: flex; flex-direction: column; gap: 10px">
+          <span style="align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; padding: 4px 9px 4px 7px; background: #F3EBCF; color: #6A5000; border-radius: 3px; font-size: 13px; font-weight: 500"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>Awaiting you</span>
+          <span style="font-size: 14px; color: #454A50">Signature or deadline. Clock. <span class="mono">#6A5000 on #F3EBCF</span></span>
+        </div>
+        <div style="background: #FBFBFA; padding: 20px; display: flex; flex-direction: column; gap: 10px">
+          <span style="align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; padding: 4px 9px 4px 7px; background: #E2EFE5; color: #14612F; border-radius: 3px; font-size: 13px; font-weight: 500"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.2-8 9-4.6-.8-8-4.5-8-9V6z"></path><path d="M8.5 12.2l2.4 2.4 4.6-4.6"></path></svg>Active</span>
+          <span style="font-size: 14px; color: #454A50">Mandate in force. Shield. Expired uses a clock, revoked a slashed circle, both in gray.</span>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="color" style="display: flex; flex-direction: column; gap: 20px">
+      <h2 id="color" style="margin: 0; font-size: 20px; font-weight: 500">Neutrals</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr)); gap: 16px">
+        <div style="display: flex; flex-direction: column; gap: 8px"><div style="height: 72px; background: #121518; border-radius: 4px"></div><span style="font-size: 14px">Ink</span><span class="mono" style="font-size: 12px; color: #61676D">#121518</span></div>
+        <div style="display: flex; flex-direction: column; gap: 8px"><div style="height: 72px; background: #454A50; border-radius: 4px"></div><span style="font-size: 14px">Ink 2</span><span class="mono" style="font-size: 12px; color: #61676D">#454A50</span></div>
+        <div style="display: flex; flex-direction: column; gap: 8px"><div style="height: 72px; background: #61676D; border-radius: 4px"></div><span style="font-size: 14px">Ink 3, captions</span><span class="mono" style="font-size: 12px; color: #61676D">#61676D</span></div>
+        <div style="display: flex; flex-direction: column; gap: 8px"><div style="height: 72px; background: #AEB3AD; border-radius: 4px"></div><span style="font-size: 14px">Control border</span><span class="mono" style="font-size: 12px; color: #61676D">#AEB3AD</span></div>
+        <div style="display: flex; flex-direction: column; gap: 8px"><div style="height: 72px; background: #D7DAD6; border-radius: 4px"></div><span style="font-size: 14px">Hairline</span><span class="mono" style="font-size: 12px; color: #61676D">#D7DAD6</span></div>
+        <div style="display: flex; flex-direction: column; gap: 8px"><div style="height: 72px; background: #F4F5F3; border: 1px solid #D7DAD6; border-radius: 4px; box-sizing: border-box"></div><span style="font-size: 14px">Ground</span><span class="mono" style="font-size: 12px; color: #61676D">#F4F5F3</span></div>
+        <div style="display: flex; flex-direction: column; gap: 8px"><div style="height: 72px; background: #FBFBFA; border: 1px solid #D7DAD6; border-radius: 4px; box-sizing: border-box"></div><span style="font-size: 14px">Surface</span><span class="mono" style="font-size: 12px; color: #61676D">#FBFBFA</span></div>
+      </div>
+    </section>
+
+    <section aria-labelledby="type" style="display: flex; flex-direction: column; gap: 20px">
+      <h2 id="type" style="margin: 0; font-size: 20px; font-weight: 500">Type</h2>
+      <div style="display: flex; flex-direction: column; gap: 0; border-top: 1px solid #D7DAD6">
+        <div style="display: grid; grid-template-columns: minmax(140px, 200px) minmax(0, 1fr); gap: 16px; align-items: baseline; padding: 16px 0; border-bottom: 1px solid #E3E5E2"><span class="mono" style="font-size: 12px; color: #61676D">Amount 56 / 300</span><span class="num" style="font-size: 56px; font-weight: 300; letter-spacing: -0.035em; line-height: 1.05">$103.92</span></div>
+        <div style="display: grid; grid-template-columns: minmax(140px, 200px) minmax(0, 1fr); gap: 16px; align-items: baseline; padding: 16px 0; border-bottom: 1px solid #E3E5E2"><span class="mono" style="font-size: 12px; color: #61676D">Title 40 / 300</span><span style="font-size: 40px; font-weight: 300; letter-spacing: -0.025em; line-height: 1.15">Mandate check</span></div>
+        <div style="display: grid; grid-template-columns: minmax(140px, 200px) minmax(0, 1fr); gap: 16px; align-items: baseline; padding: 16px 0; border-bottom: 1px solid #E3E5E2"><span class="mono" style="font-size: 12px; color: #61676D">Section 17 / 500</span><span style="font-size: 17px; font-weight: 500">Evidence file</span></div>
+        <div style="display: grid; grid-template-columns: minmax(140px, 200px) minmax(0, 1fr); gap: 16px; align-items: baseline; padding: 16px 0; border-bottom: 1px solid #E3E5E2"><span class="mono" style="font-size: 12px; color: #61676D">Body 15 / 400</span><span>Cart total is $127.74. Your limit is $120.00.</span></div>
+        <div style="display: grid; grid-template-columns: minmax(140px, 200px) minmax(0, 1fr); gap: 16px; align-items: baseline; padding: 16px 0; border-bottom: 1px solid #E3E5E2"><span class="mono" style="font-size: 12px; color: #61676D">Data, Geist Mono 13</span><span class="mono" style="font-size: 13px">MDT4K7Q21  8XK2…41QD</span></div>
+      </div>
+    </section>
+
+    <section aria-labelledby="btns" style="display: flex; flex-direction: column; gap: 20px">
+      <h2 id="btns" style="margin: 0; font-size: 20px; font-weight: 500">Actions</h2>
+      <div style="display: flex; gap: 16px; flex-wrap: wrap; align-items: center">
+        <button type="button" style="height: 48px; padding: 0 22px; background: #121518; color: #FBFBFA; border: 0; border-radius: 4px; font-size: 15px; font-weight: 500">Sign Mandate</button>
+        <button type="button" style="height: 48px; padding: 0 22px; background: #FBFBFA; color: #121518; border: 1px solid #AEB3AD; border-radius: 4px; font-size: 15px; font-weight: 500">Download Receipt</button>
+        <button type="button" style="height: 48px; padding: 0 22px; background: #FBFBFA; color: #983809; border: 1px solid #983809; border-radius: 4px; font-size: 15px; font-weight: 500">Revoke Mandate</button>
+        <button type="button" disabled style="height: 48px; padding: 0 22px; background: #D7DAD6; color: #61676D; border: 0; border-radius: 4px; font-size: 15px; font-weight: 500">Submit Evidence</button>
+        <div role="img" aria-label="Official PayPal button slot" style="height: 48px; padding: 0 18px; border: 1px dashed #AEB3AD; border-radius: 4px; display: flex; align-items: center; font-size: 13px; color: #454A50">PayPal JS SDK button slot</div>
+      </div>
+      <p style="margin: 0; font-size: 14px; color: #454A50; max-width: 70ch">The PayPal button is never redrawn. It renders from the official SDK, and only when every term passes.</p>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1400}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

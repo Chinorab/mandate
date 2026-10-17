@@ -1,0 +1,6 @@
+#!/bin/sh
+# Constitution IV: a secret scan runs before each push.
+pnpm -s scan:secrets || {
+  echo "Push blocked by the secret scan. Remove the secret, then push again."
+  exit 1
+}

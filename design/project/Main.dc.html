@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Mandate home</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&amp;family=Geist+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F5F3;color:#121518;font-family:'Geist',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:#121518;text-underline-offset:3px}a:hover{color:#454A50}
+.num{font-variant-numeric:tabular-nums}
+.mono{font-family:'Geist Mono',ui-monospace,SFMono-Regular,Menlo,monospace}
+:focus-visible{outline:2px solid #121518;outline-offset:2px}
+h1,h2,h3{text-wrap:balance}
+.btn-primary{transition:background-color .15s ease}
+.btn-primary:hover{background:#2B3036 !important;color:#FBFBFA !important}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column; background: #F4F5F3">
+
+  <header style="border-bottom: 1px solid #D7DAD6; background: #F4F5F3">
+    <div style="max-width: 1240px; margin: 0 auto; padding: 0 32px; height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap">
+      <a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none" aria-label="Mandate home">
+        <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="4" fill="#121518"></rect><path d="M6.5 11.2l3.2 3.2L17.5 6.6" stroke="#FBFBFA" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path><path d="M6.5 18h11" stroke="#FBFBFA" stroke-width="1.6" stroke-linecap="round"></path></svg>
+        <span style="font-size: 18px; font-weight: 600; letter-spacing: -0.01em">Mandate</span>
+      </a>
+      <nav aria-label="Primary" style="display: flex; align-items: center; gap: 28px; font-size: 14px">
+        <a href="MerchantOrders.dc.html" style="text-decoration: none; color: #454A50">For Merchants</a>
+        <a href="History.dc.html" style="text-decoration: none; color: #454A50">Sign In</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" style="flex: 1 1 auto">
+    <section style="max-width: 1240px; margin: 0 auto; padding: 88px 32px 72px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(460px, 100%), 1fr)); gap: 64px; align-items: center">
+
+      <div style="display: flex; flex-direction: column; gap: 28px; max-width: 560px">
+        <h1 style="margin: 0; font-size: 68px; line-height: 1.04; font-weight: 300; letter-spacing: -0.035em">Proof of what your agent was allowed to buy.</h1>
+        <p style="margin: 0; font-size: 19px; line-height: 1.5; color: #454A50; max-width: 46ch">Write a mandate in plain words. Your agent shops inside it, and every PayPal payment carries the record.</p>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap; padding-top: 4px">
+          <a class="btn-primary" href="MandateCreate.dc.html" style="display: inline-flex; align-items: center; gap: 10px; height: 48px; padding: 0 22px; background: #121518; color: #FBFBFA; border-radius: 4px; text-decoration: none; font-size: 15px; font-weight: 500">
+            Create a Mandate
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+          </a>
+        </div>
+      </div>
+
+      <figure style="margin: 0; display: flex; flex-direction: column; gap: 14px" aria-label="Example mandate">
+        <div style="background: #FBFBFA; border: 1px solid #D7DAD6; border-radius: 4px; box-shadow: 0 1px 0 #E6E8E5, 0 18px 40px -24px rgba(30, 40, 35, 0.22)">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 24px; border-bottom: 1px solid #E3E5E2; flex-wrap: wrap">
+            <div style="display: flex; flex-direction: column; gap: 2px">
+              <span style="font-size: 13px; color: #61676D">Mandate</span>
+              <span class="mono" style="font-size: 14px">MDT4K7Q21</span>
+            </div>
+            <span style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 9px 4px 7px; background: #E2EFE5; color: #14612F; border-radius: 3px; font-size: 13px; font-weight: 500">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.2-8 9-4.6-.8-8-4.5-8-9V6z"></path><path d="M8.5 12.2l2.4 2.4 4.6-4.6"></path></svg>
+              Active
+            </span>
+          </div>
+          <p style="margin: 0; padding: 18px 24px 0; font-size: 15px; color: #454A50">“Buy running shoes, size 10, under $120, neutral colors, this week only.”</p>
+          <div style="padding: 20px 24px 8px; display: flex; flex-direction: column; gap: 2px">
+            <span style="font-size: 13px; color: #61676D">Budget, total per order</span>
+            <span class="num" style="font-size: 52px; font-weight: 300; letter-spacing: -0.03em; line-height: 1.1">$120.00</span>
+          </div>
+          <dl style="margin: 0; padding: 8px 24px 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr)); gap: 16px 24px">
+            <div style="display: flex; flex-direction: column; gap: 2px"><dt style="font-size: 13px; color: #61676D">Category</dt><dd style="margin: 0">Running shoes</dd></div>
+            <div style="display: flex; flex-direction: column; gap: 2px"><dt style="font-size: 13px; color: #61676D">Constraints</dt><dd style="margin: 0">US 10, neutral colors</dd></div>
+            <div style="display: flex; flex-direction: column; gap: 2px"><dt style="font-size: 13px; color: #61676D">Merchants</dt><dd style="margin: 0">Any store with PayPal checkout</dd></div>
+            <div style="display: flex; flex-direction: column; gap: 2px"><dt style="font-size: 13px; color: #61676D">Expires</dt><dd class="num" style="margin: 0">Sun, Oct 25, 11:59 PM ET</dd></div>
+          </dl>
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 24px; border-top: 1px solid #E3E5E2; background: #F4F5F3; font-size: 13px; color: #61676D; flex-wrap: wrap">
+            <span>Signed Oct 19, 2026, 9:02 AM ET</span>
+            <span class="mono">SHA256 9f2c…a41e</span>
+          </div>
+        </div>
+        <figcaption style="font-size: 13px; color: #61676D">Example mandate. Products and stores in this demo are fictional.</figcaption>
+      </figure>
+    </section>
+
+    <section aria-label="Context" style="border-top: 1px solid #D7DAD6">
+      <div style="max-width: 1240px; margin: 0 auto; padding: 28px 32px; display: flex; align-items: flex-start; gap: 14px">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#454A50" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 2px"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v6M12 7.6v.4"></path></svg>
+        <p style="margin: 0; font-size: 15px; color: #454A50; max-width: 80ch">New York’s financial regulator says it is still asking “where does liability sit?” when an agent pays on someone’s behalf. <a href="https://www.americanbanker.com/payments/news/new-york-financial-regulator-zeroing-in-on-agentic-commerce" style="color: #121518; white-space: nowrap">American Banker, June 26, 2026</a></p>
+      </div>
+    </section>
+  </main>
+
+  <footer style="border-top: 1px solid #D7DAD6">
+    <div style="max-width: 1240px; margin: 0 auto; padding: 24px 32px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 13px; color: #61676D">
+      <span>© 2026 [COMPANY NAME]. PayPal is a trademark of its owner. Mandate is not affiliated with PayPal.</span>
+      <nav aria-label="Legal" style="display: flex; gap: 20px">
+        <a href="Privacy.dc.html" style="color: #454A50">Privacy</a>
+      </nav>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":960}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

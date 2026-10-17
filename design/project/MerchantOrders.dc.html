@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Agent orders</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&amp;family=Geist+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F5F3;color:#121518;font-family:'Geist',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:#121518;text-underline-offset:3px}a:hover{color:#454A50}
+.num{font-variant-numeric:tabular-nums}
+.mono{font-family:'Geist Mono',ui-monospace,SFMono-Regular,Menlo,monospace}
+:focus-visible{outline:2px solid #121518;outline-offset:2px}
+h1,h2,h3{text-wrap:balance}
+button{font:inherit;cursor:pointer}
+input,select{font:inherit;color:#121518}
+th{font-weight:500;text-align:left}
+tbody tr:hover{background:#F1F2F0}
+.sortbtn:hover{color:#121518 !important}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #F4F5F3">
+
+  <header style="border-bottom: 1px solid #D7DAD6; background: #FBFBFA">
+    <div style="max-width: 1360px; margin: 0 auto; padding: 0 32px; min-height: 60px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap">
+      <div style="display: flex; align-items: center; gap: 36px; flex-wrap: wrap">
+        <a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none" aria-label="Mandate for merchants home">
+          <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="4" fill="#121518"></rect><path d="M6.5 11.2l3.2 3.2L17.5 6.6" stroke="#FBFBFA" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path><path d="M6.5 18h11" stroke="#FBFBFA" stroke-width="1.6" stroke-linecap="round"></path></svg>
+          <span style="font-size: 18px; font-weight: 600; letter-spacing: -0.01em">Mandate</span>
+          <span style="font-size: 13px; color: #61676D; padding-left: 10px; border-left: 1px solid #D7DAD6">Merchant</span>
+        </a>
+        <nav aria-label="Primary" style="display: flex; gap: 4px; font-size: 14px">
+          <a href="MerchantOrders.dc.html" aria-current="page" style="padding: 18px 12px 16px; text-decoration: none; color: #121518; font-weight: 500; border-bottom: 2px solid #121518">Orders</a>
+          <a href="DisputeDetail.dc.html" style="padding: 18px 12px; text-decoration: none; color: #61676D">Disputes <span class="num">2</span></a>
+          <a href="#settings" style="padding: 18px 12px; text-decoration: none; color: #61676D">Settings</a>
+        </nav>
+      </div>
+      <span style="font-size: 14px; color: #454A50">Sample Sports Outlet</span>
+    </div>
+  </header>
+
+  <main id="main" style="max-width: 1360px; margin: 0 auto; padding: 32px 32px 64px; display: flex; flex-direction: column; gap: 24px">
+
+    <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; flex-wrap: wrap">
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <h1 style="margin: 0; font-size: 32px; line-height: 1.2; font-weight: 300; letter-spacing: -0.02em">Agent orders</h1>
+        <p style="margin: 0; font-size: 14px; color: #454A50">Orders placed by shopping agents through PayPal checkout. Sample data.</p>
+      </div>
+      <dl class="num" style="margin: 0; display: flex; gap: 36px; flex-wrap: wrap">
+        <div style="display: flex; flex-direction: column"><dt style="font-size: 13px; color: #61676D">Orders shown</dt><dd style="margin: 0; font-size: 30px; font-weight: 300; letter-spacing: -0.02em">{{ countShown }}</dd></div>
+        <div style="display: flex; flex-direction: column"><dt style="font-size: 13px; color: #61676D">Mandate attached</dt><dd style="margin: 0; font-size: 30px; font-weight: 300; letter-spacing: -0.02em">{{ countAttached }}</dd></div>
+        <div style="display: flex; flex-direction: column"><dt style="font-size: 13px; color: #61676D">In dispute</dt><dd style="margin: 0; font-size: 30px; font-weight: 300; letter-spacing: -0.02em">{{ countDispute }}</dd></div>
+      </dl>
+    </div>
+
+    <form role="search" aria-label="Filter orders" style="display: flex; gap: 12px 20px; flex-wrap: wrap; align-items: flex-end; padding: 14px 16px; background: #FBFBFA; border: 1px solid #D7DAD6; border-radius: 4px">
+      <div style="display: flex; flex-direction: column; gap: 6px; flex: 1 1 240px; min-width: 0">
+        <label for="q" style="font-size: 13px; font-weight: 500">Search</label>
+        <div style="position: relative">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#61676D" stroke-width="1.75" stroke-linecap="round" aria-hidden="true" style="position: absolute; left: 12px; top: 14px"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path></svg>
+          <input id="q" name="q" type="search" autocomplete="off" placeholder="Order number or item…" value="{{ q }}" onChange="{{ onSearch }}" style="width: 100%; box-sizing: border-box; height: 44px; padding: 0 12px 0 36px; background: #F4F5F3; border: 1px solid #AEB3AD; border-radius: 4px">
+        </div>
+      </div>
+      <fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px">
+        <legend style="font-size: 13px; font-weight: 500; padding: 0; margin-bottom: 6px">Mandate</legend>
+        <div style="display: flex; border: 1px solid #AEB3AD; border-radius: 4px; overflow: hidden">
+          <sc-for list="{{ mandateOpts }}" as="opt" hint-placeholder-count="3">
+            <button type="button" aria-pressed="{{ opt.pressed }}" onClick="{{ opt.pick }}" style="height: 42px; padding: 0 14px; border: 0; border-right: 1px solid #D7DAD6; font-size: 14px; background: {{ opt.bg }}; color: {{ opt.fg }}">{{ opt.label }}</button>
+          </sc-for>
+        </div>
+      </fieldset>
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <label for="status" style="font-size: 13px; font-weight: 500">Status</label>
+        <select id="status" name="status" value="{{ status }}" onChange="{{ onStatus }}" style="height: 44px; padding: 0 12px; min-width: 170px; background: #F4F5F3; border: 1px solid #AEB3AD; border-radius: 4px">
+          <option value="all">All statuses</option>
+          <option value="Shipped">Shipped</option>
+          <option value="Delivered">Delivered</option>
+          <option value="In dispute">In dispute</option>
+          <option value="Resolved">Resolved</option>
+          <option value="Refunded">Refunded</option>
+        </select>
+      </div>
+    </form>
+
+    <div style="background: #FBFBFA; border: 1px solid #D7DAD6; border-radius: 4px; overflow-x: auto">
+      <table class="num" style="width: 100%; min-width: 1040px; border-collapse: collapse; font-size: 14px">
+        <caption style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Agent orders, sorted by {{ sortLabel }}</caption>
+        <thead>
+          <tr style="font-size: 13px; color: #61676D; border-bottom: 1px solid #D7DAD6; background: #F4F5F3">
+            <th scope="col" style="padding: 10px 16px; width: 90px">Order</th>
+            <th scope="col" aria-sort="{{ dateSort }}" style="padding: 0 10px; width: 150px">
+              <button type="button" class="sortbtn" onClick="{{ sortDate }}" style="height: 40px; padding: 0; background: transparent; border: 0; color: #454A50; font-weight: 500; display: inline-flex; align-items: center; gap: 6px">Placed
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ dateIcon }}"></path></svg>
+              </button>
+            </th>
+            <th scope="col" style="padding: 10px">Item</th>
+            <th scope="col" style="padding: 10px; width: 100px">Buyer</th>
+            <th scope="col" aria-sort="{{ amountSort }}" style="padding: 0 10px; width: 110px; text-align: right">
+              <button type="button" class="sortbtn" onClick="{{ sortAmount }}" style="height: 40px; padding: 0; background: transparent; border: 0; color: #454A50; font-weight: 500; display: inline-flex; align-items: center; gap: 6px">Amount
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ amountIcon }}"></path></svg>
+              </button>
+            </th>
+            <th scope="col" style="padding: 10px; width: 130px">Mandate</th>
+            <th scope="col" style="padding: 10px; width: 110px">Check</th>
+            <th scope="col" style="padding: 10px; width: 130px">Status</th>
+            <th scope="col" style="padding: 10px 16px; width: 130px">PayPal ID</th>
+          </tr>
+        </thead>
+        <tbody>
+          <sc-for list="{{ rows }}" as="r" hint-placeholder-count="12">
+            <tr style="border-bottom: 1px solid #E3E5E2">
+              <td style="padding: 10px 16px"><a href="{{ r.href }}" class="mono" style="font-size: 13px">{{ r.id }}</a></td>
+              <td style="padding: 10px; white-space: nowrap; color: #454A50">{{ r.placed }}</td>
+              <td style="padding: 10px; max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{ r.item }}</td>
+              <td class="mono" style="padding: 10px; font-size: 13px; color: #454A50">{{ r.buyer }}</td>
+              <td style="padding: 10px; text-align: right; white-space: nowrap">{{ r.amountLabel }}</td>
+              <td style="padding: 10px">
+                <span style="display: inline-flex; align-items: center; gap: 6px; padding: 2px 8px 2px 6px; border-radius: 3px; font-size: 12px; font-weight: 500; white-space: nowrap; background: {{ r.mBg }}; color: {{ r.mFg }}">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ r.mIcon }}"></path></svg>{{ r.mLabel }}
+                </span>
+              </td>
+              <td style="padding: 10px; white-space: nowrap; color: #454A50">{{ r.check }}</td>
+              <td style="padding: 10px">
+                <span style="display: inline-flex; align-items: center; gap: 6px; padding: 2px 8px 2px 6px; border-radius: 3px; font-size: 12px; font-weight: 500; white-space: nowrap; background: {{ r.sBg }}; color: {{ r.sFg }}">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ r.sIcon }}"></path></svg>{{ r.status }}
+                </span>
+              </td>
+              <td class="mono" style="padding: 10px 16px; font-size: 12px; color: #61676D">{{ r.pp }}</td>
+            </tr>
+          </sc-for>
+        </tbody>
+      </table>
+      <sc-if value="{{ empty }}" hint-placeholder-val="{{ false }}">
+        <div style="padding: 40px 16px; text-align: center; color: #454A50; display: flex; flex-direction: column; gap: 10px; align-items: center">
+          <span>No orders match these filters.</span>
+          <button type="button" onClick="{{ reset }}" style="height: 40px; padding: 0 14px; background: #FBFBFA; border: 1px solid #AEB3AD; border-radius: 4px; font-size: 14px">Clear Filters</button>
+        </div>
+      </sc-if>
+      <div style="display: flex; justify-content: space-between; gap: 12px; padding: 12px 16px; border-top: 1px solid #E3E5E2; font-size: 13px; color: #61676D; flex-wrap: wrap">
+        <span class="num">Showing {{ countShown }} of {{ countAll }} orders</span>
+        <span>Sample data for a fictional store</span>
+      </div>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1240}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { q: '', mandate: 'all', status: 'all', sortKey: 'date', sortDir: 'desc' };
+  }
+  renderVals() {
+    const P = {
+      shield: 'M12 3l8 3v6c0 4.5-3.4 8.2-8 9-4.6-.8-8-4.5-8-9V6zM8.5 12.2l2.4 2.4 4.6-4.6',
+      none: 'M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0M8 12h8',
+      flag: 'M5 21V4M5 4h11l-2 4 2 4H5',
+      resolved: 'M4 4h16v16H4zM8 12.5l2.8 2.8L16 9.8',
+      box: 'M3 7.5l9-4.5 9 4.5v9L12 21l-9-4.5zM3 7.5l9 4.5 9-4.5M12 12v9',
+      truck: 'M3 6h11v10H3zM14 10h4l3 3v3h-7',
+      refund: 'M9 14l-5-5 5-5M4 9h11a5 5 0 0 1 0 10h-3'
+    };
+    const statusStyle = {
+      'In dispute': { bg: '#E4EAF6', fg: '#1C4399', icon: P.flag },
+      'Resolved': { bg: '#E6E8E9', fg: '#3E434A', icon: P.resolved },
+      'Delivered': { bg: 'transparent', fg: '#454A50', icon: P.box },
+      'Shipped': { bg: 'transparent', fg: '#454A50', icon: P.truck },
+      'Refunded': { bg: '#E6E8E9', fg: '#3E434A', icon: P.refund }
+    };
+    const data = [
+      { id: '10482', d: 202610190915, placed: 'Oct 19, 9:15 AM', item: 'Daily Miler, black and white, US 10', buyer: '••4821', amount: 103.92, attached: true, check: '7 of 7 pass', status: 'In dispute', pp: '8XK2…41QD' },
+      { id: '10479', d: 202610190851, placed: 'Oct 19, 8:51 AM', item: 'Trail sock, 3 pack', buyer: '••1907', amount: 24.50, attached: true, check: '5 of 5 pass', status: 'Delivered', pp: '3MV9…07LA' },
+      { id: '10477', d: 202610181832, placed: 'Oct 18, 6:32 PM', item: 'Road Trainer 4, stone gray, US 11', buyer: '••3350', amount: 117.60, attached: true, check: '7 of 7 pass', status: 'Shipped', pp: '6QT1…92HC' },
+      { id: '10474', d: 202610181410, placed: 'Oct 18, 2:10 PM', item: 'Rain shell jacket, M', buyer: '••6618', amount: 142.00, attached: false, check: 'Not available', status: 'Delivered', pp: '1BW4…55RE' },
+      { id: '10470', d: 202610181147, placed: 'Oct 18, 11:47 AM', item: 'Hydration vest, S', buyer: '••0442', amount: 68.25, attached: true, check: '6 of 6 pass', status: 'Delivered', pp: '9DN7…13KF' },
+      { id: '10466', d: 202610171905, placed: 'Oct 17, 7:05 PM', item: 'Daily Miler, black, US 9', buyer: '••2216', amount: 103.92, attached: true, check: '7 of 7 pass', status: 'Resolved', pp: '4HR8…60TB' },
+      { id: '10463', d: 202610171522, placed: 'Oct 17, 3:22 PM', item: 'Running cap', buyer: '••8873', amount: 19.00, attached: false, check: 'Not available', status: 'Refunded', pp: '7CL2…88WN' },
+      { id: '10459', d: 202610171014, placed: 'Oct 17, 10:14 AM', item: 'Tempo Racer, volt yellow, US 10', buyer: '••5190', amount: 127.74, attached: true, check: '6 of 6 pass', status: 'Delivered', pp: '2ZP5…34MS' },
+      { id: '10455', d: 202610162040, placed: 'Oct 16, 8:40 PM', item: 'Foam roller', buyer: '••7734', amount: 34.99, attached: true, check: '4 of 4 pass', status: 'Delivered', pp: '5JE3…71VG' },
+      { id: '10452', d: 202610161303, placed: 'Oct 16, 1:03 PM', item: 'Trail gloves, L', buyer: '••3028', amount: 29.50, attached: false, check: 'Not available', status: 'In dispute', pp: '0KY6…26PX' },
+      { id: '10448', d: 202610160958, placed: 'Oct 16, 9:58 AM', item: 'Road Trainer 4, stone gray, US 10', buyer: '••6401', amount: 110.95, attached: true, check: '7 of 7 pass', status: 'Delivered', pp: '8AF9…49DU' },
+      { id: '10444', d: 202610151716, placed: 'Oct 15, 5:16 PM', item: 'Track spikes, US 9.5', buyer: '••9152', amount: 89.00, attached: true, check: '5 of 5 pass', status: 'Resolved', pp: '6GS0…15YJ' }
+    ];
+    const s = this.state;
+    const fmt = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+    const q = (s.q || '').trim().toLowerCase();
+    let rows = data.filter((r) => {
+      if (s.mandate === 'attached' && !r.attached) return false;
+      if (s.mandate === 'none' && r.attached) return false;
+      if (s.status !== 'all' && r.status !== s.status) return false;
+      if (q && !(r.id.includes(q) || r.item.toLowerCase().includes(q))) return false;
+      return true;
+    });
+    const key = s.sortKey === 'amount' ? 'amount' : 'd';
+    const dir = s.sortDir === 'asc' ? 1 : -1;
+    rows = rows.slice().sort((a, b) => (a[key] - b[key]) * dir);
+    rows = rows.map((r) => {
+      const st = statusStyle[r.status];
+      return Object.assign({}, r, {
+        href: r.status === 'In dispute' && r.attached ? 'DisputeDetail.dc.html' : '#order-' + r.id,
+        amountLabel: fmt.format(r.amount),
+        mLabel: r.attached ? 'Attached' : 'None',
+        mBg: r.attached ? '#E2EFE5' : 'transparent',
+        mFg: r.attached ? '#14612F' : '#61676D',
+        mIcon: r.attached ? P.shield : P.none,
+        sBg: st.bg, sFg: st.fg, sIcon: st.icon
+      });
+    });
+    const up = 'M12 19V5M6 11l6-6 6 6';
+    const down = 'M12 5v14M6 13l6 6 6-6';
+    const both = 'M8 9l4-4 4 4M8 15l4 4 4-4';
+    const opts = [['all', 'All'], ['attached', 'Attached'], ['none', 'None']].map((o) => ({
+      label: o[1],
+      pressed: s.mandate === o[0] ? 'true' : 'false',
+      bg: s.mandate === o[0] ? '#121518' : '#FBFBFA',
+      fg: s.mandate === o[0] ? '#FBFBFA' : '#121518',
+      pick: () => this.setState({ mandate: o[0] })
+    }));
+    const toggleSort = (k) => {
+      if (this.state.sortKey === k) this.setState({ sortDir: this.state.sortDir === 'asc' ? 'desc' : 'asc' });
+      else this.setState({ sortKey: k, sortDir: 'desc' });
+    };
+    return {
+      rows: rows,
+      empty: rows.length === 0,
+      countAll: data.length,
+      countShown: rows.length,
+      countAttached: rows.filter((r) => r.attached).length,
+      countDispute: rows.filter((r) => r.status === 'In dispute').length,
+      q: s.q,
+      status: s.status,
+      mandateOpts: opts,
+      onSearch: (e) => this.setState({ q: e.target.value }),
+      onStatus: (e) => this.setState({ status: e.target.value }),
+      sortDate: () => toggleSort('date'),
+      sortAmount: () => toggleSort('amount'),
+      dateSort: s.sortKey === 'date' ? (s.sortDir === 'asc' ? 'ascending' : 'descending') : 'none',
+      amountSort: s.sortKey === 'amount' ? (s.sortDir === 'asc' ? 'ascending' : 'descending') : 'none',
+      dateIcon: s.sortKey === 'date' ? (s.sortDir === 'asc' ? up : down) : both,
+      amountIcon: s.sortKey === 'amount' ? (s.sortDir === 'asc' ? up : down) : both,
+      sortLabel: s.sortKey === 'amount' ? 'amount' : 'date placed',
+      reset: () => this.setState({ q: '', mandate: 'all', status: 'all' })
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Mandate history</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&amp;family=Geist+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F5F3;color:#121518;font-family:'Geist',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:#121518;text-underline-offset:3px}a:hover{color:#454A50}
+.num{font-variant-numeric:tabular-nums}
+.mono{font-family:'Geist Mono',ui-monospace,SFMono-Regular,Menlo,monospace}
+:focus-visible{outline:2px solid #121518;outline-offset:2px}
+h1,h2,h3{text-wrap:balance}
+button{font:inherit;cursor:pointer}
+th{font-weight:500;text-align:left}
+.row:hover{background:#ECEEEB !important}
+.btn-primary:hover{background:#2B3036 !important;color:#FBFBFA !important}
+.btn-secondary:hover{background:#ECEEEB !important}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #F4F5F3">
+
+  <header style="border-bottom: 1px solid #D7DAD6">
+    <div style="max-width: 1240px; margin: 0 auto; padding: 0 32px; min-height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap">
+      <div style="display: flex; align-items: center; gap: 40px; flex-wrap: wrap">
+        <a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none" aria-label="Mandate home">
+          <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="4" fill="#121518"></rect><path d="M6.5 11.2l3.2 3.2L17.5 6.6" stroke="#FBFBFA" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path><path d="M6.5 18h11" stroke="#FBFBFA" stroke-width="1.6" stroke-linecap="round"></path></svg>
+          <span style="font-size: 18px; font-weight: 600; letter-spacing: -0.01em">Mandate</span>
+        </a>
+        <nav aria-label="Primary" style="display: flex; gap: 4px; font-size: 14px">
+          <a href="MandateCreate.dc.html" style="padding: 20px 12px; text-decoration: none; color: #61676D">Mandates</a>
+          <a href="History.dc.html" aria-current="page" style="padding: 20px 12px 18px; text-decoration: none; color: #121518; font-weight: 500; border-bottom: 2px solid #121518">History</a>
+        </nav>
+      </div>
+      <a href="Privacy.dc.html" style="font-size: 14px; color: #454A50; text-decoration: none">Account</a>
+    </div>
+  </header>
+
+  <main id="main" style="max-width: 1240px; margin: 0 auto; padding: 40px 32px 80px; display: flex; flex-direction: column; gap: 28px">
+    <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; flex-wrap: wrap">
+      <h1 style="margin: 0; font-size: 40px; line-height: 1.15; font-weight: 300; letter-spacing: -0.025em">History</h1>
+      <a class="btn-primary" href="MandateCreate.dc.html" style="display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 18px; background: #121518; color: #FBFBFA; border-radius: 4px; text-decoration: none; font-size: 15px; font-weight: 500">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+        New Mandate
+      </a>
+    </div>
+
+    <div role="group" aria-label="Filter mandates" style="display: flex; gap: 0; border-bottom: 1px solid #D7DAD6; flex-wrap: wrap; font-size: 14px">
+      <button type="button" aria-pressed="true" style="height: 44px; padding: 0 14px; background: transparent; border: 0; border-bottom: 2px solid #121518; font-weight: 500">All <span class="num" style="color: #61676D">4</span></button>
+      <button type="button" aria-pressed="false" style="height: 44px; padding: 0 14px; background: transparent; border: 0; color: #454A50">Active <span class="num" style="color: #61676D">1</span></button>
+      <button type="button" aria-pressed="false" style="height: 44px; padding: 0 14px; background: transparent; border: 0; color: #454A50">Expired <span class="num" style="color: #61676D">2</span></button>
+      <button type="button" aria-pressed="false" style="height: 44px; padding: 0 14px; background: transparent; border: 0; color: #454A50">Revoked <span class="num" style="color: #61676D">1</span></button>
+    </div>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start">
+
+      <section aria-labelledby="list" style="flex: 1 1 340px; max-width: 420px; min-width: 0">
+        <h2 id="list" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Mandates</h2>
+        <ul style="list-style: none; margin: 0; padding: 0; background: #FBFBFA; border: 1px solid #D7DAD6; border-radius: 4px">
+          <li style="border-bottom: 1px solid #E3E5E2">
+            <a href="History.dc.html" aria-current="true" style="display: flex; flex-direction: column; gap: 6px; padding: 16px 18px; text-decoration: none; background: #ECEEEB; box-shadow: inset 3px 0 0 #121518">
+              <span style="display: flex; justify-content: space-between; gap: 12px; align-items: center; flex-wrap: wrap">
+                <span style="font-weight: 500">Running shoes</span>
+                <span style="display: inline-flex; align-items: center; gap: 6px; padding: 3px 8px 3px 6px; background: #E2EFE5; color: #14612F; border-radius: 3px; font-size: 12px; font-weight: 500"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.2-8 9-4.6-.8-8-4.5-8-9V6z"></path><path d="M8.5 12.2l2.4 2.4 4.6-4.6"></path></svg>Active</span>
+              </span>
+              <span class="num" style="font-size: 14px; color: #454A50">Up to $120.00, expires Oct 25</span>
+              <span class="mono" style="font-size: 12px; color: #61676D">MDT4K7Q21</span>
+            </a>
+          </li>
+          <li style="border-bottom: 1px solid #E3E5E2">
+            <a class="row" href="History.dc.html" style="display: flex; flex-direction: column; gap: 6px; padding: 16px 18px; text-decoration: none">
+              <span style="display: flex; justify-content: space-between; gap: 12px; align-items: center; flex-wrap: wrap">
+                <span style="font-weight: 500">Kids rain boots</span>
+                <span style="display: inline-flex; align-items: center; gap: 6px; padding: 3px 8px 3px 6px; background: #E4EAF6; color: #1C4399; border-radius: 3px; font-size: 12px; font-weight: 500"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4M5 4h11l-2 4 2 4H5"></path></svg>Purchase in dispute</span>
+              </span>
+              <span class="num" style="font-size: 14px; color: #454A50">Up to $45.00, expired Oct 4</span>
+              <span class="mono" style="font-size: 12px; color: #61676D">MDT7C1N30</span>
+            </a>
+          </li>
+          <li style="border-bottom: 1px solid #E3E5E2">
+            <a class="row" href="History.dc.html" style="display: flex; flex-direction: column; gap: 6px; padding: 16px 18px; text-decoration: none">
+              <span style="display: flex; justify-content: space-between; gap: 12px; align-items: center; flex-wrap: wrap">
+                <span style="font-weight: 500">Ground coffee, monthly</span>
+                <span style="display: inline-flex; align-items: center; gap: 6px; padding: 3px 8px 3px 6px; background: #E6E8E9; color: #3E434A; border-radius: 3px; font-size: 12px; font-weight: 500"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>Expired</span>
+              </span>
+              <span class="num" style="font-size: 14px; color: #454A50">Up to $40.00 a month, expired Sep 30</span>
+              <span class="mono" style="font-size: 12px; color: #61676D">MDT9P2L08</span>
+            </a>
+          </li>
+          <li>
+            <a class="row" href="History.dc.html" style="display: flex; flex-direction: column; gap: 6px; padding: 16px 18px; text-decoration: none">
+              <span style="display: flex; justify-content: space-between; gap: 12px; align-items: center; flex-wrap: wrap">
+                <span style="font-weight: 500">Desk lamp</span>
+                <span style="display: inline-flex; align-items: center; gap: 6px; padding: 3px 8px 3px 6px; background: #E6E8E9; color: #3E434A; border-radius: 3px; font-size: 12px; font-weight: 500"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M5.6 5.6l12.8 12.8"></path></svg>Revoked</span>
+              </span>
+              <span class="num" style="font-size: 14px; color: #454A50">Up to $80.00, revoked Sep 12</span>
+              <span class="mono" style="font-size: 12px; color: #61676D">MDT3H6W55</span>
+            </a>
+          </li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="detail" style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 24px">
+        <div style="background: #FBFBFA; border: 1px solid #D7DAD6; border-radius: 4px">
+          <div style="padding: 22px 28px; border-bottom: 1px solid #E3E5E2; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; align-items: flex-start">
+            <div style="display: flex; flex-direction: column; gap: 4px">
+              <h2 id="detail" style="margin: 0; font-size: 24px; font-weight: 400; letter-spacing: -0.01em">Running shoes</h2>
+              <span style="font-size: 14px; color: #454A50"><span class="mono">MDT4K7Q21</span>, signed Oct 19, 2026, 9:02 AM ET</span>
+            </div>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap">
+              <button type="button" class="btn-secondary" style="display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 16px; background: #FBFBFA; border: 1px solid #AEB3AD; border-radius: 4px; font-size: 15px; font-weight: 500">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"></path></svg>
+                Download Receipt
+              </button>
+              <button type="button" style="display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 16px; background: #FBFBFA; border: 1px solid #983809; color: #983809; border-radius: 4px; font-size: 15px; font-weight: 500">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M5.6 5.6l12.8 12.8"></path></svg>
+                Revoke Mandate
+              </button>
+            </div>
+          </div>
+
+          <div style="padding: 22px 28px; display: flex; gap: 48px; flex-wrap: wrap; border-bottom: 1px solid #E3E5E2">
+            <div style="display: flex; flex-direction: column; gap: 2px">
+              <span style="font-size: 13px; color: #61676D">Spent</span>
+              <span class="num" style="font-size: 48px; font-weight: 300; letter-spacing: -0.03em; line-height: 1.1">$103.92</span>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 2px">
+              <span style="font-size: 13px; color: #61676D">Budget</span>
+              <span class="num" style="font-size: 48px; font-weight: 300; letter-spacing: -0.03em; line-height: 1.1; color: #61676D">$120.00</span>
+            </div>
+          </div>
+
+          <dl style="margin: 0; padding: 20px 28px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr)); gap: 16px 24px; font-size: 14px">
+            <div><dt style="color: #61676D">Category</dt><dd style="margin: 0">Running shoes</dd></div>
+            <div><dt style="color: #61676D">Size</dt><dd style="margin: 0">US men’s 10</dd></div>
+            <div><dt style="color: #61676D">Colors</dt><dd style="margin: 0">Black, white, gray, beige</dd></div>
+            <div><dt style="color: #61676D">Merchants</dt><dd style="margin: 0">PayPal checkout</dd></div>
+            <div><dt style="color: #61676D">Expires</dt><dd class="num" style="margin: 0">Oct 25, 11:59 PM ET</dd></div>
+            <div><dt style="color: #61676D">Changes</dt><dd style="margin: 0">None since signing</dd></div>
+          </dl>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 12px">
+          <h3 style="margin: 0; font-size: 17px; font-weight: 500">Attached activity</h3>
+          <div style="background: #FBFBFA; border: 1px solid #D7DAD6; border-radius: 4px; overflow-x: auto">
+            <table class="num" style="width: 100%; min-width: 640px; border-collapse: collapse; font-size: 14px">
+              <thead>
+                <tr style="color: #61676D; font-size: 13px; border-bottom: 1px solid #D7DAD6">
+                  <th scope="col" style="padding: 12px 20px">Date</th>
+                  <th scope="col" style="padding: 12px 10px">Item</th>
+                  <th scope="col" style="padding: 12px 10px">Store</th>
+                  <th scope="col" style="padding: 12px 10px; text-align: right">Total</th>
+                  <th scope="col" style="padding: 12px 10px">Check</th>
+                  <th scope="col" style="padding: 12px 20px 12px 10px">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom: 1px solid #E3E5E2">
+                  <td style="padding: 14px 20px; white-space: nowrap">Oct 19, 9:15 AM</td>
+                  <td style="padding: 14px 10px">Daily Miler</td>
+                  <td style="padding: 14px 10px">Sample Sports Outlet</td>
+                  <td style="padding: 14px 10px; text-align: right">$103.92</td>
+                  <td style="padding: 14px 10px; white-space: nowrap">7 of 7 pass</td>
+                  <td style="padding: 14px 20px 14px 10px"><span style="display: inline-flex; align-items: center; gap: 6px; padding: 3px 8px 3px 6px; background: #E2EFE5; color: #14612F; border-radius: 3px; font-size: 12px; font-weight: 500; white-space: nowrap"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M8 12.5l2.8 2.8L16 9.8"></path></svg>Compliant, paid</span></td>
+                </tr>
+                <tr>
+                  <td style="padding: 14px 20px; white-space: nowrap">Oct 19, 9:10 AM</td>
+                  <td style="padding: 14px 10px">Tempo Racer</td>
+                  <td style="padding: 14px 10px">Demo Shoe Supply</td>
+                  <td style="padding: 14px 10px; text-align: right; color: #61676D">$127.74</td>
+                  <td style="padding: 14px 10px; white-space: nowrap">2 of 7 fail</td>
+                  <td style="padding: 14px 20px 14px 10px"><span style="display: inline-flex; align-items: center; gap: 6px; padding: 3px 8px 3px 6px; background: #F9E9DE; color: #983809; border-radius: 3px; font-size: 12px; font-weight: 500; white-space: nowrap"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.2 3h7.6L21 8.2v7.6L15.8 21H8.2L3 15.8V8.2z"></path><path d="M8 12h8"></path></svg>Blocked, not paid</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 12px">
+          <h3 style="margin: 0; font-size: 17px; font-weight: 500">Receipt preview</h3>
+          <article aria-label="Mandate receipt" style="background: #FBFBFA; border: 1px solid #D7DAD6; border-radius: 4px; padding: 28px; display: flex; flex-direction: column; gap: 20px">
+            <div style="display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; align-items: center">
+              <span style="display: flex; align-items: center; gap: 10px; font-weight: 600">
+                <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="4" fill="#121518"></rect><path d="M6.5 11.2l3.2 3.2L17.5 6.6" stroke="#FBFBFA" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path><path d="M6.5 18h11" stroke="#FBFBFA" stroke-width="1.6" stroke-linecap="round"></path></svg>
+                Mandate receipt
+              </span>
+              <span class="mono" style="font-size: 13px; color: #61676D">Issued Oct 19, 2026, 9:15 AM ET</span>
+            </div>
+            <dl class="num" style="margin: 0; display: grid; grid-template-columns: minmax(120px, 180px) minmax(0, 1fr); gap: 10px 20px; font-size: 14px">
+              <dt style="color: #61676D">Mandate</dt><dd class="mono" style="margin: 0">MDT4K7Q21</dd>
+              <dt style="color: #61676D">Signed by</dt><dd style="margin: 0">[ACCOUNT EMAIL]</dd>
+              <dt style="color: #61676D">Instructions</dt><dd style="margin: 0">“Buy running shoes, size 10, under $120, neutral colors, this week only”</dd>
+              <dt style="color: #61676D">Terms</dt><dd style="margin: 0">Up to $120.00 total, running shoes, US men’s 10, black, white, gray or beige, PayPal checkout stores, 1 order, until Oct 25, 11:59 PM ET</dd>
+              <dt style="color: #61676D">Fingerprint</dt><dd class="mono" style="margin: 0; word-break: break-all">SHA256 9f2c…a41e</dd>
+              <dt style="color: #61676D">Orders</dt><dd style="margin: 0">1 paid, 1 blocked before payment</dd>
+            </dl>
+          </article>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1240}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>
