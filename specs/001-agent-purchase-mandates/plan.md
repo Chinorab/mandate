@@ -18,8 +18,8 @@ draft, which the merchant reviews and submits through the Disputes API. Research
 
 **Language/Version**: TypeScript 5 (strict), Node 20.9+
 
-**Primary Dependencies**: Next.js 16 (App Router), React 19, Vercel AI SDK + `@ai-sdk/anthropic`
-(`claude-sonnet-5-5`), `@paypal/agent-toolkit`, PayPal JS SDK v6 (web-sdk/v6/core), AG Grid Enterprise +
+**Primary Dependencies**: Next.js 16 (App Router), React 19, official Anthropic SDK `@anthropic-ai/sdk`
+(`claude-sonnet-5-5`, structured outputs, tool runner), `@paypal/agent-toolkit`, PayPal JS SDK v6 (web-sdk/v6/core), AG Grid Enterprise +
 AG Studio (React), Drizzle ORM, zod, pdf-lib, `@renderinc/sdk` (Workflows)
 
 **Storage**: PostgreSQL 16 (Render Postgres Basic)

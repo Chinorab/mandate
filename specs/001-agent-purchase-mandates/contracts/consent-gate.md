@@ -53,8 +53,10 @@ Never registered for the shopping agent: toolkit `create_order`, `pay_order`, `c
 ## Required bypass tests (Vitest, `tests/bypass/`)
 
 - Registered tool list of each agent contains no raw money moving tool.
-- Static scan: no file outside `lib/payments/` imports the PayPal REST client's money functions or the
-  toolkit's money tools.
+- Static scan: no file outside `lib/payments/` imports `lib/payments/paypal-rest` or `lib/payments/paypal-money`
+  (internal transport and money calls). Outside code may import only the public modules `gate`, `vault`
+  (link and unlink, never charge), `webhooks`, `disputes` and `client-token`. The toolkit's money tools are
+  imported only by `lib/payments/toolkit.ts`.
 - `payCart` refuses: revoked, expired, over remaining budget, count exhausted, wrong store, forbidden
   attribute, semantic fail, semantic unavailable, tampered terms (hash mismatch), tampered canonical,
   cart from another session, cart pinned to a superseded version.

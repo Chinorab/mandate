@@ -110,10 +110,15 @@ is a step of the sandbox scripts (`/scripts`) and is resolved before application
 
 ## R8. Model and agent runtime
 
-- **Decision**: Vercel AI SDK with the Anthropic provider, model `claude-sonnet-5-5`, so the toolkit's AI SDK
-  tools plug in directly. Structured outputs (zod schemas) for: mandate draft, semantic judgments, product
-  fit labels, dispute draft. The shopping agent loop is bounded (max steps) and only sees gated tools.
-- **Rationale**: one framework for our tools and PayPal's; schemas keep model output out of numeric rules.
+- **Decision (revised 2026-10-17)**: official Anthropic TypeScript SDK (`@anthropic-ai/sdk`), model
+  `claude-sonnet-5-5` as the brief requires, single wrapper `lib/ai/model.ts`. Structured outputs through
+  `client.beta.messages.parse` + `betaZodOutputFormat` (draft terms, semantic verdicts, fit labels, dispute
+  draft). Server-side refusal fallback on by default (`fallbacks: "default"`, beta
+  `server-side-fallback-2026-07-01`); a refusal or unparsable answer fails closed. Shopping agent = SDK tool
+  runner (`betaZodTool`, `client.beta.messages.toolRunner`) with only gated tools; `tool_choice` stays
+  `auto` (forced tool choice returns 400 on Sonnet 5.5). Stable system prompts carry `cache_control`.
+- **Why not the Vercel AI SDK**: the project's Claude guidance requires the official SDK. The Agent
+  Toolkit's tools are still used, called directly from our gated tool `run()` functions.
 - **Prompt injection**: catalog text and buyer text are data; the gate ignores any amount or verdict the
   model produces.
 

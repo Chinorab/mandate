@@ -1,0 +1,158 @@
+/* Primitives from design/project/System.dc.html. One radius scale: 4px controls, 3px tags. */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: var(--control-h);
+  padding: 0 22px;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color var(--dur) var(--ease),
+    transform var(--dur) var(--ease);
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.sm {
+  height: 40px;
+  padding: 0 16px;
+  font-size: 14px;
+}
+
+.primary {
+  background: var(--ink);
+  color: var(--surface);
+}
+.primary:hover {
+  background: var(--primary-hover);
+  color: var(--surface);
+}
+
+.secondary {
+  background: var(--surface);
+  color: var(--ink);
+  border-color: var(--control-border);
+}
+.secondary:hover {
+  background: var(--surface-hover);
+  color: var(--ink);
+}
+
+.danger {
+  background: var(--surface);
+  color: var(--blocked-fg);
+  border-color: var(--blocked-fg);
+}
+.danger:hover {
+  background: var(--blocked-bg);
+  color: var(--blocked-fg);
+}
+
+.link {
+  height: var(--touch);
+  padding: 0 4px;
+  background: transparent;
+  color: var(--blocked-fg);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  background: var(--disabled-bg);
+  color: var(--ink-3);
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+.iconBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--touch);
+  height: var(--touch);
+  border-radius: var(--radius);
+  border: 1px solid var(--hairline);
+  background: transparent;
+  color: var(--ink-2);
+}
+.iconBtn:hover {
+  background: var(--surface-hover);
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 9px 4px 7px;
+  border-radius: var(--radius-tag);
+  font-size: var(--text-small);
+  font-weight: 500;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.compliant {
+  background: var(--compliant-bg);
+  color: var(--compliant-fg);
+}
+.blocked {
+  background: var(--blocked-bg);
+  color: var(--blocked-fg);
+}
+.dispute {
+  background: var(--dispute-bg);
+  color: var(--dispute-fg);
+}
+.resolved,
+.neutral {
+  background: var(--resolved-bg);
+  color: var(--resolved-fg);
+}
+.awaiting {
+  background: var(--awaiting-bg);
+  color: var(--awaiting-fg);
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+.termRow {
+  display: grid;
+  grid-template-columns: minmax(140px, 200px) minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: start;
+  padding: 18px 28px;
+  border-bottom: 1px solid var(--hairline-soft);
+}
+
+.termRow dt {
+  font-size: 14px;
+  color: var(--ink-3);
+}
+
+.termRow dd {
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .termRow {
+    grid-template-columns: minmax(0, 1fr) auto;
+    padding: 16px;
+  }
+  .termRow dt {
+    grid-column: 1 / -1;
+  }
+}

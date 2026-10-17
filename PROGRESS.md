@@ -4,7 +4,17 @@ Deadline: 2026-11-12 12:00 PT (Devpost `paypalaihackathon`). Demo must stay test
 Targets: Grand Prizes, Best Use of Agentic Commerce, AG Grid sponsor prize (Render prize if hosted on Render).
 
 ## Current step
-Phase 1 (Setup, T001..T011) DONE 2026-10-17. Next: Phase 2, starting with the sandbox scripts T012..T020, which need the user's PayPal sandbox keys in `.env.local` (`docs/sandbox-setup.md`). T021+ (DB schema, session, pricing, canonical hash) can start without keys. Nothing committed yet.
+Phase 1 DONE + Phase 2 keyless part DONE (T021..T035) 2026-10-17, committed on main. Remaining in Phase 2: sandbox scripts T012..T020, BLOCKED on the user's PayPal sandbox keys in `.env.local` (`docs/sandbox-setup.md`, Vault + Customer disputes enabled). Without keys, the next useful work is US1 parts that do not call PayPal (draft extraction needs ANTHROPIC_API_KEY) or the US2 money core tests (runMandateCheck, bypass suite) which are pure.
+
+## Phase 2 facts (keyless part)
+- DB: Drizzle schema `lib/db/schema.ts` + SQL migration `lib/db/migrations/0000_init.sql`. Local dev and tests use PGlite (no Docker/Postgres needed): `DATABASE_URL` empty = `.data/pglite`, `pglite:memory` in tests (`tests/helpers/db.ts`). Render uses postgres-js; `pnpm db:migrate` there.
+- Catalog: 3 fictional stores, 28 products in `lib/catalog/data.ts` (Daily Miler $96 → $103.92, Tempo Racer → $127.74, as in the canvas).
+- Session: `proxy.ts` (Next 16 name for middleware) sets signed httpOnly `mandate_sid`; `getSession()` upserts the row.
+- Model: official `@anthropic-ai/sdk` (NOT Vercel AI SDK, per Claude API guidance), `claude-sonnet-5-5`, `client.beta.messages.parse` + `betaZodOutputFormat`, refusal fallback `fallbacks: "default"` (beta server-side-fallback-2026-07-01), cap 40/session/day.
+- PayPal transport `lib/payments/paypal-rest.ts` (sandbox guard, token cache, retries) is INTERNAL to lib/payments.
+- Canonical hash `lib/mandate/canonical.ts` + terms schema `lib/mandate/terms.ts`; pricing `lib/pricing`.
+- UI: `components/ui` (Button, Tag, Money, MonoId, TermRow), `components/shell` (Public/Buyer/Merchant headers, Footer, PageFrame); `/privacy` live.
+- Tests: 42 Vitest green; Playwright 8 green. With the preview server on 3100, run `E2E_BASE_URL=http://localhost:3100 pnpm e2e`.
 
 ## Phase 1 facts
 - Next.js 16.4.2 (cacheComponents on, `AGENTS.md`: read `node_modules/next/dist/docs/` before coding), React 19.3, pnpm 9.15, Node 24 locally.

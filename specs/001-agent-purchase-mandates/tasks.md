@@ -60,22 +60,22 @@ credentials in .env.local.
 
 ### Shared infrastructure
 
-- [ ] T021 Define Drizzle schema for all tables in data-model.md (demo_session, mandate, mandate_version, store, product, cart, check_result, order, dispute, evidence_file, paypal_event, audit_log) in lib/db/schema.ts with migrations in lib/db/migrations/
-- [ ] T022 [P] DB client and transaction helper with row locking utility in lib/db/client.ts
-- [ ] T023 [P] Seed 3 fictional stores and about 30 products (running shoes and a few other categories, fictional names, tax rates, shipping) in lib/db/seed.ts; payee ids from env
-- [ ] T024 [P] Demo session: signed httpOnly cookie, creation in middleware.ts, getSession() in lib/session/index.ts
-- [ ] T025 [P] Model usage cap (40 per session per day + global daily cap) in lib/ratelimit/model.ts
-- [ ] T026 [P] Production PayPal REST client (OAuth cache, sandbox guard, request ids, typed errors) in lib/payments/paypal-rest.ts, exporting money functions only to lib/payments/
-- [ ] T027 [P] Anthropic model setup via AI SDK (@ai-sdk/anthropic, claude-sonnet-5-5) wrapped with the usage cap in lib/ai/model.ts
-- [ ] T028 [P] Audit log writer in lib/audit/index.ts
-- [ ] T029 [P] Unit tests for canonicalization and hashing (key order, id arrays, dates, same terms same hash, one change different hash) in tests/unit/canonical.test.ts
-- [ ] T030 Terms zod schema, canonicalize(), sha256 in lib/mandate/terms.ts and lib/mandate/canonical.ts (make T029 pass)
-- [ ] T031 [P] Unit tests for computeTotals (tax, shipping, free shipping threshold, cents rounding) in tests/unit/pricing.test.ts
-- [ ] T032 computeTotals from product rows only in lib/pricing/index.ts (make T031 pass)
-- [ ] T033 [P] App shell: buyer header (Mandates, History, Account), merchant header (Orders, Disputes, Insights, Settings), view switcher, footer with "© 2026 Mandate" and non affiliation line, in components/shell/
-- [ ] T034 [P] UI primitives from the canvas: Button (primary, secondary, danger, disabled), Tag (state pairs with icon + label), TermRow, Money (tabular), Mono id, in components/ui/
+- [X] T021 Define Drizzle schema for all tables in data-model.md (demo_session, mandate, mandate_version, store, product, cart, check_result, order, dispute, evidence_file, paypal_event, audit_log) in lib/db/schema.ts with migrations in lib/db/migrations/
+- [X] T022 [P] DB client and transaction helper with row locking utility in lib/db/client.ts
+- [X] T023 [P] Seed 3 fictional stores and about 30 products (running shoes and a few other categories, fictional names, tax rates, shipping) in lib/db/seed.ts; payee ids from env
+- [X] T024 [P] Demo session: signed httpOnly cookie, creation in proxy.ts (Next 16 renamed middleware), getSession() in lib/session/index.ts
+- [X] T025 [P] Model usage cap (40 per session per day + global daily cap) in lib/ratelimit/model.ts
+- [X] T026 [P] Production PayPal REST transport (OAuth cache, sandbox guard, request ids, typed errors, browser client token) in lib/payments/paypal-rest.ts, internal to lib/payments/
+- [X] T027 [P] Anthropic model setup via the official SDK (@anthropic-ai/sdk, claude-sonnet-5-5, refusal fallback) wrapped with the usage cap in lib/ai/model.ts
+- [X] T028 [P] Audit log writer in lib/audit/index.ts
+- [X] T029 [P] Unit tests for canonicalization and hashing (key order, id arrays, dates, same terms same hash, one change different hash) in tests/unit/canonical.test.ts
+- [X] T030 Terms zod schema, canonicalize(), sha256 in lib/mandate/terms.ts and lib/mandate/canonical.ts (make T029 pass)
+- [X] T031 [P] Unit tests for computeTotals (tax, shipping, free shipping threshold, cents rounding) in tests/unit/pricing.test.ts
+- [X] T032 computeTotals from product rows only in lib/pricing/index.ts (make T031 pass)
+- [X] T033 [P] App shell: buyer header (Mandates, History, Account), merchant header (Orders, Disputes, Insights, Settings), view switcher, footer with "© 2026 Mandate" and non affiliation line, in components/shell/
+- [X] T034 [P] UI primitives from the canvas: Button (primary, secondary, danger, disabled), Tag (state pairs with icon + label), TermRow, Money (tabular), Mono id, in components/ui/
 
-- [ ] T035 [P] Privacy page from design/project/Privacy.dc.html (contact = GitHub issues link, retention 90 days, providers Render, PayPal, Anthropic) in app/(public)/privacy/page.tsx, so privacy and favicon exist before any deployment (constitution VII)
+- [X] T035 [P] Privacy page from design/project/Privacy.dc.html (contact = GitHub issues link, retention 90 days, providers Render, PayPal, Anthropic) in app/(public)/privacy/page.tsx, so privacy and favicon exist before any deployment (constitution VII)
 
 **Checkpoint**: sandbox behaviors known and documented, foundation ready.
 
