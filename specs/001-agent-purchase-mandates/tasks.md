@@ -116,19 +116,19 @@ custom_id at PayPal.
 
 ### Tests for User Story 2 (write first, must fail)
 
-- [ ] T045 [P] [US2] Unit tests for runMandateCheck: every term row, all rows always produced, explanation templates, semantic missing or capped = fail, in tests/unit/check.test.ts
-- [ ] T046 [P] [US2] Bypass suite per contracts/consent-gate.md: registered tool lists, static import scan of money functions outside lib/payments/, refusals (revoked, expired, budget, count, merchant, forbidden, semantic fail, semantic unavailable, hash mismatch, canonical tamper, other session cart, superseded version), client totals ignored, in tests/bypass/gate.test.ts
-- [ ] T047 [P] [US2] Concurrency test: two parallel payCart with one remaining purchase yield one order, in tests/bypass/concurrency.test.ts
+- [X] T045 [P] [US2] Unit tests for runMandateCheck: every term row, all rows always produced, explanation templates, semantic missing or capped = fail, in tests/unit/check.test.ts
+- [X] T046 [P] [US2] Bypass suite per contracts/consent-gate.md: registered tool lists, static import scan of money functions outside lib/payments/, refusals (revoked, expired, budget, count, merchant, forbidden, semantic fail, semantic unavailable, hash mismatch, canonical tamper, other session cart, superseded version), client totals ignored, in tests/bypass/gate.test.ts (the registered tool list check is an it.todo until T053 lands)
+- [X] T047 [P] [US2] Concurrency test: two parallel payCart with one remaining purchase yield one order, in tests/bypass/concurrency.test.ts
 - [ ] T048 [P] [US2] Contract tests for check and pay routes (409 refusal shape, PayPal mock zero calls on refusal) in tests/contract/cart-routes.test.ts
 
 ### Implementation for User Story 2
 
-- [ ] T049 [US2] runMandateCheck pure function and explanation templates in lib/check/run.ts and lib/check/explain.ts (make T045 pass)
-- [ ] T050 [US2] Semantic verdicts with structured output, cache 10 minutes per cart and version, in lib/check/semantic.ts
-- [ ] T051 [US2] Consent gate payCart: lock mandate, recompute totals, check pre_create, vault charge with custom_id, invoice_id, description, payee, PayPal-Request-Id, check pre_capture, capture if needed, persist; on PayPal outage leave the cart checked_not_paid with a retry; on hash mismatch set mandate.flagged_at and refuse; in lib/payments/gate.ts (make T046 to T048 pass)
+- [X] T049 [US2] runMandateCheck pure function and explanation templates in lib/check/run.ts and lib/check/explain.ts (make T045 pass)
+- [X] T050 [US2] Semantic verdicts with structured output, cache 10 minutes per cart and version, fail closed, in lib/check/semantic.ts (tests in tests/contract/semantic.test.ts)
+- [X] T051 [US2] Consent gate payCart: lock mandate, recompute totals, check pre_create, vault charge with custom_id, invoice_id, description, payee, PayPal-Request-Id, check pre_capture, capture if needed, persist; on PayPal outage leave the cart checked_not_paid with a retry; on hash mismatch set mandate.flagged_at and refuse; in lib/payments/gate.ts (make T046 to T048 pass)
 - [ ] T052 [US2] Per payment approval fallback, built only if T020 records that vault charges fail: PAYMENT_MODE=approve flag, check page renders the official SDK button only after a passing check, server create order runs the pre_create check and capture runs the pre_capture check through the same gate, bypass suite extended to this mode, in lib/payments/gate.ts, components/check/ApprovePayment.tsx, tests/bypass/gate-approve-mode.test.ts
 - [ ] T053 [US2] Agent tool registry (search_catalog, propose_cart, check_cart, pay_cart, get_order via Agent Toolkit) with the money tool allowlist assertion, in lib/agents/tools.ts and lib/payments/toolkit.ts
-- [ ] T054 [US2] Shopping agent (AI SDK, bounded steps, fit labels per proposal, catalog text treated as data) in lib/agents/shopping.ts and app/api/agent/chat/route.ts
+- [ ] T054 [US2] Shopping agent (Anthropic SDK tool runner, bounded steps, fit labels per proposal, catalog text treated as data) in lib/agents/shopping.ts and app/api/agent/chat/route.ts
 - [ ] T055 [US2] Cart routes check and pay in app/api/carts/[id]/check/route.ts and app/api/carts/[id]/pay/route.ts
 - [ ] T056 [US2] Agent chat page matching design/project/AgentChat.dc.html (mandate sidebar with budget left, product cards with fit tags, Review Mandate Check) in app/(buyer)/mandates/[code]/page.tsx and components/agent/
 - [ ] T057 [US2] Check page matching design/project/MandateCheck.dc.html (term table, totals against remaining budget, payment status instead of the button, "attached to the order" note) in app/(buyer)/mandates/[code]/check/[cartId]/page.tsx and components/check/

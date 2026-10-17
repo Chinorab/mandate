@@ -4,7 +4,13 @@ Deadline: 2026-11-12 12:00 PT (Devpost `paypalaihackathon`). Demo must stay test
 Targets: Grand Prizes, Best Use of Agentic Commerce, AG Grid sponsor prize (Render prize if hosted on Render).
 
 ## Current step
-Phase 1 DONE + Phase 2 keyless part DONE (T021..T035) 2026-10-17, committed on main. Remaining in Phase 2: sandbox scripts T012..T020, BLOCKED on the user's PayPal sandbox keys in `.env.local` (`docs/sandbox-setup.md`, Vault + Customer disputes enabled). Without keys, the next useful work is US1 parts that do not call PayPal (draft extraction needs ANTHROPIC_API_KEY) or the US2 money core tests (runMandateCheck, bypass suite) which are pure.
+US2 money core DONE 2026-10-17 (T045, T046, T047, T049, T050, T051): Mandate check, semantic judge, PayPal money calls, consent gate, bypass + concurrency suites (101 tests green). Remaining in Phase 2: sandbox scripts T012..T020, BLOCKED on the user's PayPal sandbox keys. Next keyless work: US1 mandate service (draft, sign, verify) and routes, then the tool registry T053 (closes the it.todo in tests/bypass/gate.test.ts), cart routes T055 + their contract tests T048.
+
+## Money core facts
+- `lib/check/run.ts` runMandateCheck: pure; rows = safeguards (integrity, status, currency) + terms (budget, category, size, colors, [brands], merchant, expiration, purchases, semantic:*). Canvas: Daily Miler 7/7 pass $103.92; Tempo Racer fails budget + colors.
+- `lib/payments/gate.ts` payCart/checkCart: semantic judged before the lock (fails closed), then lockMandate, re-read, check pre_create, vault charge (request id = check id, custom_id `CODE:v:sha256`, invoice `CODE.orderCode`), pre_capture check before any separate capture, outage leaves cart `checked_not_paid`. Hash mismatch flags the mandate.
+- `lib/payments/paypal-money.ts` (vault charge with stored_credential MERCHANT/SUBSEQUENT/UNSCHEDULED_PREPAID, payee merchant_id) is internal; `lib/payments/deps.ts` wires production deps.
+- Static bypass checks: no import of paypal-rest/paypal-money and no PayPal order endpoints outside lib/payments; Agent Toolkit only in lib/payments/toolkit.ts.
 
 ## Phase 2 facts (keyless part)
 - DB: Drizzle schema `lib/db/schema.ts` + SQL migration `lib/db/migrations/0000_init.sql`. Local dev and tests use PGlite (no Docker/Postgres needed): `DATABASE_URL` empty = `.data/pglite`, `pglite:memory` in tests (`tests/helpers/db.ts`). Render uses postgres-js; `pnpm db:migrate` there.
