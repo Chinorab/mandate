@@ -18,11 +18,18 @@ type Handle = { db: Db; ready: Promise<void>; close: () => Promise<void> };
 
 async function openPglite(dataDir: string | undefined): Promise<Handle> {
   const { PGlite } = await import("@electric-sql/pglite");
+  if (dataDir) (await import("node:fs")).mkdirSync(dataDir, { recursive: true });
   const { drizzle } = await import("drizzle-orm/pglite");
   const { migrate } = await import("drizzle-orm/pglite/migrator");
   const client = new PGlite(dataDir);
   const db = drizzle(client, { schema }) as unknown as Db;
-  const ready = migrate(drizzle(client, { schema }), { migrationsFolder: MIGRATIONS });
+  const ready = migrate(drizzle(client, { schema }), { migrationsFolder: MIGRATIONS }).then(async () => {
+    // Local development database: keep the fictional catalog present (idempotent upsert).
+    if (dataDir) {
+      const { seedCatalog } = await import("./seed-catalog");
+      await seedCatalog(db);
+    }
+  });
   return { db, ready, close: () => client.close() };
 }
 
@@ -51,9 +58,15 @@ const globalForDb = globalThis as unknown as { __mandateDb?: Promise<Handle> };
 /** Shared connection for the app process (kept across hot reloads in development). */
 export async function getDb(): Promise<Db> {
   globalForDb.__mandateDb ??= openDb();
-  const handle = await globalForDb.__mandateDb;
-  await handle.ready;
-  return handle.db;
+  try {
+    const handle = await globalForDb.__mandateDb;
+    await handle.ready;
+    return handle.db;
+  } catch (err) {
+    // Do not keep a failed connection forever; the next request tries again.
+    globalForDb.__mandateDb = undefined;
+    throw err;
+  }
 }
 
 /**

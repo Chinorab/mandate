@@ -1,0 +1,365 @@
+/* design/project/MandateCreate.dc.html */
+
+.layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  align-items: flex-start;
+}
+
+.left {
+  flex: 1 1 360px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.right {
+  flex: 1.6 1 560px;
+  min-width: 0;
+}
+
+.sectionTitle {
+  font-size: var(--text-section);
+  font-weight: 500;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.help {
+  font-size: var(--text-small);
+  color: var(--ink-3);
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 140px;
+  padding: 14px 16px;
+  background: var(--surface);
+  border: 1px solid var(--control-border);
+  border-radius: var(--radius);
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.quote {
+  margin: 0;
+  padding: 14px 16px;
+  border-left: 0;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  color: var(--ink-2);
+}
+
+.note {
+  margin-top: 12px;
+  padding: 16px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  display: flex;
+  gap: 12px;
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+.note svg {
+  flex: none;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+}
+
+.cardHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 28px;
+  border-bottom: 1px solid var(--hairline-soft);
+  flex-wrap: wrap;
+}
+
+.cardTitle {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cardTitle h2 {
+  font-size: var(--text-section);
+  font-weight: 500;
+}
+
+.code {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ink-3);
+}
+
+.budget {
+  padding: 24px 28px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid var(--hairline-soft);
+  flex-wrap: wrap;
+}
+
+.budgetValue {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.caption {
+  font-size: var(--text-small);
+  color: var(--ink-3);
+}
+
+.amount {
+  font-size: clamp(44px, 7vw, 64px);
+  font-weight: 300;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+  font-variant-numeric: tabular-nums;
+}
+
+.sub {
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+.terms {
+  margin: 0;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(140px, 200px) minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: start;
+  padding: 18px 28px;
+  border-bottom: 1px solid var(--hairline-soft);
+}
+
+.row:last-child {
+  border-bottom: 0;
+}
+
+.rowEditing {
+  background: var(--ground);
+}
+
+.row dt {
+  font-size: 14px;
+  color: var(--ink-3);
+  padding-top: 2px;
+}
+
+.row dd {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.secondary {
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+.assumption,
+.missing {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: var(--text-small);
+}
+
+.assumption {
+  color: var(--awaiting-fg);
+}
+
+.missing {
+  color: var(--blocked-fg);
+}
+
+.assumption svg,
+.missing svg {
+  flex: none;
+  margin-top: 1px;
+}
+
+.editor {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.editorRow {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.control {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1 1 160px;
+  min-width: 0;
+}
+
+.control label,
+.legend {
+  font-size: var(--text-small);
+  font-weight: 500;
+}
+
+.input,
+.select {
+  height: var(--touch);
+  padding: 0 12px;
+  background: var(--surface);
+  border: 1px solid var(--control-border);
+  border-radius: var(--radius);
+  width: 100%;
+}
+
+.fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+}
+
+.check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  font-size: 14px;
+}
+
+.check input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--ink);
+}
+
+.foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 28px;
+  border-top: 1px solid var(--hairline);
+  background: var(--ground);
+  flex-wrap: wrap;
+  border-radius: 0 0 var(--radius) var(--radius);
+}
+
+.footStack {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.footMeta {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: var(--text-small);
+  color: var(--ink-3);
+}
+
+.alert {
+  display: flex;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  background: var(--blocked-bg);
+  color: var(--blocked-fg);
+  font-size: 14px;
+}
+
+.alert svg {
+  flex: none;
+  margin-top: 2px;
+}
+
+.info {
+  background: var(--awaiting-bg);
+  color: var(--awaiting-fg);
+}
+
+.empty {
+  padding: 40px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--ink-2);
+}
+
+.empty h2 {
+  font-size: var(--text-section);
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.paypalSlot {
+  min-height: 48px;
+  max-width: 360px;
+}
+
+.linkState {
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+@media (max-width: 640px) {
+  .row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    padding: 16px;
+  }
+  .row dt {
+    grid-column: 1 / -1;
+  }
+  .cardHead,
+  .budget,
+  .foot {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}

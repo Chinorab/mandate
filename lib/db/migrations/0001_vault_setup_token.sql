@@ -1,0 +1,1 @@
+ALTER TABLE "mandate" ADD COLUMN "vault_setup_token_id" text;

@@ -19,7 +19,7 @@ export type Effort = "low" | "medium" | "high";
 
 export class ModelUnavailableError extends Error {
   constructor(
-    readonly reason: "session_cap" | "global_cap" | "refusal" | "unparsed" | "api_error",
+    readonly reason: "session_cap" | "global_cap" | "refusal" | "unparsed" | "api_error" | "not_configured",
     message?: string,
   ) {
     super(message ?? reason);
@@ -49,6 +49,7 @@ export async function structuredCall<S extends z.ZodType>(opts: {
   maxTokens?: number;
   client?: Anthropic;
 }): Promise<z.infer<S>> {
+  if (!opts.client && !process.env.ANTHROPIC_API_KEY) throw new ModelUnavailableError("not_configured");
   const cap = await consumeModelCall(opts.db, opts.sessionId);
   if (!cap.ok) throw new ModelUnavailableError(cap.reason);
 

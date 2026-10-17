@@ -90,18 +90,18 @@ time and fingerprint; /verify returns match.
 
 ### Tests for User Story 1
 
-- [ ] T036 [P] [US1] Contract tests for draft, patch, sign, verify, vault setup-token, vault confirm routes (PayPal and model mocked) in tests/contract/mandate-routes.test.ts
-- [ ] T037 [P] [US1] Unit test: sign refuses missing budget, category or expiry; signed version immutable (patch returns 409) in tests/unit/sign.test.ts
+- [X] T036 [P] [US1] Contract tests for draft, patch, sign, verify, vault setup-token, vault confirm routes (PayPal and model mocked) in tests/contract/mandate-routes.test.ts
+- [X] T037 [P] [US1] Sign refuses missing budget, category or expiry; signed version immutable (patch returns 409); covered in tests/contract/mandate-routes.test.ts
 
 ### Implementation for User Story 1
 
-- [ ] T038 [US1] Draft extraction with structured output (terms + assumptions, "this week" = Sunday 11:59 PM ET, size system default flagged) in lib/mandate/draft.ts
-- [ ] T039 [US1] Mandate service: createDraft, updateDraft, sign (version 1, canonical, sha256, signed_at), verify, in lib/mandate/service.ts
-- [ ] T040 [US1] Vault link service: setup token (description names the mandate), confirm to payment token, store server side, activate, in lib/payments/vault.ts
-- [ ] T041 [US1] Route handlers per contracts/http-api.md (draft, patch, sign, verify, vault setup-token, vault confirm, client-token) in app/api/mandates/ and app/api/paypal/client-token/route.ts
-- [ ] T042 [US1] New mandate page matching design/project/MandateCreate.dc.html: instructions textarea with one tap example, terms card with inline edit per term, assumption notes, budget copy "total for this mandate", Sign Mandate, in app/(buyer)/mandates/new/page.tsx and components/mandate/
-- [ ] T043 [US1] PayPal link step after signing with JS SDK v6 save session (official button only), states for cancel and error, in components/mandate/LinkPayPal.tsx
-- [ ] T044 [US1] E2E: create, edit size, sign, link PayPal with sandbox buyer, see Active + fingerprint, in tests/e2e/us1-sign.spec.ts
+- [X] T038 [US1] Draft extraction with structured output (terms + assumptions, "this week" = Sunday 11:59 PM ET, size system default flagged) in lib/mandate/draft.ts
+- [X] T039 [US1] Mandate service: createDraft, updateDraft, sign (version 1, canonical, sha256, signed_at), verify, in lib/mandate/service.ts
+- [X] T040 [US1] Vault link service: setup token (description names the mandate), confirm to payment token, store server side, activate, in lib/payments/vault.ts
+- [X] T041 [US1] Route handlers per contracts/http-api.md (draft, patch, sign, verify, vault setup-token, vault confirm, client-token) in app/api/mandates/ and app/api/paypal/client-token/route.ts
+- [X] T042 [US1] New mandate page matching design/project/MandateCreate.dc.html: instructions textarea with one tap example, terms card with inline edit per term, assumption notes, budget copy "total for this mandate", Sign Mandate, in app/(buyer)/mandates/new/page.tsx and components/mandate/
+- [ ] T043 [US1] PayPal link step after signing with JS SDK v6 save session (official button only), states for cancel and error, in components/mandate/LinkPayPal.tsx (written; needs sandbox keys to verify the start() promise shape and the button type)
+- [ ] T044 [US1] E2E: create, edit size, sign, link PayPal with sandbox buyer, see Active + fingerprint, in tests/e2e/us1-sign.spec.ts (keyless part done: manual draft, edits, sign, fingerprint verify, reload, discard; linked path pending keys in tests/e2e/us1-link.spec.ts)
 
 **Checkpoint**: US1 works alone.
 

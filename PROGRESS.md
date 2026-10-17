@@ -4,7 +4,14 @@ Deadline: 2026-11-12 12:00 PT (Devpost `paypalaihackathon`). Demo must stay test
 Targets: Grand Prizes, Best Use of Agentic Commerce, AG Grid sponsor prize (Render prize if hosted on Render).
 
 ## Current step
-US2 money core DONE 2026-10-17 (T045, T046, T047, T049, T050, T051): Mandate check, semantic judge, PayPal money calls, consent gate, bypass + concurrency suites (101 tests green). Remaining in Phase 2: sandbox scripts T012..T020, BLOCKED on the user's PayPal sandbox keys. Next keyless work: US1 mandate service (draft, sign, verify) and routes, then the tool registry T053 (closes the it.todo in tests/bypass/gate.test.ts), cart routes T055 + their contract tests T048.
+US1 keyless part DONE 2026-10-18 (T036..T042): draft with Claude (or by hand), inline term editing, sign with SHA-256 fingerprint, verify, discard, routes, New mandate page from the canvas, PayPal link step written. 132 unit/contract tests + 14 Playwright runs green. BLOCKED on keys: sandbox scripts T012..T020, LinkPayPal verification (T043), linked e2e (T044). Next keyless work: tool registry T053 + shopping agent T054 (needs ANTHROPIC_API_KEY to run, not to write), cart routes T055 + contract tests T048, check page T057.
+
+## US1 facts
+- `lib/mandate/draft.ts`: Claude extracts raw fields (dollars, color phrase, expiry kind); `interpretDraft` converts by code (cents, ET 11:59 PM expiries via `lib/time/et.ts`, assumption notes). No model key -> 503 and the UI offers "Fill In the Terms Myself" (manual draft).
+- `lib/mandate/service.ts` + `lib/api/mandates.ts` (handlers tested directly) + thin routes under `app/api/mandates/**` via `lib/api/http.ts`.
+- Link: `lib/payments/vault.ts` (setup token tied to the mandate in `vault_setup_token_id`, payment token kept server side). Migration 0001 adds that column.
+- UI: `components/mandate/MandateBuilder.tsx` (URL keeps `?code=`), `TermEditors.tsx`, `LinkPayPal.tsx` (v6 SDK, official button only).
+- Local PGlite DB at `.data/pglite` creates itself and seeds the catalog on first open.
 
 ## Money core facts
 - `lib/check/run.ts` runMandateCheck: pure; rows = safeguards (integrity, status, currency) + terms (budget, category, size, colors, [brands], merchant, expiration, purchases, semantic:*). Canvas: Daily Miler 7/7 pass $103.92; Tempo Racer fails budget + colors.

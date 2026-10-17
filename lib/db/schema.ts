@@ -68,6 +68,8 @@ export const mandate = pgTable(
     draftTerms: jsonb("draft_terms"),
     draftAssumptions: jsonb("draft_assumptions"),
     currentVersionId: uuid("current_version_id"),
+    // Setup token issued by this server for the link step; confirm must present the same id.
+    vaultSetupTokenId: text("vault_setup_token_id"),
     vaultPaymentTokenId: text("vault_payment_token_id"),
     vaultCustomerId: text("vault_customer_id"),
     revokedAt: ts("revoked_at"),

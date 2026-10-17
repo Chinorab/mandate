@@ -1,0 +1,37 @@
+import "server-only";
+import { NextResponse } from "next/server";
+import { getDb } from "@/lib/db/client";
+import { createDrafter } from "@/lib/mandate/draft";
+import { NoSessionError, getSession } from "@/lib/session";
+import { createVaultClient, paypalConfigured } from "@/lib/payments/vault";
+import type { ApiResult, MandateDeps } from "./mandates";
+
+/** Production dependencies for the mandate handlers. */
+export async function mandateDeps(): Promise<MandateDeps> {
+  return { db: await getDb(), drafter: createDrafter(), vault: paypalConfigured() ? createVaultClient() : null };
+}
+
+/** Resolves the demo session, runs the handler, and turns its result into a JSON response. */
+export async function respond<T>(run: (sessionId: string) => Promise<ApiResult<T>>): Promise<NextResponse> {
+  let sessionId: string;
+  try {
+    sessionId = (await getSession()).id;
+  } catch (err) {
+    if (err instanceof NoSessionError) {
+      return NextResponse.json({ error: { code: "no_session", message: "Reload the page to start a demo session." } }, { status: 401 });
+    }
+    throw err;
+  }
+  const r = await run(sessionId);
+  if (r.status === 204) return new NextResponse(null, { status: 204 });
+  return NextResponse.json(r.body, { status: r.status, headers: { "Cache-Control": "no-store" } });
+}
+
+export async function readJson(req: Request): Promise<Record<string, unknown>> {
+  try {
+    const body = await req.json();
+    return body && typeof body === "object" ? (body as Record<string, unknown>) : {};
+  } catch {
+    return {};
+  }
+}
