@@ -4,7 +4,13 @@ Deadline: 2026-11-12 12:00 PT (Devpost `paypalaihackathon`). Demo must stay test
 Targets: Grand Prizes, Best Use of Agentic Commerce, AG Grid sponsor prize (Render prize if hosted on Render).
 
 ## Current step
-US3 DONE 2026-10-18 (T059..T065): amend from a blocked cart (server computed proposal bound to the current fingerprint by proposalHash, explicit approval, version n+1 with its own SHA-256, cart repinned), switch to the cheapest compliant product, cancel. 172 unit/contract tests + 28 Playwright runs green. All P1 stories done except the parts needing keys. Next: Phase 5b MVP deployment (T066..T069: render.yaml, bundle secret scan, first Render deploy, uptime check) needs a Render account and keys; keyless alternatives: US4 history/revoke/receipt (T070..T074) or US7 landing (T097..T098).
+US4 DONE 2026-10-18 (T070..T074): History page from the canvas (filters with counts, list, detail, activity table, receipt preview, empty state), revoke under the gate lock (token removed here first, then deleted at PayPal, open carts cancelled), derived "expired" status, receipt PDF (pdf-lib, versions, activity, canonical records to verify). 181 unit/contract tests + 34 Playwright runs green. Next: US5 merchant grid (AG Grid Enterprise, T075..T083) is keyless (AG Grid works unlicensed with a watermark); or US7 landing; deployment phase 5b needs Render.
+
+## US4 facts
+- `lib/mandate/revoke.ts`, `lib/mandate/activity.ts`, `lib/mandate/summary.ts` (termsSentence shared by preview and PDF), `lib/mandate/receipt.ts` (renderReceipt).
+- Routes: POST `/api/mandates/[code]/revoke`, GET `/activity`, GET `/receipt` (application/pdf download).
+- Concurrency test proves no capture after revoked_at. Dev server needed a restart once after export changes (stale Turbopack module).
+- Receipt PDFs can be checked visually with `uvx --with pypdfium2 --with pillow python -I render_pdf.py` (scratchpad script).
 
 ## US3 facts
 - `lib/mandate/amend.ts` proposeAmendment (pure): budget rounded up in $10 steps over spent + cart, colors add or unforbid, size, category, merchant add, brands, purchases, expiry to tomorrow 11:59 PM ET, failed preference removed; safeguard failures are not amendable.

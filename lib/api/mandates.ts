@@ -32,10 +32,10 @@ export const signMandate = (d: MandateDeps, sessionId: string, code: string, bod
   handle(200, async () => ({ mandate: await svc.signMandate(d.db, sessionId, code, body, now(d)) }));
 
 export const getMandate = (d: MandateDeps, sessionId: string, code: string) =>
-  handle(200, async () => ({ mandate: await svc.getMandate(d.db, sessionId, code) }));
+  handle(200, async () => ({ mandate: await svc.getMandate(d.db, sessionId, code, now(d)) }));
 
 export const listMandates = (d: MandateDeps, sessionId: string) =>
-  handle(200, async () => ({ mandates: await svc.listMandates(d.db, sessionId) }));
+  handle(200, async () => ({ mandates: await svc.listMandates(d.db, sessionId, now(d)) }));
 
 export const discardDraft = async (d: MandateDeps, sessionId: string, code: string): Promise<ApiResult<null>> => {
   const r = await handle(204, async () => {

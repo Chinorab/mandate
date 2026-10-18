@@ -1,0 +1,402 @@
+/* design/project/History.dc.html */
+
+.main {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 40px var(--gutter) 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.head h1 {
+  font-size: var(--text-title);
+  line-height: 1.15;
+  font-weight: 300;
+  letter-spacing: -0.025em;
+}
+
+.filters {
+  display: flex;
+  border-bottom: 1px solid var(--hairline);
+  flex-wrap: wrap;
+  font-size: 14px;
+}
+
+.filter {
+  height: var(--touch);
+  padding: 0 14px;
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  color: var(--ink-2);
+}
+
+.filter[aria-pressed="true"] {
+  border-bottom-color: var(--ink);
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.count {
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.body {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  align-items: flex-start;
+}
+
+.listCol {
+  flex: 1 1 340px;
+  max-width: 420px;
+  min-width: 0;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+}
+
+.list li + li {
+  border-top: 1px solid var(--hairline-soft);
+}
+
+.item {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px 18px;
+  background: transparent;
+  border: 0;
+  text-align: left;
+}
+
+.item:hover {
+  background: var(--surface-hover);
+}
+
+.item[aria-current="true"] {
+  background: var(--surface-hover);
+  box-shadow: inset 3px 0 0 var(--ink);
+}
+
+.itemTop {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.itemTitle {
+  font-weight: 500;
+}
+
+.itemSub {
+  font-size: 14px;
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.itemCode {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+.detail {
+  flex: 999 1 560px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+}
+
+.cardHead {
+  padding: 22px 28px;
+  border-bottom: 1px solid var(--hairline-soft);
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.cardTitle {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cardTitle h2 {
+  font-size: 24px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.cardTitle span {
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.confirm {
+  padding: 16px 28px;
+  border-bottom: 1px solid var(--hairline-soft);
+  background: var(--blocked-bg);
+  color: var(--blocked-fg);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.confirm p {
+  margin: 0;
+}
+
+.figures {
+  padding: 22px 28px;
+  display: flex;
+  gap: 48px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--hairline-soft);
+}
+
+.figure {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.figure span:first-child {
+  font-size: var(--text-small);
+  color: var(--ink-3);
+}
+
+.big {
+  font-size: 48px;
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.muted {
+  color: var(--ink-3);
+}
+
+.facts {
+  margin: 0;
+  padding: 20px 28px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
+  gap: 16px 24px;
+  font-size: 14px;
+}
+
+.facts dt {
+  color: var(--ink-3);
+}
+
+.facts dd {
+  margin: 0;
+}
+
+.cardFoot {
+  padding: 14px 28px;
+  border-top: 1px solid var(--hairline-soft);
+  font-size: 14px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.section h3 {
+  font-size: var(--text-section);
+  font-weight: 500;
+}
+
+.tableWrap {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  min-width: 640px;
+  border-collapse: collapse;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+
+.table th {
+  text-align: left;
+  font-weight: 400;
+  font-size: var(--text-small);
+  color: var(--ink-3);
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.table td {
+  padding: 14px 10px;
+  border-bottom: 1px solid var(--hairline-soft);
+}
+
+.table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.table th:first-child,
+.table td:first-child {
+  padding-left: 20px;
+  white-space: nowrap;
+}
+
+.table th:last-child,
+.table td:last-child {
+  padding-right: 20px;
+}
+
+.right {
+  text-align: right !important;
+}
+
+.receipt {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.receiptHead {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.receiptHead span:first-child {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+}
+
+.receiptHead span:last-child {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ink-3);
+}
+
+.receiptFields {
+  margin: 0;
+  display: grid;
+  grid-template-columns: minmax(120px, 180px) minmax(0, 1fr);
+  gap: 10px 20px;
+  font-size: 14px;
+}
+
+.receiptFields dt {
+  color: var(--ink-3);
+}
+
+.receiptFields dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.empty {
+  padding: 48px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+}
+
+.empty h2 {
+  font-size: var(--text-section);
+  font-weight: 500;
+}
+
+.empty p {
+  margin: 0;
+  color: var(--ink-2);
+}
+
+.alert {
+  display: flex;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  background: var(--blocked-bg);
+  color: var(--blocked-fg);
+  font-size: 14px;
+}
+
+@media (max-width: 640px) {
+  .main {
+    padding: 24px 16px 56px;
+  }
+  .listCol {
+    max-width: none;
+  }
+  .cardHead,
+  .figures,
+  .facts,
+  .confirm,
+  .cardFoot {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .receipt {
+    padding: 20px 16px;
+  }
+  .receiptFields {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2px 0;
+  }
+  .receiptFields dd {
+    margin-bottom: 10px;
+  }
+}

@@ -55,7 +55,7 @@ export const MISSING_LABELS: Record<string, string> = {
   expiresAt: "when it should stop",
 };
 
-async function findOwned(db: Db, sessionId: string, code: string) {
+export async function findOwned(db: Db, sessionId: string, code: string) {
   if (!/^MDT[0-9A-Z]{6}$/.test(code)) throw new MandateError(404, "not_found", "No such mandate");
   const [m] = await db
     .select()
@@ -65,7 +65,7 @@ async function findOwned(db: Db, sessionId: string, code: string) {
   return m;
 }
 
-async function toView(db: Db, m: typeof mandate.$inferSelect): Promise<MandateView> {
+export async function toView(db: Db, m: typeof mandate.$inferSelect, now: Date = new Date()): Promise<MandateView> {
   let version: MandateView["version"] = null;
   let terms = (m.draftTerms ?? {}) as DraftTerms;
   const meta = (m.draftAssumptions ?? { assumptions: [], missing: [], outOfScope: null }) as DraftMeta;
@@ -82,9 +82,12 @@ async function toView(db: Db, m: typeof mandate.$inferSelect): Promise<MandateVi
     .select({ spent: sql<number>`coalesce(sum(${order.amountCents}), 0)::int`, count: sql<number>`count(*)::int` })
     .from(order)
     .where(and(eq(order.mandateId, m.id), eq(order.status, "captured")));
+  // Expiry is a moment, not an event: a signed mandate past its expiry reads as expired.
+  const expired =
+    (m.status === "active" || m.status === "awaiting_link") && terms.expiresAt !== undefined && new Date(terms.expiresAt).getTime() <= now.getTime();
   return {
     code: m.code,
-    status: m.status,
+    status: expired ? "expired" : m.status,
     instructions: m.instructions,
     terms,
     assumptions,
@@ -240,13 +243,13 @@ export async function signMandate(db: Db, sessionId: string, code: string, body:
   return toView(db, updated);
 }
 
-export async function getMandate(db: Db, sessionId: string, code: string) {
-  return toView(db, await findOwned(db, sessionId, code));
+export async function getMandate(db: Db, sessionId: string, code: string, now: Date = new Date()) {
+  return toView(db, await findOwned(db, sessionId, code), now);
 }
 
-export async function listMandates(db: Db, sessionId: string) {
+export async function listMandates(db: Db, sessionId: string, now: Date = new Date()) {
   const rows = await db.select().from(mandate).where(eq(mandate.sessionId, sessionId)).orderBy(desc(mandate.createdAt), desc(mandate.id));
-  return Promise.all(rows.map((r) => toView(db, r)));
+  return Promise.all(rows.map((r) => toView(db, r, now)));
 }
 
 export async function discardDraft(db: Db, sessionId: string, code: string) {

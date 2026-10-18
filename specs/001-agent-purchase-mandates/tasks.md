@@ -179,11 +179,11 @@ unit + bypass + e2e green, secret scans clean, privacy page and favicon present.
 
 **Independent Test**: revoke with a passing cart pending; pay refused; receipt downloads.
 
-- [ ] T070 [P] [US4] Contract tests for revoke, list, receipt routes in tests/contract/history-routes.test.ts
-- [ ] T071 [US4] Revoke service (status, revoked_at, delete vault token, audit) in lib/mandate/revoke.ts and app/api/mandates/[code]/revoke/route.ts
-- [ ] T072 [US4] Receipt PDF (instructions, terms per version, signature times, fingerprints, orders and blocks) in lib/mandate/receipt.ts and app/api/mandates/[code]/receipt/route.ts
-- [ ] T073 [US4] History page matching design/project/History.dc.html (filters All, Active, Expired, Revoked; detail panel; activity table; receipt preview; empty state with one tap example) in app/(buyer)/history/page.tsx and components/history/
-- [ ] T074 [US4] E2E: revoke flow and receipt download in tests/e2e/us4-history.spec.ts
+- [X] T070 [P] [US4] Contract tests for revoke, list, receipt routes in tests/contract/history-routes.test.ts
+- [X] T071 [US4] Revoke service (status, revoked_at, delete vault token, audit) in lib/mandate/revoke.ts and app/api/mandates/[code]/revoke/route.ts
+- [X] T072 [US4] Receipt PDF (instructions, terms per version, signature times, fingerprints, orders and blocks) in lib/mandate/receipt.ts and app/api/mandates/[code]/receipt/route.ts
+- [X] T073 [US4] History page matching design/project/History.dc.html (filters All, Active, Expired, Revoked; detail panel; activity table; receipt preview; empty state with one tap example) in app/(buyer)/history/page.tsx and components/history/
+- [X] T074 [US4] E2E: revoke flow and receipt download in tests/e2e/us4-history.spec.ts
 
 ---
 

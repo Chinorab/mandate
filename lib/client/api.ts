@@ -3,9 +3,10 @@ import type { DraftTerms } from "@/lib/mandate/draft";
 import type { ChatItem } from "@/lib/agents/display";
 import type { OptionsBody } from "@/lib/api/amend";
 import type { CheckView } from "@/lib/api/carts";
+import type { ActivityBody } from "@/lib/api/history";
 import type { MandateView } from "@/lib/mandate/service";
 
-export type { ChatItem, CheckView, DraftTerms, MandateView, OptionsBody };
+export type { ActivityBody, ChatItem, CheckView, DraftTerms, MandateView, OptionsBody };
 
 export class ApiCallError extends Error {
   constructor(
@@ -46,6 +47,10 @@ export const mandateApi = {
   setupToken: (code: string) => call<{ setupTokenId: string }>(`/api/mandates/${code}/vault/setup-token`, { method: "POST" }),
   confirmLink: (code: string, vaultSetupToken: string) =>
     call<One>(`/api/mandates/${code}/vault/confirm`, { method: "POST", body: { vaultSetupToken } }),
+  list: () => call<{ mandates: MandateView[] }>("/api/mandates"),
+  activity: (code: string) => call<ActivityBody>(`/api/mandates/${code}/activity`),
+  revoke: (code: string) => call<One>(`/api/mandates/${code}/revoke`, { method: "POST", body: { confirm: true } }),
+  receiptUrl: (code: string) => `/api/mandates/${code}/receipt`,
   clientToken: () => call<{ accessToken: string; expiresIn: number }>("/api/paypal/client-token"),
 };
 
