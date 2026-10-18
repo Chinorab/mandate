@@ -236,6 +236,9 @@ export const evidenceFile = pgTable("evidence_file", {
   draftText: text("draft_text"),
   // Each drafted sentence with the evidence item keys it rests on (grounding check).
   draftSentences: jsonb("draft_sentences"),
+  // Dispute facts and missing records the draft could cite, kept so the grounding can be rechecked.
+  draftContext: jsonb("draft_context"),
+  draftedBy: text("drafted_by"),
   editedText: text("edited_text"),
   accuracyConfirmedAt: ts("accuracy_confirmed_at"),
   submittedAt: ts("submitted_at"),

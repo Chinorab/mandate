@@ -139,6 +139,8 @@ Mandate spend = sum of `amount_cents` of captured, non refunded orders. Remainin
 | dispute_id | fk unique | |
 | items | jsonb | `[{ key, title, meta, included, source: { table, id } }]` (FR-028, FR-030) |
 | draft_text | text | model draft, each sentence tagged with item keys server side |
+| draft_sentences | jsonb | `[{ text, items: [keys] }]`, kept only if grounded |
+| draft_context, drafted_by | jsonb, text | dispute facts and missing list the draft could cite; `model` or `template` |
 | edited_text | text null | merchant edit |
 | accuracy_confirmed_at | timestamptz null | required before submit (FR-031) |
 | submitted_at | timestamptz null | |
@@ -148,7 +150,9 @@ Mandate spend = sum of `amount_cents` of captured, non refunded orders. Remainin
 ## paypal_event (idempotency + audit)
 
 `id` (PayPal event id, pk), `event_type`, `resource_id`, `verified bool`, `received_at`, `processed_at`,
-`error text null`. Unverified events are stored with `verified=false` and no side effect.
+`error text null`. Unverified events are answered 400 and not stored at all: storing them under the
+PayPal event id would let a forged copy block the genuine event that arrives later (tested in
+`tests/contract/webhook.test.ts`).
 
 ## audit_log
 

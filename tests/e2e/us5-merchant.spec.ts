@@ -13,11 +13,6 @@ async function merchantScenario(page: Page, baseURL: string | undefined) {
 // The Order column is pinned, so one order is two row elements (pinned and scrolling) sharing its row-id.
 const rowParts = (page: Page, code: string) => page.locator(`.ag-row[row-id="${code}"]`);
 const rowText = (page: Page, code: string) => expect.poll(async () => (await rowParts(page, code).allInnerTexts()).join(" "));
-const firstRowText = (page: Page) =>
-  expect.poll(async () => {
-    const id = await page.locator(".ag-row").first().getAttribute("row-id");
-    return (await rowParts(page, id ?? "").allInnerTexts()).join(" ");
-  });
 
 test("merchant grid: search, master detail, tracking, grouping, filters and CSV export", async ({ page, baseURL }, info) => {
   const codes = await merchantScenario(page, baseURL);
@@ -56,7 +51,18 @@ test("merchant grid: search, master detail, tracking, grouping, filters and CSV 
 
   // Mandate state filter.
   await page.getByRole("group", { name: "Mandate" }).getByRole("button", { name: "Revoked" }).click();
-  await firstRowText(page).toContain("Revoked");
+  // Every shown mandate state cell says Revoked (AG Grid can keep detached row nodes in the DOM).
+  await expect
+    .poll(() =>
+      page.locator('.ag-cell[col-id="mandateState"]').evaluateAll((cells) =>
+        cells.filter((c) => c.checkVisibility({ opacityProperty: true, visibilityProperty: true }) && c.getBoundingClientRect().height > 0).map((c) => c.textContent?.trim()),
+      ),
+    )
+    .toEqual(expect.arrayContaining(["Revoked"]));
+  const shown = await page.locator('.ag-cell[col-id="mandateState"]').evaluateAll((cells) =>
+    cells.filter((c) => c.checkVisibility({ opacityProperty: true, visibilityProperty: true }) && c.getBoundingClientRect().height > 0).map((c) => c.textContent?.trim()),
+  );
+  expect(shown.every((t) => t === "Revoked")).toBe(true);
   await page.getByRole("group", { name: "Mandate" }).getByRole("button", { name: "All" }).click();
 
   // CSV export contains exactly the shown rows.

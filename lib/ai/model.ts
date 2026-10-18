@@ -41,7 +41,8 @@ export function getAnthropic(): Anthropic {
  */
 export async function structuredCall<S extends z.ZodType>(opts: {
   db: Db;
-  sessionId: string;
+  /** The demo session the call is counted against; null for system work (global cap only). */
+  sessionId: string | null;
   system: string;
   prompt: string;
   schema: S;

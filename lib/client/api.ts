@@ -4,6 +4,8 @@ import type { ChatItem } from "@/lib/agents/display";
 import type { OptionsBody } from "@/lib/api/amend";
 import type { CheckView } from "@/lib/api/carts";
 import type { ActivityBody } from "@/lib/api/history";
+import type { Claim } from "@/lib/disputes/pool";
+import type { DisputeView } from "@/lib/disputes/view";
 import type { MerchantOrder } from "@/lib/merchant/orders";
 import type { MandateView } from "@/lib/mandate/service";
 
@@ -75,4 +77,13 @@ export const merchantApi = {
   orders: () => call<{ orders: MerchantOrder[] }>("/api/merchant/orders"),
   addTracking: (code: string, carrier: string, number: string) =>
     call<{ reported: boolean; order?: MerchantOrder }>(`/api/merchant/orders/${code}/tracking`, { method: "POST", body: { carrier, number } }),
+};
+
+export const disputeApi = {
+  claim: () => call<Claim>("/api/merchant/disputes/claim", { method: "POST" }),
+  get: (id: string) => call<DisputeView>(`/api/merchant/disputes/${id}`),
+  /** editedText: a string saves the merchant's text, null returns to the draft, undefined keeps it. */
+  save: (id: string, included: Record<string, boolean>, editedText?: string | null) =>
+    call<DisputeView>(`/api/merchant/disputes/${id}/evidence`, { method: "PATCH", body: { included, editedText } }),
+  submit: (id: string) => call<DisputeView>(`/api/merchant/disputes/${id}/submit`, { method: "POST", body: { accuracyConfirmed: true } }),
 };

@@ -95,6 +95,13 @@ export function DetailRow({ data, context }: CustomDetailCellRendererProps<Merch
             </Button>
           </form>
         ) : null}
+        {data.disputeId ? (
+          <p className={s.note}>
+            <StateIcon name="dispute" size={14} /> {data.disputeStatus === "RESOLVED" ? "A dispute on this order is resolved." : "This order is in dispute."}{" "}
+            {/* A plain link: the grid cancels click events inside detail rows, which client side links respect. */}
+            <a href={`/merchant/disputes/${data.disputeId}`}>Open the dispute</a>
+          </p>
+        ) : null}
         {msg ? (
           <p className={msg.ok ? s.note : s.alert} role={msg.ok ? "status" : "alert"}>
             {msg.text}

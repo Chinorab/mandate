@@ -1,0 +1,530 @@
+/* design/project/DisputeDetail.dc.html */
+
+.main {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 28px var(--gutter) 72px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--ink-2);
+  text-decoration: none;
+  align-self: flex-start;
+  min-height: 44px;
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.headText {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.tags {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.head h1 {
+  font-size: 36px;
+  line-height: 1.15;
+  font-weight: 300;
+  letter-spacing: -0.025em;
+}
+
+.head p {
+  margin: 0;
+  color: var(--ink-2);
+  max-width: 70ch;
+}
+
+.facts {
+  margin: 0;
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.amount {
+  display: flex;
+  flex-direction: column;
+}
+
+.amount dt,
+.caseFacts dt {
+  font-size: 13px;
+  color: var(--ink-3);
+}
+
+.amount dd {
+  margin: 0;
+  font-size: 48px;
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.caseFacts {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+}
+
+.caseFacts dt {
+  display: inline;
+  font-size: 14px;
+}
+
+.caseFacts dd {
+  display: inline;
+  margin: 0;
+}
+
+.notice {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 14px 18px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  background: var(--surface);
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+.notice svg {
+  flex: none;
+  margin-top: 2px;
+  color: var(--ink);
+}
+
+.columns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  align-items: flex-start;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  min-width: 0;
+}
+
+.timelineCard {
+  flex: 1 1 420px;
+  padding: 24px 28px;
+}
+
+.evidenceCard {
+  flex: 1.2 1 480px;
+}
+
+.card h2 {
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.timelineCard h2 {
+  margin-bottom: 20px;
+}
+
+.timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr);
+  gap: 16px;
+}
+
+.rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dot {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius);
+  background: var(--ink);
+  color: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+
+.dot.alert {
+  background: var(--dispute-fg);
+}
+
+.dot.pending {
+  background: transparent;
+  border: 1px dashed var(--ink-3);
+  color: var(--ink-2);
+}
+
+.line {
+  flex: 1;
+  width: 1px;
+  background: var(--control-border);
+  min-height: 24px;
+}
+
+.line.dashed {
+  width: 0;
+  background: none;
+  border-left: 1px dashed var(--control-border);
+}
+
+.stepBody {
+  padding-bottom: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.step:last-child .stepBody {
+  padding-bottom: 0;
+}
+
+.stepTitle {
+  font-weight: 500;
+}
+
+.stepTime {
+  font-size: 13px;
+  color: var(--ink-3);
+}
+
+.stepDetail {
+  font-size: 14px;
+  color: var(--ink-2);
+  overflow-wrap: anywhere;
+}
+
+.cardHead {
+  padding: 24px 28px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cardHead p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+.items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.item {
+  border-top: 1px solid var(--hairline-soft);
+  padding: 14px 28px;
+}
+
+.itemRow {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.itemRow input {
+  width: 20px;
+  height: 20px;
+  margin: 12px 0 0;
+  accent-color: var(--ink);
+  flex: none;
+}
+
+.itemLabel {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  cursor: pointer;
+  min-height: 44px;
+}
+
+.itemLabel.static {
+  cursor: default;
+}
+
+.docIcon {
+  width: 40px;
+  height: 44px;
+  flex: none;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-tag);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-2);
+  background: var(--ground);
+}
+
+.itemText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.itemTitle {
+  font-weight: 500;
+}
+
+.itemMeta {
+  font-size: 13px;
+  color: var(--ink-3);
+  overflow-wrap: anywhere;
+}
+
+.view {
+  flex: none;
+  min-height: 44px;
+  padding: 0 4px;
+  background: none;
+  border: 0;
+  font-size: 14px;
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.itemFacts {
+  margin: 10px 0 0 34px;
+  padding: 12px 16px;
+  background: var(--ground);
+  border: 1px solid var(--hairline-soft);
+  border-radius: var(--radius);
+  font-size: 13px;
+  color: var(--ink-2);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow-wrap: anywhere;
+}
+
+.itemFacts ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.missing {
+  border-top: 1px solid var(--hairline-soft);
+  padding: 14px 28px 18px;
+  font-size: 13px;
+  color: var(--ink-3);
+}
+
+.responseHead {
+  padding: 24px 28px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.responseHead p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+.responseBody {
+  padding: 16px 28px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.labelRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: baseline;
+}
+
+.labelRow label {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.count {
+  font-size: 13px;
+  color: var(--ink-3);
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 220px;
+  padding: 16px;
+  background: var(--ground);
+  border: 1px solid var(--control-border);
+  border-radius: var(--radius);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink);
+  font: inherit;
+}
+
+.textarea[readonly] {
+  background: var(--surface);
+}
+
+.reset {
+  align-self: flex-start;
+  background: none;
+  border: 0;
+  padding: 0;
+  min-height: 44px;
+  font-size: 14px;
+  color: var(--ink-2);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.actions {
+  padding: 20px 28px 24px;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.confirm {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  font-size: 14px;
+  cursor: pointer;
+  max-width: 60ch;
+  min-height: 44px;
+}
+
+.confirm input {
+  width: 20px;
+  height: 20px;
+  margin: 1px 0 0;
+  accent-color: var(--ink);
+  flex: none;
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.helper {
+  margin: 0;
+  padding: 12px 28px;
+  border-top: 1px solid var(--hairline-soft);
+  font-size: 13px;
+  color: var(--ink-3);
+  background: var(--ground);
+  border-radius: 0 0 var(--radius) var(--radius);
+}
+
+.helper.error {
+  color: var(--blocked-fg);
+}
+
+.helper.ok {
+  color: var(--compliant-fg);
+}
+
+.empty {
+  max-width: 640px;
+  margin: 48px auto;
+  padding: 0 var(--gutter);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.empty h1 {
+  font-size: 32px;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+}
+
+.empty p {
+  margin: 0;
+  color: var(--ink-2);
+}
+
+.skeleton {
+  height: 18px;
+  border-radius: var(--radius);
+  background: var(--hairline-soft);
+}
+
+@media (max-width: 760px) {
+  .main {
+    padding: 20px 16px 48px;
+  }
+  .head h1 {
+    font-size: 30px;
+  }
+  .amount dd {
+    font-size: 40px;
+  }
+  .timelineCard {
+    padding: 20px;
+  }
+  .cardHead,
+  .responseHead,
+  .responseBody,
+  .actions,
+  .helper,
+  .missing {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .item {
+    padding: 14px 20px;
+  }
+  .itemFacts {
+    margin-left: 0;
+  }
+  .buttons,
+  .buttons > * {
+    width: 100%;
+  }
+}

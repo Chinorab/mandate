@@ -31,7 +31,8 @@ export function utcDay(now: Date): string {
 /** Reserves one model call for the session, or explains which cap stopped it. */
 export async function consumeModelCall(
   db: Db,
-  sessionId: string,
+  /** null for system work with no demo session (dispute drafts from a webhook): global cap only. */
+  sessionId: string | null,
   opts: { now?: Date; sessionCap?: number; globalCap?: number } = {},
 ): Promise<CapResult> {
   const day = utcDay(opts.now ?? new Date());
@@ -39,7 +40,7 @@ export async function consumeModelCall(
   const globalCap = opts.globalCap ?? globalDailyCap();
   try {
     return await db.transaction(async (tx) => {
-      const [s] = await tx
+      const [s] = sessionId === null ? [{ calls: 0 }] : await tx
         .update(demoSession)
         .set({
           modelCallsToday: sql`case when ${demoSession.modelCallsDay} = ${day} then ${demoSession.modelCallsToday} + 1 else 1 end`,

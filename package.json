@@ -15,6 +15,7 @@
     "db:migrate": "tsx lib/db/migrate.ts",
     "db:seed": "tsx lib/db/seed.ts",
     "scan:secrets": "tsx scripts/scan-secrets.ts",
+    "pool:sync": "tsx scripts/pool-sync.ts",
     "prepare": "node -e \"try{require('child_process').execSync('git config core.hooksPath .githooks',{stdio:'ignore'})}catch{}\""
   },
   "dependencies": {

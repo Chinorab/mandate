@@ -213,23 +213,23 @@ unit + bypass + e2e green, secret scans clean, privacy page and favicon present.
 
 ### Tests for User Story 6
 
-- [ ] T084 [P] [US6] Webhook tests: valid signature processed once, duplicate ignored, invalid signature rejected with no side effect, in tests/contract/webhook.test.ts
-- [ ] T085 [P] [US6] Draft grounding test: every sentence maps to an included evidence item; no mandate order produces "no mandate attached"; excluded items are not cited, in tests/unit/dispute-draft.test.ts
-- [ ] T086 [P] [US6] Integration test: from a verified dispute event to a stored evidence file and draft in under 60 s (SC-006), model mocked with realistic latency, in tests/contract/dispute-latency.test.ts
-- [ ] T087 [P] [US6] Submit guard tests: non claimant 403, missing accuracy confirmation 400, PayPal rejection keeps draft, in tests/contract/dispute-submit.test.ts
+- [X] T084 [P] [US6] Webhook tests: valid signature processed once, duplicate ignored, invalid signature rejected with no side effect, in tests/contract/webhook.test.ts
+- [X] T085 [P] [US6] Draft grounding test: every sentence maps to an included evidence item; no mandate order produces "no mandate attached"; excluded items are not cited, in tests/unit/dispute-draft.test.ts
+- [X] T086 [P] [US6] Integration test: from a verified dispute event to a stored evidence file and draft in under 60 s (SC-006), model mocked with realistic latency, in tests/contract/dispute-latency.test.ts
+- [X] T087 [P] [US6] Submit guard tests: non claimant 403, missing accuracy confirmation 400, PayPal rejection keeps draft, in tests/contract/dispute-submit.test.ts
 
 ### Implementation for User Story 6
 
-- [ ] T088 [US6] Webhook route with signature verification, event store, dispatch, in lib/webhooks/verify.ts, lib/webhooks/dispatch.ts, app/api/webhooks/paypal/route.ts
-- [ ] T089 [US6] Evidence assembly from stored records (mandate, version, hash, timestamps, check, order, tracking) in lib/disputes/assemble.ts
-- [ ] T090 [US6] Evidence PDF report in lib/disputes/report-pdf.ts
-- [ ] T091 [US6] Grounded draft (structured output: sentences with item keys, server rejects unmapped sentences) via the merchant agent using Agent Toolkit get_dispute, in lib/disputes/draft.ts and lib/agents/merchant.ts
-- [ ] T092 [US6] Render Workflows task assembleEvidence (assemble + draft) with inline fallback, in workflows/assemble-evidence.ts and lib/disputes/enqueue.ts
-- [ ] T093 [US6] Submit via provide-evidence multipart (BILLING_AGREEMENT with PDF, PROOF_OF_FULFILLMENT with tracking, notes), in lib/disputes/submit.ts and app/api/merchant/disputes/[id]/submit/route.ts
-- [ ] T094 [US6] Pool claim and evidence routes in lib/disputes/pool.ts, app/api/merchant/disputes/claim/route.ts, app/api/merchant/disputes/[id]/route.ts, app/api/merchant/disputes/[id]/evidence/route.ts
-- [ ] T095 [US6] Pool import script for operator (sync open sandbox disputes into the pool) in scripts/pool-sync.ts
-- [ ] T096 [US6] Dispute page matching design/project/DisputeDetail.dc.html (timeline, evidence items with include toggles and View, editable response, accuracy checkbox, Save Draft, Submit Evidence, read only state) in app/(merchant)/merchant/disputes/[id]/page.tsx and components/dispute/
-- [ ] T097 [US6] E2E: claim, edit, confirm, submit against a sandbox dispute (tagged @pool, skipped when pool empty) in tests/e2e/us6-dispute.spec.ts
+- [X] T088 [US6] Webhook route with signature verification (in lib/payments/webhooks.ts, since it calls PayPal REST), event store, dispatch, in lib/webhooks/dispatch.ts, app/api/webhooks/paypal/route.ts
+- [X] T089 [US6] Evidence assembly from stored records (mandate, version, hash, timestamps, check, order, tracking) in lib/disputes/assemble.ts
+- [X] T090 [US6] Evidence PDF report in lib/disputes/report-pdf.ts
+- [X] T091 [US6] Grounded draft (structured output: sentences with item keys, server rejects unmapped sentences) via the merchant agent using Agent Toolkit get_dispute, in lib/disputes/draft.ts and lib/agents/merchant.ts
+- [ ] T092 [US6] (inline part done: lib/disputes/enqueue.ts runs after the response with one retry; the Render Workflows task comes with phase 5b) Render Workflows task assembleEvidence (assemble + draft) with inline fallback, in workflows/assemble-evidence.ts and lib/disputes/enqueue.ts
+- [X] T093 [US6] (multipart part names to confirm with the sandbox scripts) Submit via provide-evidence multipart (BILLING_AGREEMENT with PDF, PROOF_OF_FULFILLMENT with tracking, notes), in lib/disputes/submit.ts and app/api/merchant/disputes/[id]/submit/route.ts
+- [X] T094 [US6] Pool claim and evidence routes in lib/disputes/pool.ts, app/api/merchant/disputes/claim/route.ts, app/api/merchant/disputes/[id]/route.ts, app/api/merchant/disputes/[id]/evidence/route.ts
+- [X] T095 [US6] (written and guarded; first real run needs PayPal keys) Pool import script for operator (sync open sandbox disputes into the pool) in scripts/pool-sync.ts
+- [X] T096 [US6] Dispute page matching design/project/DisputeDetail.dc.html (timeline, evidence items with include toggles and View, editable response, accuracy checkbox, Save Draft, Submit Evidence, read only state) in app/(merchant)/merchant/disputes/[id]/page.tsx and components/dispute/
+- [ ] T097 [US6] (keyless part done in tests/e2e/us6-dispute.spec.ts with development disputes; the @pool sandbox run needs keys) E2E: claim, edit, confirm, submit against a sandbox dispute (tagged @pool, skipped when pool empty) in tests/e2e/us6-dispute.spec.ts
 
 ---
 

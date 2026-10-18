@@ -11,6 +11,10 @@ import {
   CheckCircle,
   CheckSquare,
   Clock,
+  CreditCard,
+  FileText,
+  Package,
+  UploadSimple,
   DownloadSimple,
   Flag,
   Info,
@@ -45,6 +49,10 @@ export const Icon = {
   product: Sneaker,
   download: DownloadSimple,
   close: X,
+  payment: CreditCard,
+  document: FileText,
+  shipment: Package,
+  submit: UploadSimple,
 } as const;
 
 export type IconName = keyof typeof Icon;

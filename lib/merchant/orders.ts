@@ -42,7 +42,7 @@ export function maskBuyer(sessionId: string): string {
   return `Buyer ${createHash("sha256").update(`buyer:${sessionId}`).digest("hex").slice(0, 4).toUpperCase()}`;
 }
 
-function itemLabel(p: typeof product.$inferSelect | undefined, size: string | null): string {
+export function itemLabel(p: typeof product.$inferSelect | undefined, size: string | null): string {
   if (!p) return "Unknown item";
   const a = p.attributes as ProductAttributes;
   const colors = a.colors.map((c) => COLOR_LABELS[c].toLowerCase()).join(" and ");
