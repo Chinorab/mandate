@@ -193,15 +193,15 @@ unit + bypass + e2e green, secret scans clean, privacy page and favicon present.
 
 **Independent Test**: find a fresh order by mandate id, filter, group, expand, export, add tracking.
 
-- [ ] T075 [P] [US5] Contract tests for merchant orders and tracking routes (masked buyer, no other session data) in tests/contract/merchant-routes.test.ts
-- [ ] T076 [US5] Orders query with masking in lib/merchant/orders.ts and app/api/merchant/orders/route.ts
-- [ ] T077 [US5] AG Grid theme from tokens (Theming API) in components/merchant/grid/theme.ts
-- [ ] T078 [US5] Custom cell renderers: status tag, mandate id with fingerprint popover, check score, dispute status, PayPal id mono, in components/merchant/grid/cells/
-- [ ] T079 [US5] Orders grid matching design/project/MerchantOrders.dc.html: search, set filters, sorting, row grouping (status, mandate state, day), master detail (terms + check table), status bar, CSV and Excel export, in components/merchant/grid/OrdersGrid.tsx and app/(merchant)/merchant/page.tsx
-- [ ] T080 [US5] Tracking: dialog + route calling Agent Toolkit create_shipment_tracking, in components/merchant/TrackingDialog.tsx and app/api/merchant/orders/[code]/tracking/route.ts
+- [X] T075 [P] [US5] Contract tests for merchant orders and tracking routes (masked buyer, no other session data) in tests/contract/merchant-routes.test.ts
+- [X] T076 [US5] Orders query with masking in lib/merchant/orders.ts and app/api/merchant/orders/route.ts
+- [X] T077 [US5] AG Grid theme from tokens (Theming API) in components/merchant/grid/theme.ts
+- [X] T078 [US5] Custom cell renderers: status tag, mandate id with fingerprint popover, check score, dispute status, PayPal id mono, in components/merchant/grid/cells/
+- [X] T079 [US5] Orders grid matching design/project/MerchantOrders.dc.html: search, set filters, sorting, row grouping (status, mandate state, day), master detail (terms + check table), status bar, CSV and Excel export, in components/merchant/grid/OrdersGrid.tsx and app/(merchant)/merchant/page.tsx
+- [X] T080 [US5] Tracking (inline form in the detail row instead of a dialog; reported through the Toolkit only when PayPal keys are set): route calling Agent Toolkit create_shipment_tracking, in components/merchant/TrackingDialog.tsx and app/api/merchant/orders/[code]/tracking/route.ts
 - [ ] T081 [US5] AG Studio insights: provider with AG_STUDIO license, custom widgets "Mandate coverage", "Blocked before payment", "Dispute exposure by mandate state", in app/(merchant)/merchant/insights/page.tsx and components/merchant/studio/
 - [ ] T082 [US5] Studio Agent Framework wired to a capped Claude endpoint, in components/merchant/studio/agent.ts and app/api/merchant/studio/agent/route.ts
-- [ ] T083 [US5] E2E: merchant grid filter, group, expand, export file content, tracking saved, in tests/e2e/us5-merchant.spec.ts
+- [X] T083 [US5] E2E: merchant grid filter, group, expand, export file content, tracking saved, in tests/e2e/us5-merchant.spec.ts
 
 ---
 

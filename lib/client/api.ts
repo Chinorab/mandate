@@ -4,6 +4,7 @@ import type { ChatItem } from "@/lib/agents/display";
 import type { OptionsBody } from "@/lib/api/amend";
 import type { CheckView } from "@/lib/api/carts";
 import type { ActivityBody } from "@/lib/api/history";
+import type { MerchantOrder } from "@/lib/merchant/orders";
 import type { MandateView } from "@/lib/mandate/service";
 
 export type { ActivityBody, ChatItem, CheckView, DraftTerms, MandateView, OptionsBody };
@@ -68,4 +69,10 @@ export const cartApi = {
   amend: (id: string, proposalHash: string) =>
     call<{ view: CheckView }>(`/api/carts/${id}/amend`, { method: "POST", body: { confirm: true, proposalHash } }),
   switchTo: (id: string) => call<{ cartId: string }>(`/api/carts/${id}/switch`, { method: "POST" }),
+};
+
+export const merchantApi = {
+  orders: () => call<{ orders: MerchantOrder[] }>("/api/merchant/orders"),
+  addTracking: (code: string, carrier: string, number: string) =>
+    call<{ reported: boolean; order?: MerchantOrder }>(`/api/merchant/orders/${code}/tracking`, { method: "POST", body: { carrier, number } }),
 };

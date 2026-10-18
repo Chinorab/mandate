@@ -1,0 +1,277 @@
+/* design/project/MerchantOrders.dc.html */
+
+.main {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 32px var(--gutter) 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.head h1 {
+  font-size: 32px;
+  line-height: 1.2;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+}
+
+.head p {
+  margin: 6px 0 0;
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+.kpis {
+  margin: 0;
+  display: flex;
+  gap: 36px;
+  flex-wrap: wrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.kpis div {
+  display: flex;
+  flex-direction: column;
+}
+
+.kpis dt {
+  font-size: var(--text-small);
+  color: var(--ink-3);
+}
+
+.kpis dd {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+}
+
+.toolbar {
+  display: flex;
+  gap: 12px 20px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  padding: 14px 16px;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.grow {
+  flex: 1 1 240px;
+}
+
+.field label,
+.legend {
+  font-size: var(--text-small);
+  font-weight: 500;
+}
+
+.input,
+.select {
+  height: var(--touch);
+  padding: 0 12px;
+  background: var(--ground);
+  border: 1px solid var(--control-border);
+  border-radius: var(--radius);
+  min-width: 170px;
+  width: 100%;
+}
+
+.segmented {
+  display: flex;
+  border: 1px solid var(--control-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.segmented button {
+  height: 42px;
+  padding: 0 14px;
+  border: 0;
+  border-right: 1px solid var(--hairline);
+  font-size: 14px;
+  background: var(--surface);
+  color: var(--ink-2);
+}
+
+.segmented button:last-child {
+  border-right: 0;
+}
+
+.segmented button[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--surface);
+}
+
+.fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.exports {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+  flex-wrap: wrap;
+}
+
+.gridBox {
+  width: 100%;
+}
+
+.foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: var(--text-small);
+  color: var(--ink-3);
+  flex-wrap: wrap;
+}
+
+.mandate {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--compliant-fg);
+}
+
+.mandate .mono {
+  color: var(--ink);
+  font-size: 13px;
+}
+
+.version {
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+.check {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.pass {
+  color: var(--compliant-fg);
+}
+
+.fail {
+  color: var(--blocked-fg);
+}
+
+.muted {
+  color: var(--ink-3);
+}
+
+.monoSmall {
+  font-size: 12px;
+  color: var(--ink-2);
+}
+
+/* Master detail row */
+
+.detail {
+  padding: 18px 24px 22px;
+  background: var(--ground);
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 24px;
+  box-sizing: border-box;
+  white-space: normal;
+  line-height: 1.5;
+}
+
+.detail h3 {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.facts {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  gap: 6px 14px;
+  font-size: 13px;
+}
+
+.facts dt {
+  color: var(--ink-3);
+}
+
+.facts dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.terms {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.terms td {
+  padding: 4px 8px 4px 0;
+  vertical-align: top;
+  border-top: 1px solid var(--hairline-soft);
+}
+
+.trackForm {
+  margin-top: 14px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+.trackForm .select,
+.trackForm .input {
+  background: var(--surface);
+  min-width: 120px;
+}
+
+.note {
+  font-size: 13px;
+  color: var(--ink-2);
+  margin: 6px 0 0;
+}
+
+.alert {
+  font-size: 13px;
+  color: var(--blocked-fg);
+  margin: 6px 0 0;
+}
+
+@media (max-width: 760px) {
+  .main {
+    padding: 24px 16px 48px;
+  }
+  .detail {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .exports {
+    margin-left: 0;
+  }
+}

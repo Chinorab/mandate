@@ -4,7 +4,15 @@ Deadline: 2026-11-12 12:00 PT (Devpost `paypalaihackathon`). Demo must stay test
 Targets: Grand Prizes, Best Use of Agentic Commerce, AG Grid sponsor prize (Render prize if hosted on Render).
 
 ## Current step
-US4 DONE 2026-10-18 (T070..T074): History page from the canvas (filters with counts, list, detail, activity table, receipt preview, empty state), revoke under the gate lock (token removed here first, then deleted at PayPal, open carts cancelled), derived "expired" status, receipt PDF (pdf-lib, versions, activity, canonical records to verify). 181 unit/contract tests + 34 Playwright runs green. Next: US5 merchant grid (AG Grid Enterprise, T075..T083) is keyless (AG Grid works unlicensed with a watermark); or US7 landing; deployment phase 5b needs Render.
+US5 grid DONE 2026-10-18 (T075..T080, T083): merchant orders view at `/merchant` with AG Grid Enterprise 36.2 (theme from tokens, custom cells, quick search, mandate state and status filters, grouping by status / mandate state / day, master detail with the mandate and the check, status bar, CSV and Excel export, inline tracking form). 187 unit/contract tests green, us5 e2e green on desktop and mobile. Still open in US5: T081 AG Studio insights and T082 Studio Agent Framework (need the AG Studio package and the trial license, activate it on or after 2026-11-01 so it lasts through judging). Next: US6 disputes or US7 landing; deployment phase 5b needs Render.
+
+## US5 facts
+- `lib/merchant/orders.ts`: `MERCHANT_STORE_ID = "sports-outlet"`, `maskBuyer(sessionId)` ("Buyer XXXX" from sha256, also used by the gate), `listMerchantOrders`.
+- `lib/api/merchant.ts`: `listOrders`, `addTracking` (carrier UPS/USPS/FEDEX/DHL/ONTRAC, number `^[A-Z0-9]{8,34}$`, captured orders of this store only, Toolkit `create_shipment_tracking` when keys exist, else saved and reported false). Routes GET `/api/merchant/orders`, POST `/api/merchant/orders/[code]/tracking`.
+- `components/merchant/grid/`: `theme.ts` (themeQuartz.withParams on CSS vars), `cells.tsx`, `DetailRow.tsx`, `OrdersGrid.tsx`.
+- AG Grid pitfalls: `groupDefaultExpanded` also opens master detail rows, use `isGroupOpenByDefault` on group nodes; no `new Date()` during render (cacheComponents), export file name is computed on click; the detail row must not have `height: 100%` with `detailRowAutoHeight`; column virtualization hides off screen cells on mobile, so `suppressColumnVirtualisation` is on and the Order column is pinned left (one order = two `.ag-row` elements sharing `row-id`).
+- License: `NEXT_PUBLIC_AG_GRID_LICENSE_KEY` (unset = watermark plus console banner, counted by the Next dev overlay as "Issues").
+- Dev fixture: POST `/api/dev/scenario` `{kind: "merchant"}` creates 8 paid orders through the real gate with a dev money client (ids prefixed DEV).
 
 ## US4 facts
 - `lib/mandate/revoke.ts`, `lib/mandate/activity.ts`, `lib/mandate/summary.ts` (termsSentence shared by preview and PDF), `lib/mandate/receipt.ts` (renderReceipt).

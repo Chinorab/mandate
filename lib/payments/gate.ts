@@ -16,6 +16,7 @@ import type { SemanticJudge } from "@/lib/check/semantic";
 import { runMandateCheck, type CheckLine, type CheckOutcome, type SemanticVerdict, type TermResult } from "@/lib/check/run";
 import { lockMandate, type Db, type DbOrTx } from "@/lib/db/client";
 import { cart, checkResult, mandate, mandateVersion, order, product, store } from "@/lib/db/schema";
+import { maskBuyer } from "@/lib/merchant/orders";
 import { termsSchema, type Terms } from "@/lib/mandate/terms";
 import type { MoneyClient } from "./paypal-money";
 
@@ -315,7 +316,7 @@ export async function payCart(deps: GateDeps, input: { sessionId: string; cartId
         paypalCaptureId: captureId,
         customId,
         status: "captured",
-        buyerMasked: `Sandbox buyer ${sessionId.slice(0, 4).toUpperCase()}`,
+        buyerMasked: maskBuyer(sessionId),
         capturedAt: new Date(),
       })
       .returning({ id: order.id });
