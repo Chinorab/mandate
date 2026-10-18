@@ -1,10 +1,11 @@
 /** Browser side calls to the mandate API. Types only from the server modules. */
 import type { DraftTerms } from "@/lib/mandate/draft";
 import type { ChatItem } from "@/lib/agents/display";
+import type { OptionsBody } from "@/lib/api/amend";
 import type { CheckView } from "@/lib/api/carts";
 import type { MandateView } from "@/lib/mandate/service";
 
-export type { ChatItem, CheckView, DraftTerms, MandateView };
+export type { ChatItem, CheckView, DraftTerms, MandateView, OptionsBody };
 
 export class ApiCallError extends Error {
   constructor(
@@ -58,4 +59,8 @@ export const cartApi = {
   check: (id: string) => call<{ view: CheckView }>(`/api/carts/${id}/check`, { method: "POST" }),
   pay: (id: string) => call<{ orderCode: string; view: CheckView }>(`/api/carts/${id}/pay`, { method: "POST" }),
   cancel: (id: string) => call<{ status: string }>(`/api/carts/${id}/cancel`, { method: "POST" }),
+  options: (id: string) => call<OptionsBody>(`/api/carts/${id}/options`),
+  amend: (id: string, proposalHash: string) =>
+    call<{ view: CheckView }>(`/api/carts/${id}/amend`, { method: "POST", body: { confirm: true, proposalHash } }),
+  switchTo: (id: string) => call<{ cartId: string }>(`/api/carts/${id}/switch`, { method: "POST" }),
 };

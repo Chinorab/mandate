@@ -146,16 +146,16 @@ custom_id at PayPal.
 
 ### Tests for User Story 3
 
-- [ ] T059 [P] [US3] Unit tests for amendment (only listed terms differ, new version_no, new sha256, previous link, cart repinned) in tests/unit/amend.test.ts
-- [ ] T060 [P] [US3] Contract tests for amend and cancel routes in tests/contract/amend-routes.test.ts
+- [X] T059 [P] [US3] Unit tests for amendment (only listed terms differ, new version_no, new sha256, previous link, cart repinned) in tests/unit/amend.test.ts
+- [X] T060 [P] [US3] Contract tests for amend and cancel routes in tests/contract/amend-routes.test.ts
 
 ### Implementation for User Story 3
 
-- [ ] T061 [US3] Amendment service: minimal change proposal from failed terms, approve creates version n+1, in lib/mandate/amend.ts
-- [ ] T062 [US3] Compliant alternative finder (cheapest passing product in allowed stores) in lib/check/alternative.ts
-- [ ] T063 [US3] Amend and cancel routes in app/api/carts/[id]/amend/route.ts and app/api/carts/[id]/cancel/route.ts
-- [ ] T064 [US3] Blocked page matching design/project/Blocked.dc.html (failed terms, totals, Widen the mandate with explicit approval checkbox, Switch to alternative, Cancel Purchase) in app/(buyer)/mandates/[code]/check/[cartId]/blocked.tsx and components/check/Blocked.tsx
-- [ ] T065 [US3] E2E: over budget and forbidden color cart is blocked; direct POST to pay returns 409; amend and pay; separate run cancel, in tests/e2e/us3-blocked.spec.ts
+- [X] T061 [US3] Amendment service: minimal change proposal from failed terms, approve creates version n+1, in lib/mandate/amend.ts
+- [X] T062 [US3] Compliant alternative finder (cheapest passing product in allowed stores) in lib/check/alternative.ts
+- [X] T063 [US3] Amend, options, switch and cancel routes in app/api/carts/[id]/{amend,options,switch,cancel}/route.ts (handlers in lib/api/amend.ts)
+- [X] T064 [US3] Blocked page matching design/project/Blocked.dc.html (failed terms, totals, Widen the mandate with explicit approval checkbox, Switch to alternative, Cancel Purchase) in components/check/BlockedOptions.tsx, shown by components/check/CheckPage.tsx
+- [X] T065 [US3] E2E: over budget and forbidden color cart is blocked; direct POST to pay returns 409; amend and pay; separate run cancel, in tests/e2e/us3-blocked.spec.ts
 
 **Checkpoint**: all P1 stories done.
 

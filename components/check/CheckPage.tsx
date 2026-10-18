@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { MonoId } from "@/components/ui/Data";
+import { BlockedOptions } from "./BlockedOptions";
 import { StateIcon } from "@/components/ui/icons";
 import { Tag } from "@/components/ui/Tag";
 import { COLOR_LABELS, type ColorId } from "@/lib/catalog/data";
@@ -82,7 +83,8 @@ export function CheckPage({ code, cartId }: { code: string; cartId: string }) {
         <div>
           <h1>{pass ? "Mandate check" : "Payment stopped"}</h1>
           <p>
-            Cart at {view.cart.store.name} against <span className="mono">{view.mandate.code}</span>, checked{" "}
+            Cart at {view.cart.store.name} against <span className="mono">{view.mandate.code}</span>
+            {view.mandate.versionNo > 1 ? `, version ${view.mandate.versionNo}` : ""}, checked{" "}
             {formatEt(new Date(c.createdAt))}
           </p>
         </div>
@@ -133,6 +135,7 @@ export function CheckPage({ code, cartId }: { code: string; cartId: string }) {
         </section>
 
         <aside aria-labelledby="order" className={s.aside}>
+          {!pass && !paid && !closed ? <BlockedOptions cartId={cartId} code={code} onChange={setView} /> : null}
           <div className={s.panel}>
             <div className={s.panelHead}>
               <h2 id="order">{line?.name}</h2>
@@ -182,12 +185,7 @@ export function CheckPage({ code, cartId }: { code: string; cartId: string }) {
                   </Button>
                 </>
               ) : (
-                <>
-                  <p className={s.note}>Nothing was paid. Keep the mandate as it is, or cancel this purchase.</p>
-                  <Button variant="secondary" onClick={() => act(async () => (await cartApi.cancel(cartId), (await cartApi.view(cartId)).view))} disabled={busy}>
-                    Cancel Purchase
-                  </Button>
-                </>
+                <p className={s.note}>Nothing was paid.</p>
               )}
               {error ? (
                 <div className={s.alert} role="alert">
@@ -197,7 +195,7 @@ export function CheckPage({ code, cartId }: { code: string; cartId: string }) {
               ) : null}
             </div>
           </div>
-          <p className={s.note}>This check and your signed mandate are attached to the order.</p>
+          {paid ? <p className={s.note}>This check and your signed mandate are attached to the order.</p> : null}
         </aside>
       </div>
     </main>

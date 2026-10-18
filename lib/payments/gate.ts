@@ -33,7 +33,7 @@ const cartLinesSchema = z
   .min(1)
   .max(20);
 
-type Context = {
+export type CartContext = {
   cart: typeof cart.$inferSelect;
   mandate: typeof mandate.$inferSelect;
   version: typeof mandateVersion.$inferSelect;
@@ -44,11 +44,11 @@ type Context = {
   capturedCount: number;
 };
 
-async function loadContext(
+export async function loadCartContext(
   db: DbOrTx,
   sessionId: string,
   cartId: string,
-): Promise<{ ok: true; ctx: Context } | { ok: false; reason: RefusalReason }> {
+): Promise<{ ok: true; ctx: CartContext } | { ok: false; reason: RefusalReason }> {
   if (!/^[0-9a-f-]{36}$/i.test(cartId)) return { ok: false, reason: "cart_not_found" };
   const [c] = await db
     .select()
@@ -110,7 +110,7 @@ async function loadContext(
   };
 }
 
-function check(ctx: Context, semantic: Record<string, SemanticVerdict>, now: Date): CheckOutcome {
+export function evaluateCart(ctx: CartContext, semantic: Record<string, SemanticVerdict>, now: Date): CheckOutcome {
   return runMandateCheck({
     mandate: {
       code: ctx.mandate.code,
@@ -141,7 +141,7 @@ function check(ctx: Context, semantic: Record<string, SemanticVerdict>, now: Dat
 }
 
 /** Semantic verdicts run before the lock (they may take seconds) and fail closed on any error. */
-async function judge(deps: GateDeps, sessionId: string, ctx: Context): Promise<Record<string, SemanticVerdict>> {
+async function judge(deps: GateDeps, sessionId: string, ctx: CartContext): Promise<Record<string, SemanticVerdict>> {
   if (!ctx.terms || ctx.terms.semantic.length === 0) return {};
   try {
     return await deps.judge({
@@ -155,7 +155,7 @@ async function judge(deps: GateDeps, sessionId: string, ctx: Context): Promise<R
   }
 }
 
-async function recordCheck(tx: DbOrTx, ctx: Context, outcome: CheckOutcome, stage: "preview" | "pre_create" | "pre_capture") {
+async function recordCheck(tx: DbOrTx, ctx: CartContext, outcome: CheckOutcome, stage: "preview" | "pre_create" | "pre_capture") {
   const [row] = await tx
     .insert(checkResult)
     .values({
@@ -183,10 +183,10 @@ const failedTerms = (o: CheckOutcome) => o.terms.filter((t) => !t.pass);
 /** Preview check for the buyer (no payment). Records the result and updates the cart status. */
 export async function checkCart(deps: GateDeps, input: { sessionId: string; cartId: string }) {
   const now = deps.now ?? (() => new Date());
-  const pre = await loadContext(deps.db, input.sessionId, input.cartId);
+  const pre = await loadCartContext(deps.db, input.sessionId, input.cartId);
   if (!pre.ok) return { ok: false as const, reason: pre.reason };
   const semantic = await judge(deps, input.sessionId, pre.ctx);
-  const outcome = check(pre.ctx, semantic, now());
+  const outcome = evaluateCart(pre.ctx, semantic, now());
   const checkResultId = await deps.db.transaction(async (tx) => {
     const id = await recordCheck(tx, pre.ctx, outcome, "preview");
     if (pre.ctx.cart.status === "open" || pre.ctx.cart.status === "checked_pass" || pre.ctx.cart.status === "checked_fail") {
@@ -206,7 +206,7 @@ export async function payCart(deps: GateDeps, input: { sessionId: string; cartId
   const cartId = String(input.cartId);
   const now = deps.now ?? (() => new Date());
 
-  const pre = await loadContext(deps.db, sessionId, cartId);
+  const pre = await loadCartContext(deps.db, sessionId, cartId);
   if (!pre.ok) {
     await audit(deps.db, { sessionId, actor: "agent", action: "payment_refused", detail: { cartId, reason: pre.reason } });
     return { status: "refused", reason: pre.reason };
@@ -216,7 +216,7 @@ export async function payCart(deps: GateDeps, input: { sessionId: string; cartId
   return deps.db.transaction(async (tx): Promise<PayResult> => {
     await lockMandate(tx, pre.ctx.mandate.id);
     // Re-read everything under the lock: the mandate may have been revoked, amended or spent meanwhile.
-    const fresh = await loadContext(tx, sessionId, cartId);
+    const fresh = await loadCartContext(tx, sessionId, cartId);
     if (!fresh.ok) return { status: "refused", reason: fresh.reason };
     const ctx = fresh.ctx;
 
@@ -225,7 +225,7 @@ export async function payCart(deps: GateDeps, input: { sessionId: string; cartId
       return { status: "refused", reason: "cart_closed" };
     }
 
-    const outcome = check(ctx, semantic, now());
+    const outcome = evaluateCart(ctx, semantic, now());
     const checkId = await recordCheck(tx, ctx, outcome, "pre_create");
     if (outcome.verdict === "fail") {
       await tx.update(cart).set({ status: "checked_fail", updatedAt: new Date() }).where(eq(cart.id, ctx.cart.id));
@@ -289,7 +289,7 @@ export async function payCart(deps: GateDeps, input: { sessionId: string; cartId
     let lastCheckId = checkId;
     if (!captureId) {
       // A separate capture is a second money movement: check again first.
-      const second = check(ctx, semantic, now());
+      const second = evaluateCart(ctx, semantic, now());
       lastCheckId = await recordCheck(tx, ctx, second, "pre_capture");
       if (second.verdict === "fail") {
         await tx.update(cart).set({ status: "checked_fail", updatedAt: new Date() }).where(eq(cart.id, ctx.cart.id));

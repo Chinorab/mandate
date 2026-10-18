@@ -251,3 +251,126 @@
     max-width: none;
   }
 }
+
+/* design/project/Blocked.dc.html, options column */
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.optionsTitle {
+  font-size: var(--text-section);
+  font-weight: 500;
+}
+
+.optionHead {
+  padding: 18px 20px 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.optionHead h3,
+.optionHeadPlain h3 {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.optionHead p,
+.optionHeadPlain p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+.optionHeadPlain {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.optionCard {
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.changes {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.changes th,
+.changes td {
+  text-align: left;
+  padding: 12px 8px;
+  vertical-align: top;
+}
+
+.changes thead th {
+  font-size: var(--text-small);
+  font-weight: 400;
+  color: var(--ink-3);
+  padding-top: 10px;
+  padding-bottom: 8px;
+}
+
+.changes th:first-child {
+  padding-left: 20px;
+}
+
+.changes td:last-child,
+.changes th:last-child {
+  padding-right: 20px;
+}
+
+.changes tbody tr {
+  border-top: 1px solid var(--hairline-soft);
+}
+
+.changes tbody th {
+  font-weight: 500;
+}
+
+.now {
+  color: var(--ink-2);
+}
+
+.proposed {
+  font-weight: 500;
+}
+
+.approve {
+  padding: 16px 20px 20px;
+  border-top: 1px solid var(--hairline-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ack {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  font-size: 14px;
+  cursor: pointer;
+  min-height: var(--touch);
+}
+
+.ack input {
+  width: 20px;
+  height: 20px;
+  margin: 1px 0 0;
+  accent-color: var(--ink);
+  flex: none;
+}
+
+.helper {
+  margin: 0;
+  font-size: var(--text-small);
+  color: var(--ink-3);
+}

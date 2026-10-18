@@ -4,7 +4,13 @@ Deadline: 2026-11-12 12:00 PT (Devpost `paypalaihackathon`). Demo must stay test
 Targets: Grand Prizes, Best Use of Agentic Commerce, AG Grid sponsor prize (Render prize if hosted on Render).
 
 ## Current step
-US2 keyless part DONE 2026-10-18 (T048, T053..T057): tool registry (closed allow list, Agent Toolkit read only), shopping agent on the SDK tool runner with a server stored transcript, cart and agent routes with contract tests, agent chat page and Mandate check page from the canvas. 155 unit/contract tests + 22 Playwright runs green. BLOCKED on keys: sandbox scripts T012..T020, LinkPayPal (T043), live agent + PayPal e2e (T044, T058). Next keyless work: US3 amend (T059..T065, blocked page "Widen the mandate"), then US4 history/revoke/receipt.
+US3 DONE 2026-10-18 (T059..T065): amend from a blocked cart (server computed proposal bound to the current fingerprint by proposalHash, explicit approval, version n+1 with its own SHA-256, cart repinned), switch to the cheapest compliant product, cancel. 172 unit/contract tests + 28 Playwright runs green. All P1 stories done except the parts needing keys. Next: Phase 5b MVP deployment (T066..T069: render.yaml, bundle secret scan, first Render deploy, uptime check) needs a Render account and keys; keyless alternatives: US4 history/revoke/receipt (T070..T074) or US7 landing (T097..T098).
+
+## US3 facts
+- `lib/mandate/amend.ts` proposeAmendment (pure): budget rounded up in $10 steps over spent + cart, colors add or unforbid, size, category, merchant add, brands, purchases, expiry to tomorrow 11:59 PM ET, failed preference removed; safeguard failures are not amendable.
+- `lib/api/amend.ts`: getOptions (no model call, reuses recorded semantic verdicts), approveAmendment (lock, recompute, hash must match, insert version with previous link + change summary + amended_for_cart_id, repin cart, audit, re-check), switchToAlternative (`lib/check/alternative.ts`, cheapest passing product, currently Pace Lite $92.47).
+- Gate exports read only helpers `loadCartContext` and `evaluateCart`.
+- UI: `components/check/BlockedOptions.tsx` (Widen the mandate with approval checkbox, Keep the mandate as is / Switch to X, Cancel Purchase).
 
 ## US2 facts
 - Tools (`lib/agents/tools.ts`): search_catalog (fit labels from the deterministic check, `lib/agents/fit.ts`), present_options, add_to_cart, check_cart, pay_cart (= payCart), order_status, get_order (Agent Toolkit, only for orders on this mandate, only when PayPal keys exist).
