@@ -54,7 +54,7 @@ test("passing cart: 7 of 7 terms, totals, and payment through the gate", async (
   await expect(page.getByRole("status").filter({ hasText: "7 of 7 terms pass" })).toBeVisible();
   const rows = page.getByRole("table").getByRole("row");
   await expect(rows).toHaveCount(8); // header + 7 terms
-  await expect(page.getByRole("row", { name: /Budget/ })).toContainText("$16.08 under the limit");
+  await expect(page.getByRole("region", { name: "Terms checked" }).getByRole("row", { name: /Budget/ })).toContainText("$16.08 under the limit");
   await expect(page.getByRole("complementary")).toContainText("$103.92");
   await sane(page);
   await page.screenshot({ path: info.outputPath("check-pass.png"), fullPage: true });
@@ -69,8 +69,8 @@ test("blocked cart: failed terms explained, nothing paid, purchase can be cancel
   await page.goto(`/mandates/${s.code}/check/${s.blockedCartId}`);
   await expect(page.getByRole("heading", { level: 1, name: "Payment stopped" })).toBeVisible();
   await expect(page.getByRole("status").filter({ hasText: "Blocked, 2 of 7 terms fail" })).toBeVisible();
-  await expect(page.getByRole("row", { name: /Budget/ })).toContainText("Cart total is $127.74. Your limit is $120.00, so it is $7.74 over.");
-  await expect(page.getByRole("row", { name: /Colors/ })).toContainText("Volt yellow is not one of beige, black, gray or white.");
+  await expect(page.getByRole("region", { name: "Terms checked" }).getByRole("row", { name: /Budget/ })).toContainText("Cart total is $127.74. Your limit is $120.00, so it is $7.74 over.");
+  await expect(page.getByRole("region", { name: "Terms checked" }).getByRole("row", { name: /Colors/ })).toContainText("Volt yellow is not one of beige, black, gray or white.");
   await expect(page.getByRole("button", { name: /Pay/ })).toHaveCount(0);
   await sane(page);
   await page.screenshot({ path: info.outputPath("check-blocked.png"), fullPage: true });

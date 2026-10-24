@@ -1,16 +1,28 @@
+/* design/project/Main.dc.html; sections below the hero follow the same tokens and rules. */
+
 .main {
   width: 100%;
+}
+
+.hero {
   max-width: var(--content-max);
   margin: 0 auto;
   padding: 88px var(--gutter) 72px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(460px, 100%), 1fr));
+  gap: 64px;
+  align-items: center;
+}
+
+.heroText {
   display: flex;
   flex-direction: column;
   gap: 28px;
+  max-width: 560px;
 }
 
 .title {
-  max-width: 14ch;
-  font-size: clamp(40px, 6vw, 68px);
+  font-size: clamp(42px, 6vw, 68px);
   line-height: 1.04;
   font-weight: 300;
   letter-spacing: -0.035em;
@@ -20,11 +32,363 @@
   margin: 0;
   max-width: 46ch;
   font-size: 19px;
+  line-height: 1.5;
   color: var(--ink-2);
 }
 
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-top: 4px;
+}
+
+/* Example mandate */
+
+.figure {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+
+.mandate {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+}
+
+.mandateHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--hairline-soft);
+  flex-wrap: wrap;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.label {
+  font-size: 13px;
+  color: var(--ink-3);
+}
+
+.instructions {
+  margin: 0;
+  padding: 18px 24px 0;
+  font-size: 15px;
+  color: var(--ink-2);
+}
+
+.budget {
+  padding: 20px 24px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.amount {
+  font-size: 52px;
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.terms {
+  margin: 0;
+  padding: 8px 24px 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+  gap: 16px 24px;
+}
+
+.terms div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.terms dt {
+  font-size: 13px;
+  color: var(--ink-3);
+}
+
+.terms dd {
+  margin: 0;
+}
+
+.mandateFoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 24px;
+  border-top: 1px solid var(--hairline-soft);
+  background: var(--ground);
+  font-size: 13px;
+  color: var(--ink-3);
+  flex-wrap: wrap;
+  border-radius: 0 0 var(--radius) var(--radius);
+}
+
+.caption {
+  font-size: 13px;
+  color: var(--ink-3);
+}
+
+/* Sources */
+
+.source {
+  color: var(--ink);
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.strip {
+  border-top: 1px solid var(--hairline);
+}
+
+.stripInner {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 28px var(--gutter);
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  color: var(--ink-2);
+}
+
+.stripInner svg {
+  flex: none;
+  margin-top: 2px;
+}
+
+.stripInner p {
+  margin: 0;
+  font-size: 15px;
+  max-width: 80ch;
+}
+
+.section {
+  border-top: 1px solid var(--hairline);
+  max-width: none;
+}
+
+.section > * {
+  max-width: var(--content-max);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+}
+
+.sectionHead {
+  padding-top: 64px;
+  padding-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sectionHead h2 {
+  font-size: 32px;
+  line-height: 1.15;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  max-width: 24ch;
+}
+
+.sectionHead p {
+  margin: 0;
+  max-width: 62ch;
+  color: var(--ink-2);
+}
+
+.gap {
+  padding-bottom: 72px;
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 48px;
+  align-items: start;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px 0;
+  border-top: 2px solid var(--ink);
+}
+
+.statFigures {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 40px;
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.statFigures small {
+  font-size: 15px;
+  letter-spacing: 0;
+  color: var(--ink-3);
+}
+
+.statFigures span {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.statFigures svg {
+  color: var(--ink-3);
+  align-self: center;
+}
+
+.statCaption {
+  margin: 0;
+  font-size: 14px;
+  color: var(--ink-2);
+  max-width: 48ch;
+}
+
+.claims {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--hairline);
+}
+
+.claim {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--hairline);
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  gap: 8px 32px;
+}
+
+.claim h3 {
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.claim p {
+  margin: 0;
+  color: var(--ink-2);
+}
+
+.steps {
+  list-style: none;
+  margin: 0 auto;
+  padding-bottom: 72px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+  gap: 0;
+}
+
+.step {
+  padding: 24px 28px 8px 0;
+  border-top: 1px solid var(--hairline);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-areas: "icon no" "title title" "text text";
+  gap: 12px;
+  align-items: center;
+}
+
+.step + .step {
+  padding-left: 28px;
+  border-left: 1px solid var(--hairline);
+}
+
+.stepIcon {
+  grid-area: icon;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius);
+  background: var(--ink);
+  color: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stepNo {
+  grid-area: no;
+  justify-self: end;
+  font-size: 13px;
+  color: var(--ink-3);
+}
+
+.step h3 {
+  grid-area: title;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.step p {
+  grid-area: text;
+  margin: 0;
+  color: var(--ink-2);
+}
+
+.try {
+  padding-bottom: 80px;
+  background: var(--surface);
+}
+
+@media (max-width: 900px) {
+  .gap {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+  }
+  .claim {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .step + .step {
+    padding-left: 0;
+    border-left: 0;
+  }
+  .step {
+    padding-right: 0;
+  }
+}
+
 @media (max-width: 640px) {
-  .main {
+  .hero {
     padding: 48px 16px 56px;
+    gap: 40px;
+  }
+  .stripInner,
+  .section > * {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .sectionHead {
+    padding-top: 48px;
+  }
+  .sectionHead h2 {
+    font-size: 28px;
+  }
+  .amount {
+    font-size: 44px;
+  }
+  .statFigures {
+    font-size: 32px;
+  }
+  .actions > * {
+    flex: 1 1 100%;
   }
 }

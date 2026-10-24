@@ -239,8 +239,8 @@ unit + bypass + e2e green, secret scans clean, privacy page and favicon present.
 
 **Independent Test**: fresh browser on phone and desktop reaches a signed mandate without sign up; privacy reachable.
 
-- [ ] T098 [P] [US7] Landing matching design/project/Main.dc.html with example mandate figure and a sources strip linking the 3 brief sources and American Banker, in app/(public)/page.tsx
-- [ ] T099 [US7] Session isolation test: two contexts never see each other's mandates in tests/e2e/us7-public.spec.ts
+- [X] T098 [P] [US7] Landing matching design/project/Main.dc.html with example mandate figure and a sources strip linking the 3 brief sources and American Banker, in app/page.tsx (copy and sources in lib/landing/content.ts)
+- [X] T099 [US7] Session isolation test: two contexts never see each other's mandates in tests/e2e/us7-public.spec.ts
 
 ---
 
