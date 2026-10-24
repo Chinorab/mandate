@@ -6,6 +6,12 @@ Targets: Grand Prizes, Best Use of Agentic Commerce, AG Grid sponsor prize (Rend
 ## Current step
 US7 DONE 2026-10-24 (T098, T099): landing from the Main board (hero, example mandate with its real fingerprint, NYDFS strip, "Agent purchases have no liability rule yet" with the cost statistic and 4 sourced claims, how it works, try it without sign up) and the session isolation test. 228 unit/contract tests green; full e2e green on desktop and mobile. All keyless user stories are done. Next: phase 5b deploy on Render (needs the user's Render account and keys), US5 T081/T082 once the AG Studio trial is active (on or after 2026-11-01), then polish (README with "Open a sandbox dispute" section, DEVPOST.md, video script, content and accessibility audit). Still needing PayPal keys: sandbox scripts T012..T020, LinkPayPal check T043, live agent and PayPal e2e T044 and T058, the US6 sandbox steps above (T097 @pool), tracking report through the toolkit.
 
+## Docs (2026-10-24)
+- README.md (problem with sources, what it does, consent gate, architecture with mermaid, PayPal APIs vs Agent Toolkit, how Claude is used, AG Grid, "Open a sandbox dispute" at `#open-a-sandbox-dispute`, setup, env vars, tests, status, MIT), DEVPOST.md (story + an answer per Devpost form field), VIDEO_SCRIPT.md (13 shots, about 300 words of voice over, target 2:40).
+- Placeholders to fill after the sandbox runs: README "What we learned from the sandbox", DEVPOST challenges and "What we learned", demo and video URLs, sandbox buyer login in testing instructions, PayPal rating, AG Grid experience.
+- Sandbox dispute click path (Activity, the payment, Report a problem) is written from research and must be confirmed in the sandbox.
+- Landing claim reworded "AI agents" to "shopping agents" (constitution VII bans AI mentions in product UI; docs may describe Claude).
+
 ## US7 facts
 - Copy and sources live in `lib/landing/content.ts` (SOURCES, CLAIMS, COST_STAT, NYDFS_QUOTE, EXAMPLE); `tests/unit/landing-sources.test.ts` pins the 4 URLs, the statistic and the example fingerprint. Sources read on 2026-10-24: Merchant Cost Consulting (Matt Rej, Oct 10 2026; WebFetch gets 403, curl with a browser user agent works), Chargeflow liability (Jul 7 2026), Chargeflow evidence playbook (Jul 19 2026), American Banker (Jun 26 2026, acting Superintendent quote).
 - The statistic ($36.9 billion in 2026 to $46.1 billion in 2029) is Mastercard research by Datos Insights as reported by Chargeflow, and is labelled so. "Close calls favor the cardholder" is attributed as the author's expectation.

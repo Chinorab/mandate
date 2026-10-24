@@ -42,7 +42,7 @@ export type Claim = { title: string; text: string; source: SourceId };
 export const CLAIMS: Claim[] = [
   {
     title: "No rule says who pays",
-    text: "There is still no concrete chargeback liability rule for purchases made by AI agents. When a buyer says the agent bought something it was not allowed to, card network and federal rules give no clean answer.",
+    text: "There is still no concrete chargeback liability rule for purchases made by shopping agents. When a buyer says the agent bought something it was not allowed to, card network and federal rules give no clean answer.",
     source: "mcc",
   },
   {
