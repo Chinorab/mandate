@@ -76,7 +76,7 @@ export const cartApi = {
 export const merchantApi = {
   orders: () => call<{ orders: MerchantOrder[] }>("/api/merchant/orders"),
   addTracking: (code: string, carrier: string, number: string) =>
-    call<{ reported: boolean; order?: MerchantOrder }>(`/api/merchant/orders/${code}/tracking`, { method: "POST", body: { carrier, number } }),
+    call<{ reported: boolean; notReported?: "not_configured" | "paypal_refused"; order?: MerchantOrder }>(`/api/merchant/orders/${code}/tracking`, { method: "POST", body: { carrier, number } }),
 };
 
 export const disputeApi = {

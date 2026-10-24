@@ -32,6 +32,12 @@ is a step of the sandbox scripts (`/scripts`) and is resolved before application
 - **Prerequisites**: sandbox app with Accept payments and Vault enabled (Advanced options). RDA (FraudNet)
   is documented as required for customer initiated vault payments; ours are merchant initiated, to verify.
 
+- **Confirmed in the sandbox (2026-10-24, scripts 02, 03, 07)**: setup token with `usage_type: "MERCHANT"`,
+  `usage_pattern: "UNSCHEDULED_PREPAID"`, then payment token; merchant initiated charges with
+  `stored_credential` complete in one call (status COMPLETED, no separate capture) without the buyer. The app
+  needs "Save payment methods" ticked (403 on every Vault call otherwise). A token belongs to the merchant
+  whose app created it. Deleting it makes later charges fail with 403 PERMISSION_DENIED.
+
 ## R2. Paying three stores (payee)
 
 - **Decision**: one REST app (owned by Sample Sports Outlet) creates every order; `purchase_units[0].payee.merchant_id`
@@ -43,6 +49,10 @@ is a step of the sandbox scripts (`/scripts`) and is resolved before application
 - **Fallback if refused**: the three stores become storefronts of one merchant account (a marketplace
   operator). The merchant term stays a deterministic store allowlist; the README states the limitation.
   `usage_type: "PLATFORM"` needs partner onboarding and is out of reach in a hackathon.
+- **Confirmed in the sandbox (2026-10-24, script 03)**: the risk did not materialize. A token vaulted by the
+  app owned by Sample Sports Outlet pays all three stores through `payee`; `custom_id` and payee are kept on
+  each order. Tracking (Agent Toolkit) and disputes stay with the merchant that received the money, which is
+  why the app must be owned by Sample Sports Outlet, the store of the merchant view. Fallback not needed.
 
 ## R3. Attaching the mandate to the order
 

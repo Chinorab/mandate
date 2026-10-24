@@ -92,3 +92,48 @@ Dated findings from the scripts in `/scripts`, run against the PayPal sandbox.
 - list_transactions answered.
 - The wrapper refused all 12 of 12 money moving toolkit tools by name, before any call to PayPal.
 - Correction: the toolkit returns PayPal errors as content, not as exceptions. create_shipment_tracking answered NOT_AUTHORIZED with issue USER_NOT_AUTHORIZED on /trackers/1/transaction_id, and get_shipment_tracking answered 403. The capture belongs to the payee (Sample Sports Outlet), not to the account that owns the REST app, so the app may not add tracking to it. The app's toolkit wrapper must read these error bodies (fixed in the script; to fix in lib/payments/toolkit.ts).
+
+## 03-vault-charge-payee, 2026-10-24 23:29 UTC
+
+- Sample Sports Outlet: vault charge refused, 403 NOT_AUTHORIZED: [{"issue":"PERMISSION_DENIED","description":"You do not have permission to access or perform operations on this resource."}].
+- Example Running Co.: vault charge refused, 403 NOT_AUTHORIZED: [{"issue":"PERMISSION_DENIED","description":"You do not have permission to access or perform operations on this resource."}].
+- Demo Shoe Supply: vault charge refused, 403 NOT_AUTHORIZED: [{"issue":"PERMISSION_DENIED","description":"You do not have permission to access or perform operations on this resource."}].
+- R2 open: 0 of 3 vault charges completed; see the lines above before choosing the fallback.
+
+## 02-vault-setup, 2026-10-24 23:30 UTC
+
+- Setup token created with usage_type MERCHANT, customer_type CONSUMER and usage_pattern UNSCHEDULED_PREPAID; status PAYER_ACTION_REQUIRED; approval link rel "approve".
+
+## App ownership, 2026-10-24 23:31 UTC
+
+- Tracking (and, by the same rule, disputes) on a capture is reserved to the merchant that received it. With the REST app owned by one business account and the money routed by `payee` to another, create_shipment_tracking returns USER_NOT_AUTHORIZED. The demo now uses a REST app owned by Sample Sports Outlet, the store shown in the merchant view; the other two stores still receive their payments through `payee`.
+- A Vault payment token belongs to the merchant whose app created it: the token saved through the first app is refused by the new app with 403 PERMISSION_DENIED on every charge. The test buyer approves the save once more for the new app.
+
+## 02-vault-setup, 2026-10-24 23:34 UTC
+
+- Setup token status after the test buyer approved: APPROVED.
+- Payment token created from the setup token; a customer id was returned; usage_type on the token: MERCHANT.
+- The payment token id and customer id are kept server side only (here in .scripts-state, in the app in the mandate row).
+
+## 03-vault-charge-payee, 2026-10-24 23:34 UTC
+
+- Sample Sports Outlet: order COMPLETED through one call, capture COMPLETED; payee kept; custom_id kept.
+- Example Running Co.: order COMPLETED through one call, capture COMPLETED; payee kept; custom_id kept.
+- Demo Shoe Supply: order COMPLETED through one call, capture COMPLETED; payee kept; custom_id kept.
+- R2 decided: merchant initiated vault charges to all three payees complete without the buyer, so the agent pays on its own after the buyer links PayPal once; the per payment approval fallback (T052) is not needed.
+
+## 06-toolkit, 2026-10-24 23:34 UTC
+
+- Toolkit tools available with the app's configuration: get_order, list_disputes, get_dispute, create_shipment_tracking, get_shipment_tracking, list_transactions.
+- get_order returned the script 01 order, with the mandate custom_id.
+- create_shipment_tracking accepted UPS tracking for the captured order (order_id + transaction_id = capture id).
+- get_shipment_tracking returned the tracking for the order.
+- list_disputes answered (no dispute yet).
+- list_transactions answered.
+- The wrapper refused all 12 of 12 money moving toolkit tools by name, before any call to PayPal.
+
+## 07-revoke, 2026-10-24 23:34 UTC
+
+- DELETE /v3/vault/payment-tokens/{id} succeeded (no content).
+- Reading the deleted token answers 404 RESOURCE_NOT_FOUND.
+- A charge with the deleted token is refused: 403 NOT_AUTHORIZED (PERMISSION_DENIED). Revocation removes the agent's ability to pay at PayPal too, on top of the gate's own refusal.

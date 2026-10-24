@@ -30,6 +30,36 @@ export const MONEY_MOVING_TOOLKIT_TOOLS = [
   "update_plan",
 ] as const;
 
+/** A PayPal error the toolkit returned as tool content (it does not throw on its own). */
+export class ToolkitError extends Error {
+  constructor(
+    readonly tool: string,
+    message: string,
+    readonly issue: string | null,
+    readonly status: number | null,
+  ) {
+    super(message);
+    this.name = "ToolkitError";
+  }
+}
+
+type ErrorShape = { ok?: boolean; status?: number; message?: string; errors?: { name?: string; message?: string; details?: { issue?: string }[] }[] };
+
+/** Seen in the sandbox: `{ ok: false, status }` and `{ errors: [{ name, details: [{ issue }] }] }`. */
+function toolkitError(tool: string, content: string): ToolkitError | null {
+  let body: ErrorShape;
+  try {
+    body = JSON.parse(content) as ErrorShape;
+  } catch {
+    return null;
+  }
+  if (!body || typeof body !== "object") return null;
+  const first = Array.isArray(body.errors) ? body.errors[0] : undefined;
+  if (first) return new ToolkitError(tool, first.message ?? first.name ?? "PayPal refused the call", first.details?.[0]?.issue ?? first.name ?? null, null);
+  if (body.ok === false) return new ToolkitError(tool, body.message ?? "PayPal refused the call", null, typeof body.status === "number" ? body.status : null);
+  return null;
+}
+
 export type ToolkitToolDef = { name: string; description: string; parameters: Record<string, unknown> };
 
 export type Toolkit = {
@@ -64,7 +94,10 @@ export function wrapToolkit(inner: OpenAiShapedToolkit): Toolkit {
         type: "function",
         function: { name, arguments: JSON.stringify(args) },
       });
-      return typeof res.content === "string" ? res.content : JSON.stringify(res.content);
+      const content = typeof res.content === "string" ? res.content : JSON.stringify(res.content);
+      const err = toolkitError(name, content);
+      if (err) throw err;
+      return content;
     },
   };
 }

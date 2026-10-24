@@ -26,7 +26,14 @@ export function DetailRow({ data, context }: CustomDetailCellRendererProps<Merch
     setMsg(null);
     try {
       const r = await merchantApi.addTracking(data!.code, carrier, number);
-      setMsg({ ok: true, text: r.reported ? "Tracking saved and reported to PayPal." : "Tracking saved. Not reported to PayPal: the sandbox is not configured." });
+      setMsg({
+        ok: true,
+        text: r.reported
+          ? "Tracking saved and reported to PayPal."
+          : r.notReported === "paypal_refused"
+            ? "Tracking saved here. PayPal did not accept it, so it was not reported."
+            : "Tracking saved. Not reported to PayPal: the sandbox is not configured.",
+      });
       if (r.order) context.onUpdated(r.order);
     } catch (err) {
       setMsg({ ok: false, text: err instanceof ApiCallError ? err.message : "Tracking could not be saved." });

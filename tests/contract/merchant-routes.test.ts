@@ -4,7 +4,7 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import * as merchant from "@/lib/api/merchant";
 import * as carts from "@/lib/api/carts";
 import { auditLog, order } from "@/lib/db/schema";
-import type { Toolkit } from "@/lib/payments/toolkit";
+import { wrapToolkit, type Toolkit } from "@/lib/payments/toolkit";
 import { testDb } from "../helpers/db";
 import { CANVAS_TERMS, CHECK_TIME } from "../helpers/fixtures";
 import { activeMandate, fakeJudge, fakeMoney, newCart } from "../helpers/scenario";
@@ -107,7 +107,22 @@ describe("POST /api/merchant/orders/:code/tracking", () => {
     const a = await paidOrder();
     const r = await merchant.addTracking(handle.db, null, a.orderCode, { carrier: "USPS", number: "9400111899223197428490" });
     expect(r.status).toBe(200);
-    expect((r.body as { reported: boolean }).reported).toBe(false);
+    expect(r.body).toMatchObject({ reported: false, notReported: "not_configured" });
+  });
+
+  it("keeps the tracking but says PayPal refused it when the toolkit answers with an error", async () => {
+    const a = await paidOrder();
+    const refusing = wrapToolkit({
+      getTools: () => [{ type: "function", function: { name: "create_shipment_tracking", parameters: { type: "object", properties: {} } } }],
+      handleToolCall: async () => ({
+        content: JSON.stringify({ tracker_identifiers: [], errors: [{ name: "NOT_AUTHORIZED", details: [{ issue: "USER_NOT_AUTHORIZED" }] }] }),
+      }),
+    });
+    const r = await merchant.addTracking(handle.db, refusing, a.orderCode, { carrier: "UPS", number: "1Z999AA10123456785" });
+    expect(r.status).toBe(200);
+    expect(r.body).toMatchObject({ reported: false, notReported: "paypal_refused" });
+    const [o] = await handle.db.select().from(order).where(eq(order.code, a.orderCode));
+    expect(o.tracking).toMatchObject({ number: "1Z999AA10123456785", reportedToPayPal: false });
   });
 
   it("404 for an unknown order or another store's order", async () => {

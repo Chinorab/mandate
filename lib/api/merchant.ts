@@ -4,7 +4,7 @@ import { audit } from "@/lib/audit";
 import type { Db } from "@/lib/db/client";
 import { order } from "@/lib/db/schema";
 import { MERCHANT_STORE_ID, listMerchantOrders, type MerchantOrder } from "@/lib/merchant/orders";
-import type { Toolkit } from "@/lib/payments/toolkit";
+import { ToolkitError, type Toolkit } from "@/lib/payments/toolkit";
 import { apiError, handle, type ApiResult } from "./result";
 
 export type OrdersBody = { orders: MerchantOrder[] };
@@ -23,7 +23,7 @@ export async function addTracking(
   toolkit: Toolkit | null,
   code: string,
   body: { carrier?: unknown; number?: unknown },
-): Promise<ApiResult<{ reported: boolean; order: MerchantOrder | undefined }>> {
+): Promise<ApiResult<{ reported: boolean; notReported?: "not_configured" | "paypal_refused"; order: MerchantOrder | undefined }>> {
   const carrier = typeof body?.carrier === "string" ? body.carrier.toUpperCase() : "";
   const number = typeof body?.number === "string" ? body.number.trim().toUpperCase() : "";
   if (!(CARRIERS as readonly string[]).includes(carrier)) return apiError(400, "invalid_carrier", `Choose a carrier: ${CARRIERS.join(", ")}.`);
@@ -49,12 +49,13 @@ export async function addTracking(
       });
       reported = true;
     } catch (err) {
-      trackerError = err instanceof Error ? err.name : "error";
+      trackerError = err instanceof ToolkitError ? (err.issue ?? `HTTP ${err.status ?? "error"}`) : err instanceof Error ? err.name : "error";
     }
   }
   const tracking = { carrier, number, addedAt: new Date().toISOString(), reportedToPayPal: reported };
   await db.update(order).set({ tracking, shippingStatus: "shipped" }).where(eq(order.id, o.id));
   await audit(db, { actor: "merchant", action: "tracking_added", detail: { orderCode: o.code, carrier, reported, trackerError } });
   const orders = await listMerchantOrders(db);
-  return { status: 200, body: { reported, order: orders.find((x) => x.code === o.code) } };
+  const notReported = reported ? undefined : trackerError ? ("paypal_refused" as const) : ("not_configured" as const);
+  return { status: 200, body: { reported, notReported, order: orders.find((x) => x.code === o.code) } };
 }

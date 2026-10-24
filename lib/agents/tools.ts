@@ -14,7 +14,7 @@ import { CATEGORIES, COLOR_IDS, type ProductAttributes } from "@/lib/catalog/dat
 import { cart, order, product, store } from "@/lib/db/schema";
 import { loadMandateContext, type MandateContext } from "@/lib/mandate/context";
 import { checkCart, payCart, type GateDeps } from "@/lib/payments/gate";
-import type { Toolkit } from "@/lib/payments/toolkit";
+import { ToolkitError, type Toolkit } from "@/lib/payments/toolkit";
 import { computeTotals } from "@/lib/pricing";
 import { fitFor } from "./fit";
 
@@ -232,7 +232,13 @@ export function buildShoppingTools(ctx: ToolCtx) {
           const m = await mandateCtx();
           const [o] = m ? await db.select().from(order).where(and(eq(order.paypalOrderId, id), eq(order.mandateId, m.mandate.id))) : [];
           if (!o) return json({ error: "That PayPal order is not on this mandate" });
-          return toolkit.call("get_order", args as Record<string, unknown>);
+          try {
+            return await toolkit.call("get_order", args as Record<string, unknown>);
+          } catch (err) {
+            // PayPal refusals come back as a tool error the agent can explain, never as a crash.
+            if (err instanceof ToolkitError) return json({ error: "PayPal could not return that order right now" });
+            throw err;
+          }
         },
       }) as unknown as (typeof tools)[number],
     );

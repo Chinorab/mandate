@@ -48,14 +48,14 @@ credentials in .env.local.
 
 ### Sandbox proof (decides research R1, R2, R5)
 
-- [ ] T012 Create PayPal REST helper for scripts (OAuth token cache, sandbox base URL guard that throws on any live URL, redacting logger) in scripts/lib/paypal.ts
-- [ ] T013 Script 01: create + capture order with custom_id, invoice_id, description and PayPal-Request-Id replay; log to scripts/LEARNINGS.md, in scripts/01-auth-and-order.ts
-- [ ] T014 Script 02: vault setup token, local static page using JS SDK v6 createPayPalSavePaymentSession, payment token creation; store ids in .scripts-state/ (gitignored), in scripts/02-vault-setup.ts and scripts/02-vault-page.html
-- [ ] T015 Script 03: merchant initiated charge with vault_id + stored_credential to each of the 3 payees; record outcome and the R2 decision in scripts/LEARNINGS.md, in scripts/03-vault-charge-payee.ts
+- [X] T012 Create PayPal REST helper for scripts (OAuth token cache, sandbox base URL guard that throws on any live URL, redacting logger) in scripts/lib/paypal.ts
+- [X] T013 Script 01: create + capture order with custom_id, invoice_id, description and PayPal-Request-Id replay; log to scripts/LEARNINGS.md, in scripts/01-auth-and-order.ts
+- [X] T014 Script 02 (approval link instead of a local SDK page; the app's SDK flow is checked in T043): vault setup token, local static page using JS SDK v6 createPayPalSavePaymentSession, payment token creation; store ids in .scripts-state/ (gitignored), in scripts/02-vault-setup.ts and scripts/02-vault-page.html
+- [X] T015 Script 03: merchant initiated charge with vault_id + stored_credential to each of the 3 payees; record outcome and the R2 decision in scripts/LEARNINGS.md, in scripts/03-vault-charge-payee.ts
 - [ ] T016 Script 04: webhook listener behind a cloudflared tunnel, verify-webhook-signature for real capture and vault events, tampered body check, in scripts/04-webhook-listener.ts
 - [ ] T017 Script 05: open a dispute manually as sandbox buyer (write exact click steps), then list it, require-evidence if UNDER_REVIEW, provide-evidence multipart (PDF + notes + tracking), in scripts/05-dispute.ts
-- [ ] T018 [P] Script 06: Agent Toolkit get_order, list_disputes, get_dispute, create_shipment_tracking in sandbox, in scripts/06-toolkit.ts
-- [ ] T019 [P] Script 07: delete payment token then attempt a charge (must fail), in scripts/07-revoke.ts
+- [X] T018 [P] Script 06: Agent Toolkit get_order, list_disputes, get_dispute, create_shipment_tracking in sandbox, in scripts/06-toolkit.ts
+- [X] T019 [P] Script 07: delete payment token then attempt a charge (must fail), in scripts/07-revoke.ts
 - [ ] T020 Record decisions from T013 to T019 in research.md (R1, R2, R5 marked confirmed or fallback) and docs/dispute-pool-runbook.md (manual dispute steps, pool refill dates)
 
 ### Shared infrastructure
@@ -126,7 +126,7 @@ custom_id at PayPal.
 - [X] T049 [US2] runMandateCheck pure function and explanation templates in lib/check/run.ts and lib/check/explain.ts (make T045 pass)
 - [X] T050 [US2] Semantic verdicts with structured output, cache 10 minutes per cart and version, fail closed, in lib/check/semantic.ts (tests in tests/contract/semantic.test.ts)
 - [X] T051 [US2] Consent gate payCart: lock mandate, recompute totals, check pre_create, vault charge with custom_id, invoice_id, description, payee, PayPal-Request-Id, check pre_capture, capture if needed, persist; on PayPal outage leave the cart checked_not_paid with a retry; on hash mismatch set mandate.flagged_at and refuse; in lib/payments/gate.ts (make T046 to T048 pass)
-- [ ] T052 [US2] Per payment approval fallback, built only if T020 records that vault charges fail: PAYMENT_MODE=approve flag, check page renders the official SDK button only after a passing check, server create order runs the pre_create check and capture runs the pre_capture check through the same gate, bypass suite extended to this mode, in lib/payments/gate.ts, components/check/ApprovePayment.tsx, tests/bypass/gate-approve-mode.test.ts
+- [ ] T052 [US2] (not needed: vault charges confirmed in the sandbox, see research R1 and R2) Per payment approval fallback, built only if T020 records that vault charges fail: PAYMENT_MODE=approve flag, check page renders the official SDK button only after a passing check, server create order runs the pre_create check and capture runs the pre_capture check through the same gate, bypass suite extended to this mode, in lib/payments/gate.ts, components/check/ApprovePayment.tsx, tests/bypass/gate-approve-mode.test.ts
 - [X] T053 [US2] Agent tool registry (search_catalog, present_options, add_to_cart, check_cart, pay_cart, order_status, get_order via Agent Toolkit) with the money tool allowlist assertion, in lib/agents/tools.ts and lib/payments/toolkit.ts (tests/bypass/tools.test.ts)
 - [X] T054 [US2] Shopping agent (Anthropic SDK tool runner, bounded steps, fit labels per proposal, catalog text treated as data) in lib/agents/shopping.ts and app/api/agent/chat/route.ts
 - [X] T055 [US2] Cart routes check and pay in app/api/carts/[id]/check/route.ts and app/api/carts/[id]/pay/route.ts
