@@ -56,5 +56,14 @@
   "license": "MIT",
   "engines": {
     "node": ">=20.9"
+  },
+  "pnpm": {
+    "packageExtensions": {
+      "@paypal/paypal-server-sdk": {
+        "dependencies": {
+          "tslib": "^2.8.1"
+        }
+      }
+    }
   }
 }
