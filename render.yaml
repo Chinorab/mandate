@@ -1,0 +1,46 @@
+# Render Blueprint for Mandate (sandbox demo, kept online until 2026-12-15).
+# Secrets are entered in the Render dashboard on first sync (sync: false), never in this file.
+databases:
+  - name: mandate-db
+    plan: 0.1c-256mb
+    region: oregon
+    postgresMajorVersion: "17"
+    databaseName: mandate
+    user: mandate
+
+services:
+  - type: web
+    name: mandate
+    runtime: node
+    plan: 0.5c-512mb
+    region: oregon
+    buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm build:check
+    preDeployCommand: pnpm db:migrate && pnpm db:seed
+    startCommand: pnpm start
+    healthCheckPath: /api/health
+    autoDeployTrigger: commit
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: mandate-db
+          property: connectionString
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: PAYPAL_CLIENT_ID
+        sync: false
+      - key: PAYPAL_CLIENT_SECRET
+        sync: false
+      - key: PAYPAL_WEBHOOK_ID
+        sync: false
+      - key: PAYPAL_MERCHANT_ID_SPORTS_OUTLET
+        sync: false
+      - key: PAYPAL_MERCHANT_ID_RUNNING_CO
+        sync: false
+      - key: PAYPAL_MERCHANT_ID_SHOE_SUPPLY
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: MODEL_DAILY_GLOBAL_CAP
+        value: "2000"
+      - key: NEXT_PUBLIC_AG_GRID_LICENSE_KEY
+        sync: false

@@ -31,6 +31,6 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  // Static files, icons and PayPal webhooks never get a session.
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|icon.svg|apple-icon.png|api/webhooks).*)"],
+  // Static files, icons, PayPal webhooks and the health check never get a session.
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|icon.svg|apple-icon.png|api/webhooks|api/health).*)"],
 };

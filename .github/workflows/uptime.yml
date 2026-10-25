@@ -1,0 +1,41 @@
+# Uptime check for the hosted demo until the end of judging (T069). Set the repository variable
+# DEMO_URL (Settings, Secrets and variables, Actions, Variables) to the Render URL, for example
+# https://mandate.onrender.com. Opens one issue labelled "uptime" while the demo is down.
+name: Uptime
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    if: vars.DEMO_URL != ''
+    steps:
+      - name: Stop after judging ends
+        id: window
+        run: |
+          if [ "$(date -u +%Y%m%d)" -gt 20261215 ]; then echo "done=true" >> "$GITHUB_OUTPUT"; else echo "done=false" >> "$GITHUB_OUTPUT"; fi
+      - name: Check /api/health
+        id: health
+        if: steps.window.outputs.done == 'false'
+        run: |
+          code=$(curl -s -o body.json -w "%{http_code}" --max-time 30 "${{ vars.DEMO_URL }}/api/health" || echo 000)
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          cat body.json || true
+      - name: Open an issue when down
+        if: steps.window.outputs.done == 'false' && steps.health.outputs.code != '200'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CODE: ${{ steps.health.outputs.code }}
+        run: |
+          open=$(gh issue list --repo "$GITHUB_REPOSITORY" --label uptime --state open --json number --jq 'length')
+          if [ "$open" = "0" ]; then
+            gh label create uptime --repo "$GITHUB_REPOSITORY" --color B60205 --force
+            gh issue create --repo "$GITHUB_REPOSITORY" --label uptime --title "Demo down: /api/health answered $CODE" --body "The uptime check at $(date -u +%FT%TZ) got HTTP $CODE from ${{ vars.DEMO_URL }}/api/health."
+          fi
+          exit 1
