@@ -1,10 +1,10 @@
 {
-  "intro": "Shopping agents can already pay for you. When one of those purchases is disputed, no rule says who pays, and the merchant usually carries the loss. Mandate records what your agent was allowed to buy, before it pays.",
-  "create": "I write what my agent may buy, in plain words. Claude turns it into terms: a total budget, the category, my size and colors, the stores, an expiry, one order. I check them and sign. The mandate gets a SHA256 fingerprint. I link PayPal once, so the agent can pay later without me.",
-  "agent": "The agent searches three stores and proposes what fits. It can build a cart, but it cannot move money. Before PayPal is called, code checks the cart against every term. Seven of seven pass, so the payment goes through, without me, and the PayPal order carries the mandate reference.",
-  "blocked": "Outside the mandate, nothing is paid. Here the total is over budget and the color is not one I allowed. Only I can widen the mandate, with a new signature and a new fingerprint.",
-  "history": "I can see every check and order, download a receipt anyone can verify, and revoke the mandate at any time.",
-  "merchant": "Now the merchant. Every agent order shows the mandate behind it, its fingerprint, and the check that let it through. Tracking goes to PayPal through the Agent Toolkit.",
-  "dispute": "This buyer disputed a real sandbox payment as unauthorized. PayPal's webhook, verified with PayPal, started an evidence file built from what was stored at signing and payment time. Claude drafted the response, and every sentence must rest on an included record. The merchant confirmed it was accurate and submitted it. PayPal now has it under review.",
-  "closing": "Signed before. Enforced at payment. Evidence when it matters. Mandate: proof of what your agent was allowed to buy."
+ "intro": "Shopping agents can already pay for you. When one of those purchases is disputed, no rule says who pays, and the merchant usually carries the loss. Mandate records what your agent was allowed to buy, before it pays.",
+ "create": "I write what my agent may buy, in plain words. Claude turns it into terms: a total budget, the category, my size and colors, the stores, an expiry, one order. I check them and sign. The mandate gets a SHA256 fingerprint. I link PayPal once, so the agent can pay later without me.",
+ "agent": "The agent searches three stores and proposes what fits. It can build a cart, but it cannot move money. Before PayPal is called, code checks the cart against every term. Seven of seven pass, so the payment goes through, without me, and the PayPal order carries the mandate reference.",
+ "blocked": "Outside the mandate, nothing is paid. Here the total is over budget and the color is not one I allowed. Only I can widen the mandate, with a new signature and a new fingerprint.",
+ "history": "I can see every check and order, download a receipt anyone can verify, and revoke the mandate at any time.",
+ "merchant": "Now the merchant, in AG Grid. Every agent order shows the mandate behind it, its fingerprint, and the check that let it through. The merchant can search, filter, group and export the orders, and open one to see its signed terms. Tracking goes to PayPal through the Agent Toolkit.",
+ "dispute": "This buyer disputed a real sandbox payment as unauthorized. PayPal's webhook, verified with PayPal, started an evidence file built from what was stored at signing and payment time. Claude drafted the response, and every sentence must rest on an included record. The merchant confirmed it was accurate and submitted it. PayPal now has it under review.",
+ "closing": "Signed before. Enforced at payment. Evidence when it matters. Mandate: proof of what your agent was allowed to buy."
 }

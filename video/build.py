@@ -94,7 +94,8 @@ def main() -> None:
     lst.write_text("".join(f"file '{p.resolve().as_posix()}'\n" for p in parts), encoding="utf-8")
     joined = OUT / "joined.mp4"
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "concat", "-safe", "0", "-i", str(lst), "-c", "copy", str(joined)], check=True)
-    style = "FontName=Arial,FontSize=19,PrimaryColour=&H00FFFFFF,BackColour=&H99181512,BorderStyle=4,Outline=0,Shadow=0,MarginV=26"
+    # Opaque box in the interface's ink colour (#121518; ASS colours are &HAABBGGRR, alpha 00 = opaque).
+    style = "FontName=Arial,FontSize=20,PrimaryColour=&H00FFFFFF,BackColour=&H00181512,BorderStyle=4,Outline=6,Shadow=0,MarginV=24"
     final = OUT / "mandate-demo.mp4"
     # The subtitles filter needs a path relative to the working directory (Windows drive letters break it).
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", "joined.mp4", "-vf", f"subtitles=captions.srt:force_style='{style}'",
