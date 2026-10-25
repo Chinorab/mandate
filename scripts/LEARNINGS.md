@@ -174,3 +174,9 @@ Dated findings from the scripts in `/scripts`, run against the PayPal sandbox.
 ## 02-vault-setup, 2026-10-25 14:30 UTC
 
 - Setup token created with usage_type MERCHANT, customer_type CONSUMER and usage_pattern UNSCHEDULED_PREPAID; status PAYER_ACTION_REQUIRED; approval link rel "approve".
+
+## 02-vault-setup, 2026-10-25 14:59 UTC
+
+- Setup token status after the test buyer approved: APPROVED.
+- Payment token created from the setup token; a customer id was returned; usage_type on the token: MERCHANT.
+- The payment token id and customer id are kept server side only (here in .scripts-state, in the app in the mandate row).
