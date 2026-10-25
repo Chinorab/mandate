@@ -62,3 +62,6 @@ Thumbs.db
 
 # local PGlite database
 /.data/
+
+# demo video build outputs
+/video/out/

@@ -163,3 +163,25 @@ export async function createMerchantScenario(gate: GateDeps) {
   }
   return { orderCodes: codes };
 }
+
+/**
+ * Filming fixture (development only): links a signed mandate of the caller to a PayPal payment token
+ * that the sandbox test buyer approved through scripts/02-vault-setup.ts. The token is real, so the
+ * agent's payments after this are real sandbox payments; only the in app approval popup is skipped,
+ * because the test buyer's password is never typed by automation.
+ */
+export async function linkWithSandboxToken(db: Db, sessionId: string, code: string) {
+  const { readFileSync, existsSync } = await import("node:fs");
+  const path = await import("node:path");
+  const file = path.join(process.cwd(), ".scripts-state", "02-payment-token.json");
+  const saved = existsSync(file) ? (JSON.parse(readFileSync(file, "utf8")) as { paymentTokenId?: string | null; customerId?: string | null }) : null;
+  if (!saved?.paymentTokenId) throw new Error("No approved sandbox payment token: run scripts/02-vault-setup.ts with the test buyer first.");
+  const { and } = await import("drizzle-orm");
+  const [m] = await db
+    .update(mandate)
+    .set({ status: "active", vaultPaymentTokenId: saved.paymentTokenId, vaultCustomerId: saved.customerId ?? null, vaultSetupTokenId: null })
+    .where(and(eq(mandate.code, code), eq(mandate.sessionId, sessionId), eq(mandate.status, "awaiting_link")))
+    .returning({ code: mandate.code, status: mandate.status });
+  if (!m) throw new Error("No signed mandate of this session waiting for PayPal with that code.");
+  return m;
+}
