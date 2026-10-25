@@ -1,7 +1,7 @@
 import { desc, eq, sql } from "drizzle-orm";
 import { NextResponse, connection } from "next/server";
 import { getDb } from "@/lib/db/client";
-import { paypalEvent } from "@/lib/db/schema";
+import { evidenceFile, paypalEvent } from "@/lib/db/schema";
 import { evidenceAssemblyMode } from "@/lib/disputes/enqueue";
 
 /**
@@ -13,6 +13,8 @@ export async function GET() {
   let db = "ok";
   // Type and time of the last verified PayPal event: shows webhooks reach the host, without ids.
   let lastPayPalEvent: { type: string; at: string } | null = null;
+  // Which path built the last evidence file (Render Workflows or the app), without ids.
+  let lastEvidenceFile: { assembledBy: string; draftedBy: string | null; at: string } | null = null;
   try {
     const conn = await getDb();
     await conn.execute(sql`select 1`);
@@ -23,6 +25,12 @@ export async function GET() {
       .orderBy(desc(paypalEvent.receivedAt))
       .limit(1);
     lastPayPalEvent = e ? { type: e.type, at: e.at.toISOString() } : null;
+    const [f] = await conn
+      .select({ by: evidenceFile.assembledBy, drafted: evidenceFile.draftedBy, at: evidenceFile.createdAt })
+      .from(evidenceFile)
+      .orderBy(desc(evidenceFile.createdAt))
+      .limit(1);
+    lastEvidenceFile = f ? { assembledBy: f.by, draftedBy: f.drafted, at: f.at.toISOString() } : null;
   } catch {
     db = "down";
   }
@@ -33,6 +41,7 @@ export async function GET() {
     webhook: Boolean(process.env.PAYPAL_WEBHOOK_ID),
     model: Boolean(process.env.ANTHROPIC_API_KEY),
     lastPayPalEvent,
+    lastEvidenceFile,
     evidenceAssembly: evidenceAssemblyMode(),
     // Which Workflows settings are present (never their values).
     workflowConfig: { apiKey: Boolean(process.env.RENDER_API_KEY), slug: Boolean(process.env.RENDER_WORKFLOW_SLUG) },
