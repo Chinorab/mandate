@@ -8,7 +8,7 @@ Built for the [PayPal AI Hackathon](https://paypalaihackathon.devpost.com/). San
 
 | | |
 |---|---|
-| Live demo | _Added at deployment (Render), kept online until Dec 15, 2026_ |
+| Live demo | [mandate-thsn.onrender.com](https://mandate-thsn.onrender.com), kept online until Dec 15, 2026 |
 | Video | _Added at submission_ |
 | License | [MIT](LICENSE) |
 
@@ -246,7 +246,7 @@ E2E_BASE_URL=http://localhost:3000 pnpm e2e
 
 Done and tested: mandate drafting, signing and verification, the consent gate and its bypass suite, the shopping agent, blocked carts and amendments, revocation, history and receipts, the AG Grid merchant view, the dispute flow from webhook to submission, the landing and privacy pages.
 
-Run end to end in the PayPal sandbox: linking PayPal from the app, the agent paying without the buyer, webhook verification, a real dispute answered from the dispute page and accepted by PayPal. Still to come: the hosted demo on Render, AG Studio insights (trial license), the demo video.
+Run end to end in the PayPal sandbox: linking PayPal from the app, the agent paying without the buyer, webhook verification, a real dispute answered from the dispute page and accepted by PayPal. Hosted on Render at https://mandate-thsn.onrender.com (web service and Render Postgres from [`render.yaml`](render.yaml), webhook pointed at it, uptime checked every 30 minutes by [a workflow](.github/workflows/uptime.yml)). Still to come: AG Studio insights (trial license), the demo video.
 
 The spec driven record of the work is in [`specs/001-agent-purchase-mandates`](specs/001-agent-purchase-mandates) and the project principles in [`.specify/memory/constitution.md`](.specify/memory/constitution.md).
 

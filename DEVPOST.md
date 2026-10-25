@@ -6,7 +6,7 @@ Draft of the Devpost page and form answers for the [PayPal AI Hackathon](https:/
 
 **Links**
 
-- Demo: _[Render URL]_
+- Demo: https://mandate-thsn.onrender.com
 - Video: _[YouTube URL]_
 - Code: https://github.com/Chinorab/mandate (MIT)
 
@@ -96,7 +96,7 @@ AI: Claude (`claude-sonnet-5-5`, Anthropic API) turns plain instructions into st
 
 **Repository**: https://github.com/Chinorab/mandate
 
-**Demo URL**: _[Render URL]_
+**Demo URL**: https://mandate-thsn.onrender.com
 
 **Testing instructions**
 

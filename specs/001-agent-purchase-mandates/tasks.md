@@ -168,7 +168,7 @@ unit + bypass + e2e green, secret scans clean, privacy page and favicon present.
 
 - [X] T066 (plans 0.5c-512mb web and 0.1c-256mb Postgres; Workflows service deferred with T092) render.yaml (web service Starter, Postgres Basic, env groups, Workflows service), health route app/api/health/route.ts
 - [X] T067 [P] Client bundle secret scan after next build (fails if PAYPAL_CLIENT_SECRET, ANTHROPIC_API_KEY, SESSION_SECRET values or the vault token field names appear in .next/static) in scripts/scan-bundle.ts wired into pnpm build:check
-- [ ] T068 First deploy to Render, register the hosted webhook URL in the sandbox app, run US1 to US3 e2e against the hosted URL
+- [X] T068 (deployed at https://mandate-thsn.onrender.com; webhook moved there and verified with a resent PAYMENT.CAPTURE.COMPLETED; public e2e green on the host; the dev scenario e2e cannot run in production by design) First deploy to Render, register the hosted webhook URL in the sandbox app, run US1 to US3 e2e against the hosted URL
 - [X] T069 [P] (active once the repository variable DEMO_URL is set) Uptime check until 2026-12-15: scheduled GitHub Actions workflow pinging /api/health every 30 minutes and opening an issue on failure, in .github/workflows/uptime.yml
 
 ---
