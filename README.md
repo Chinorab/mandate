@@ -189,6 +189,8 @@ Every finding below comes from runs against real sandbox accounts on Oct 24 and 
 
 **Webhooks verify, tunnels expire.** Real `PAYMENT.CAPTURE.COMPLETED` and `CUSTOMER.DISPUTE.*` events pass `verify-webhook-signature`. A local quick tunnel expired overnight and the dispute events were lost; updating the webhook URL and calling the resend endpoint delivered them again, still verifiable. The hosted demo uses its stable Render address.
 
+**Render Workflows picks up the assembly in seconds.** On the hosted demo, a verified dispute event started the `assembleEvidence` task and the workflow had built the evidence file 4 seconds later. Values marked `sync: false` in a Blueprint are only asked for at creation, so keys for a service added later are set by hand.
+
 **Disputes take a while and change shape.** The buyer's report became a merchant visible case about ten minutes later, in the chargeback stage, due ten days later. Before the response, the case lists the evidence PayPal requests (`REQUESTED_FROM_SELLER`). `provide-evidence` with a JSON `input` part and the evidence report PDF was accepted: the case moved to **Under review** with one evidence submitted by the seller, the PDF and the 1,439 character response. PayPal filed it as `OTHER` although it was sent as `BILLING_AGREEMENT`.
 
 ## Setup

@@ -165,3 +165,8 @@ Dated findings from the scripts in `/scripts`, run against the PayPal sandbox.
 - PayPal then showed the dispute UNDER_REVIEW (stage CHARGEBACK) with one evidence SUBMITTED_BY_SELLER carrying the document mandate-evidence-PP-R-ZNP-10194423.pdf and the 1,439 character response as notes. The only action left to the seller is provide_supporting_info.
 - PayPal recorded the evidence type as OTHER although it was sent as BILLING_AGREEMENT; for an unauthorized claim in the chargeback stage, the requested types were PROOF_OF_FULFILLMENT, PROOF_OF_REFUND and OTHER.
 - Before the submission, the dispute's evidences[] lists what PayPal requests (source REQUESTED_FROM_SELLER); reading them first would let the app choose the evidence type PayPal asks for.
+
+## Render Workflows on the hosted demo, 2026-10-25 14:24 UTC
+
+- The webhook on Render received a resent CUSTOMER.DISPUTE.CREATED (verified), started the `assembleEvidence` task on the "mandate-evidence" workflow service, and the evidence file was built by the workflow 4 seconds after the event (assembled_by = workflow). That test dispute has no matching order in the hosted database, so the draft is the fixed template; disputes on demo orders get the Claude draft.
+- Setup lessons: values marked `sync: false` are only prompted when a Blueprint is first created, so RENDER_API_KEY (account API key, starts with rnd_) and the workflow's ANTHROPIC_API_KEY had to be set by hand after the sync; "Save only" keeps the running instance unchanged until a deploy or restart. The workflow entry needs Node's `react-server` condition to load server only modules outside Next.
