@@ -13,6 +13,7 @@ import type { Db } from "@/lib/db/client";
 import { dispute, order, paypalEvent } from "@/lib/db/schema";
 import { assembleEvidence } from "@/lib/disputes/assemble";
 import type { Drafter } from "@/lib/disputes/draft";
+import type { EvidenceJob } from "@/lib/disputes/queue";
 import { toCents } from "@/lib/disputes/format";
 import { MERCHANT_STORE_ID } from "@/lib/merchant/orders";
 import type { PayPalDispute } from "@/lib/payments/disputes";
@@ -22,8 +23,8 @@ export type WebhookDeps = {
   db: Db;
   verify: WebhookVerifier;
   drafter: Drafter;
-  /** Runs background work after the event is recorded. Tests await it; the route defers it. */
-  enqueue: (job: () => Promise<void>) => void | Promise<void>;
+  /** Hands evidence assembly to Render Workflows or the app (lib/disputes/queue.ts). Tests run it at once. */
+  enqueue: (job: EvidenceJob) => void | Promise<void>;
 };
 
 type PayPalEvent = { id: string; event_type: string; resource?: Record<string, unknown> };
@@ -91,8 +92,11 @@ export async function processEvent(deps: Omit<WebhookDeps, "verify">, event: Pay
     await audit(deps.db, { actor: "system", action: "dispute_received", detail: { disputeId: id, paypalDisputeId: r.dispute_id, reason: r.reason ?? null } });
   }
   if (created && event.event_type !== "CUSTOMER.DISPUTE.RESOLVED") {
-    await deps.enqueue(async () => {
-      await assembleEvidence({ db: deps.db, drafter: deps.drafter }, id, "inline");
+    await deps.enqueue({
+      disputeId: id,
+      run: async () => {
+        await assembleEvidence({ db: deps.db, drafter: deps.drafter }, id, "inline");
+      },
     });
   }
 }

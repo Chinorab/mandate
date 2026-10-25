@@ -8,7 +8,7 @@ import { createDrafter } from "@/lib/mandate/draft";
 import { NoSessionError, getSession } from "@/lib/session";
 import { createVaultClient, paypalConfigured } from "@/lib/payments/vault";
 import { createMerchantDrafter } from "@/lib/agents/merchant";
-import { enqueueAfterResponse } from "@/lib/disputes/enqueue";
+import { enqueueEvidence } from "@/lib/disputes/enqueue";
 import { devDisputesClient } from "@/lib/dev/disputes";
 import { createDisputesClient, disputesConfigured, type DisputesClient } from "@/lib/payments/disputes";
 import { createWebhookVerifier } from "@/lib/payments/webhooks";
@@ -29,7 +29,7 @@ export { gateDeps };
 /** Webhook dependencies: PayPal signature check, Claude merchant drafter, assembly after the response. */
 export async function webhookDeps(): Promise<WebhookDeps> {
   const db = await getDb();
-  return { db, verify: createWebhookVerifier(), drafter: createMerchantDrafter(db), enqueue: enqueueAfterResponse };
+  return { db, verify: createWebhookVerifier(), drafter: createMerchantDrafter(db), enqueue: enqueueEvidence };
 }
 
 /** Sandbox disputes client, or null when PayPal is not configured (development fixtures aside). */

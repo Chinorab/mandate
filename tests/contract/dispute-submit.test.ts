@@ -34,7 +34,7 @@ async function poolDispute(opts: { tracking?: boolean } = {}) {
   }
   const [o] = await handle.db.select().from(order).where(eq(order.code, orderCode));
   const event = disputeEvent({ captureId: o.paypalCaptureId });
-  await handlePayPalWebhook({ db: handle.db, verify: fakeVerify, drafter: templateDrafter, enqueue: (job) => job() }, SIGNED_HEADERS, JSON.stringify(event));
+  await handlePayPalWebhook({ db: handle.db, verify: fakeVerify, drafter: templateDrafter, enqueue: (job) => job.run() }, SIGNED_HEADERS, JSON.stringify(event));
   const [ds] = await handle.db.select().from(dispute).where(eq(dispute.paypalDisputeId, event.resource.dispute_id));
   return { id: ds.id, paypalId: event.resource.dispute_id, orderCode, mandateCode: m.code };
 }

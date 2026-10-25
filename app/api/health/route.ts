@@ -2,6 +2,7 @@ import { desc, eq, sql } from "drizzle-orm";
 import { NextResponse, connection } from "next/server";
 import { getDb } from "@/lib/db/client";
 import { paypalEvent } from "@/lib/db/schema";
+import { evidenceAssemblyMode } from "@/lib/disputes/enqueue";
 
 /**
  * Health for Render's deploy check and the uptime workflow. Says which services are configured,
@@ -32,6 +33,7 @@ export async function GET() {
     webhook: Boolean(process.env.PAYPAL_WEBHOOK_ID),
     model: Boolean(process.env.ANTHROPIC_API_KEY),
     lastPayPalEvent,
+    evidenceAssembly: evidenceAssemblyMode(),
     commit: process.env.RENDER_GIT_COMMIT?.slice(0, 7) ?? null,
   };
   return NextResponse.json(body, { status: body.ok ? 200 : 503, headers: { "Cache-Control": "no-store" } });

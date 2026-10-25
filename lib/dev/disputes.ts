@@ -41,7 +41,7 @@ export async function createDisputeScenario(gate: GateDeps, sessionId: string) {
     const o = rows.find((r) => r.code === code)!;
     const paypalId = `${DEV_DISPUTE_PREFIX}${crypto.randomUUID().replace(/-/g, "").slice(0, 10).toUpperCase()}`;
     await processEvent(
-      { db: gate.db, drafter: templateDrafter, enqueue: (job) => job() },
+      { db: gate.db, drafter: templateDrafter, enqueue: (job) => job.run() },
       {
         id: `WH-DEV-${crypto.randomUUID()}`,
         event_type: "CUSTOMER.DISPUTE.CREATED",

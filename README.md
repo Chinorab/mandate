@@ -109,9 +109,14 @@ flowchart LR
 | Merchant grid | AG Grid Enterprise 36 |
 | PDFs | pdf-lib with standard fonts (receipt and evidence report) |
 | Tests | Vitest (unit, contract, bypass), Playwright (desktop and Pixel 7) |
-| Hosting | Render web service and Render Postgres |
+| Hosting | Render web service and Render Postgres, from [`render.yaml`](render.yaml) |
+| Background jobs | Render Workflows task `assembleEvidence` ([`workflows/`](workflows/)), with the app as a safety net |
 
 Key folders: `lib/check` (the Mandate check), `lib/payments` (gate, PayPal clients, toolkit wrapper, webhooks, disputes), `lib/mandate` (terms, canonical record, drafting, amendments, revocation, receipt), `lib/agents` (shopping and merchant agents), `lib/disputes` (evidence items, grounded draft, pool, submission, report), `app/api` (routes), `components` (UI from the design canvas), `specs/001-agent-purchase-mandates` (spec, plan, contracts, tasks).
+
+### Evidence assembly on Render Workflows
+
+When a verified dispute event arrives, the webhook records it and starts the `assembleEvidence` task on Render Workflows ([`workflows/assemble-evidence.ts`](workflows/assemble-evidence.ts)), with the dispute id as input and an idempotency key, then answers PayPal at once. The task builds the evidence file and the grounded draft with Render's retries (3, exponential backoff) and a 5 minute timeout, on its own compute. The app keeps a safety net ([`lib/disputes/queue.ts`](lib/disputes/queue.ts)): if the run cannot be started, or no evidence file exists two minutes later, it assembles the file itself. Assembly is idempotent, one file per dispute, and the file records which path built it (`assembled_by`: `workflow` or `inline`). `/api/health` reports the active mode.
 
 ## PayPal APIs and the Agent Toolkit
 
@@ -222,7 +227,7 @@ All secrets stay on the server. The only values that reach the browser are the A
 | `SESSION_SECRET` | In production | 32 or more random bytes, signs the demo session cookie |
 | `NEXT_PUBLIC_AG_GRID_LICENSE_KEY` | No | AG Grid Enterprise license; unset shows a watermark |
 | `AG_STUDIO` | No | AG Studio license, for the insights page |
-| `RENDER_API_KEY` | No | Render Workflows |
+| `RENDER_API_KEY`, `RENDER_WORKFLOW_SLUG` | No | Start the evidence assembly on Render Workflows (the slug is wired by `render.yaml`); without them the app assembles the file itself |
 | `E2E_BASE_URL`, `E2E_PAYPAL_BUYER_EMAIL`, `E2E_PAYPAL_BUYER_PASSWORD` | Local tests | Playwright target and sandbox buyer |
 | `MANDATE_DEV_SCENARIOS` | Local tests | `1` enables development fixtures; ignored outside `NODE_ENV=development` |
 

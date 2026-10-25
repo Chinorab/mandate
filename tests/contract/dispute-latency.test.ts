@@ -49,7 +49,7 @@ describe("dispute event to evidence file", () => {
     const event = disputeEvent({ captureId: o.paypalCaptureId });
     const started = performance.now();
     const r = await handlePayPalWebhook(
-      { db: handle.db, verify: fakeVerify, drafter: createMerchantDrafter(handle.db, { client }), enqueue: (job) => job() },
+      { db: handle.db, verify: fakeVerify, drafter: createMerchantDrafter(handle.db, { client }), enqueue: (job) => job.run() },
       SIGNED_HEADERS,
       JSON.stringify(event),
     );

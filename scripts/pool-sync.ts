@@ -40,7 +40,7 @@ async function main() {
         d = await paypal.get(d.dispute_id);
       }
       await processEvent(
-        { db: handle.db, drafter: templateDrafter, enqueue: (job) => job() },
+        { db: handle.db, drafter: templateDrafter, enqueue: (job) => job.run() },
         { id: `SYNC-${d.dispute_id}`, event_type: "CUSTOMER.DISPUTE.UPDATED", resource: d as unknown as Record<string, unknown> },
       );
       console.log(`  ${d.dispute_id}  ${d.status}  stored`);

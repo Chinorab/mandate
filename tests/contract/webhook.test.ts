@@ -25,9 +25,9 @@ function deps(over: Partial<WebhookDeps> = {}): WebhookDeps & { jobs: number } {
     verify: fakeVerify,
     drafter: templateDrafter,
     jobs: 0,
-    enqueue: async (job: () => Promise<void>) => {
+    enqueue: async (job: { run: () => Promise<void> }) => {
       d.jobs++;
-      await job();
+      await job.run();
     },
     ...over,
   };
