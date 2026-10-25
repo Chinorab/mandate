@@ -170,3 +170,7 @@ Dated findings from the scripts in `/scripts`, run against the PayPal sandbox.
 
 - The webhook on Render received a resent CUSTOMER.DISPUTE.CREATED (verified), started the `assembleEvidence` task on the "mandate-evidence" workflow service, and the evidence file was built by the workflow 4 seconds after the event (assembled_by = workflow). That test dispute has no matching order in the hosted database, so the draft is the fixed template; disputes on demo orders get the Claude draft.
 - Setup lessons: values marked `sync: false` are only prompted when a Blueprint is first created, so RENDER_API_KEY (account API key, starts with rnd_) and the workflow's ANTHROPIC_API_KEY had to be set by hand after the sync; "Save only" keeps the running instance unchanged until a deploy or restart. The workflow entry needs Node's `react-server` condition to load server only modules outside Next.
+
+## 02-vault-setup, 2026-10-25 14:30 UTC
+
+- Setup token created with usage_type MERCHANT, customer_type CONSUMER and usage_pattern UNSCHEDULED_PREPAID; status PAYER_ACTION_REQUIRED; approval link rel "approve".

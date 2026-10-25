@@ -36,7 +36,8 @@ No sign up: each visitor gets a private demo session and can switch between buye
 
 ## How we built it
 
-- **Next.js 16** (App Router, React 19, TypeScript strict), **Postgres** with Drizzle (PGlite locally), hosted on **Render** with Render Postgres.
+- **Next.js 16** (App Router, React 19, TypeScript strict), **Postgres** with Drizzle (PGlite locally), hosted on **Render** with Render Postgres from a Blueprint.
+- **Render Workflows** runs the dispute evidence assembly: the verified webhook starts the `assembleEvidence` task with an idempotency key and answers PayPal at once; the task builds the evidence file and the grounded draft with retries and its own compute. On the hosted demo the file was ready 4 seconds after the event. The app keeps a safety net if a run cannot start or leaves no file.
 - **PayPal**: Orders v2 (vault charge, `payee` per store, `custom_id`, `PayPal-Request-Id`), Vault v3, JS SDK v6, Webhooks with signature verification, Customer Disputes v1 (`provide-evidence`), and the **Agent Toolkit** for read and tracking actions.
 - **Claude** (`claude-sonnet-5-5`, official Anthropic SDK): structured outputs for mandate drafting and dispute drafts, the SDK tool runner for the shopping agent, and a narrow judge for free text preferences.
 - **AG Grid Enterprise** for the merchant view, themed from the design tokens.
@@ -76,13 +77,13 @@ No sign up: each visitor gets a private demo session and can switch between buye
 
 ## Built with
 
-Next.js, React, TypeScript, PostgreSQL, Drizzle ORM, PayPal Orders v2, PayPal Vault, PayPal JS SDK v6, PayPal Webhooks, PayPal Disputes API, PayPal Agent Toolkit, Anthropic Claude, AG Grid Enterprise, pdf-lib, Render, Vitest, Playwright.
+Next.js, React, TypeScript, PostgreSQL, Drizzle ORM, Render Workflows, PayPal Orders v2, PayPal Vault, PayPal JS SDK v6, PayPal Webhooks, PayPal Disputes API, PayPal Agent Toolkit, Anthropic Claude, AG Grid Enterprise, pdf-lib, Render, Vitest, Playwright.
 
 ---
 
 ## Form answers
 
-**Submitter type**: Individual. **Country**: _[your country]_. **Canada province**: N/A. **Organization**: N/A.
+**Submitter type**: Individual. **Country**: France. **Canada province**: N/A. **Organization**: N/A.
 
 **New or existing**: New. **What existed before**: N/A.
 
@@ -107,10 +108,12 @@ AI: Claude (`claude-sonnet-5-5`, Anthropic API) turns plain instructions into st
 5. **Merchant View**: the AG Grid of agent orders; expand a row; add tracking.
 6. **Disputes**: you get your own dispute from the pool. Review the evidence, edit the response, confirm, submit. If the pool is empty, follow "Open a sandbox dispute" in the README.
 
-**AG Grid experience**: _[your words]_
+**AG Grid experience**: The Theming API let the grid follow our design tokens directly (themeQuartz with CSS variables), so it matches the rest of the app in light and dark. Master detail carried the mandate, its fingerprint and the term by term check under each order, which is exactly what a merchant needs in a dispute. Row grouping, set filters, the status bar and CSV and Excel export of the rows shown worked out of the box. Things we had to learn: groupDefaultExpanded also opens master detail rows (we used isGroupOpenByDefault for group nodes only), clicks inside detail rows are cancelled before client side navigation (a plain link works), detached row nodes can stay in the DOM after filtering, and column virtualization hid cells on phones until we pinned the order column and turned it off for our small grid. AG Studio insights are planned with the trial license.
 
 **Which AI tools have you leveraged while working on this project?**
 
 Claude Code (Claude Opus) for implementation, tests and documentation, working from a spec driven process (constitution, spec, plan, tasks) with the consent gate and bypass tests written first. Claude Design for the design canvas the UI follows. Inside the product, Claude Sonnet through the Anthropic API, as described above.
 
-**PayPal experience rating and feedback**: _[your rating and words, after the sandbox runs]_
+**PayPal experience rating**: 8.
+
+**Feedback**: The core path is excellent: a merchant initiated charge on a saved PayPal completed in one call to three different payees, custom_id survived onto the capture, PayPal-Request-Id made every retry safe, and webhook verification and evidence submission worked as documented. What cost us time: every Vault call answered 403 until "Save payment methods" was ticked, although the token scopes looked fine; tracking and disputes belong to the merchant that received the money, which a payee based design only discovers by trial; the Agent Toolkit returns PayPal errors as content instead of throwing, and its server SDK needs tslib 2 while listing it only as a dev dependency; and in the sandbox an unauthorized report first forces the buyer to secure the account, then the case appears about ten minutes later. Clear notes on ownership and on the Vault checkbox would have saved most of that time.

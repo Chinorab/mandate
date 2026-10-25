@@ -97,7 +97,8 @@ export function CheckPage({ code, cartId }: { code: string; cartId: string }) {
       </div>
 
       <div className={s.body}>
-        <section aria-labelledby="terms" className={s.tableWrap}>
+        {/* Focusable so keyboard users can scroll the table sideways on narrow screens. */}
+        <section aria-labelledby="terms" className={s.tableWrap} tabIndex={0}>
           <h2 id="terms" className="visually-hidden">
             Terms checked
           </h2>

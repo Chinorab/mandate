@@ -250,14 +250,15 @@ export function DisputePage({ id, poolEmpty = false }: { id: string; poolEmpty?:
           </h1>
           <p>{view.summary}</p>
         </div>
-        <dl className={`${s.facts} num`}>
+        {/* Two lists side by side: valid dl content is dt/dd or div groups directly inside each list. */}
+        <div className={`${s.facts} num`}>
           {view.amountCents != null ? (
-            <div className={s.amount}>
+            <dl className={s.amount}>
               <dt>Disputed amount</dt>
               <dd>{formatUsd(view.amountCents)}</dd>
-            </div>
+            </dl>
           ) : null}
-          <div className={s.caseFacts}>
+          <dl className={s.caseFacts}>
             <div>
               <dt>Reason </dt>
               <dd>{view.reasonLabel}</dd>
@@ -280,8 +281,8 @@ export function DisputePage({ id, poolEmpty = false }: { id: string; poolEmpty?:
                 <dd>{view.order.buyer.replace(/^Buyer /, "")}</dd>
               </div>
             ) : null}
-          </div>
-        </dl>
+          </dl>
+        </div>
       </div>
 
       <Notice view={view} poolEmpty={poolEmpty} />
