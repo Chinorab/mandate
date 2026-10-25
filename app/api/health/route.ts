@@ -34,6 +34,8 @@ export async function GET() {
     model: Boolean(process.env.ANTHROPIC_API_KEY),
     lastPayPalEvent,
     evidenceAssembly: evidenceAssemblyMode(),
+    // Which Workflows settings are present (never their values).
+    workflowConfig: { apiKey: Boolean(process.env.RENDER_API_KEY), slug: Boolean(process.env.RENDER_WORKFLOW_SLUG) },
     commit: process.env.RENDER_GIT_COMMIT?.slice(0, 7) ?? null,
   };
   return NextResponse.json(body, { status: body.ok ? 200 : 503, headers: { "Cache-Control": "no-store" } });
