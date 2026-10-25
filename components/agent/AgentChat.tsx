@@ -103,7 +103,8 @@ function Item({ item, code }: { item: ChatItem; code: string }) {
             <StateIcon name="agent" size={16} />
             Shopping agent{item.at ? `, ${at(item.at)}` : ""}
           </span>
-          {item.text.split(/\n{2,}/).map((para, i) => (
+          {/* One paragraph per line: plainText turns list items into lines of their own. */}
+          {item.text.split(/\n+/).map((para, i) => (
             <p key={i}>{para}</p>
           ))}
         </li>

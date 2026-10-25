@@ -59,7 +59,7 @@ export function toDisplay(messages: StoredMessage[], times: (string | null)[] = 
     }
     for (const b of blocks(m)) {
       if (b.type === "text" && typeof b.text === "string" && b.text.trim()) {
-        items.push({ kind: "agent", text: b.text.trim(), at });
+        items.push({ kind: "agent", text: plainText(b.text), at });
       } else if (b.type === "tool_use") {
         const input = (b.input ?? {}) as Record<string, unknown>;
         const out = results.get(String(b.id)) ?? null;
@@ -103,4 +103,24 @@ export function toDisplay(messages: StoredMessage[], times: (string | null)[] = 
     }
   });
   return items;
+}
+
+/**
+ * Agent messages are shown as plain text. The model is asked not to use Markdown but sometimes does;
+ * this keeps the words and drops the markup: emphasis, code ticks, headings, list markers (also when a
+ * list item follows a sentence on the same line), and dashes used as punctuation.
+ */
+export function plainText(text: string): string {
+  return text
+    .replace(/\r\n/g, "\n")
+    .replace(/(\*\*|__)(.+?)\1/g, "$2")
+    .replace(/`([^`]+)`/g, "$1")
+    .replace(/^#{1,6}\s+/gm, "")
+    .replace(/([.:!?])[ \t]+[-*•][ \t]+(?=\S)/g, "$1\n")
+    .replace(/^[ \t]*(?:[-*•]|\d+[.)])[ \t]+/gm, "")
+    .replace(/[ \t]+[–—][ \t]+/g, ", ")
+    .replace(/[ \t]+-[ \t]+/g, ", ")
+    .replace(/[–—]/g, ", ")
+    .replace(/[ \t]+\n/g, "\n")
+    .trim();
 }

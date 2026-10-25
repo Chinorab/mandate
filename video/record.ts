@@ -194,6 +194,12 @@ async function main() {
   const wanted = process.argv.slice(2).length ? process.argv.slice(2) : Object.keys(SCENES);
   const browser = await chromium.launch();
   const ctx = await browser.newContext({ viewport: SIZE, colorScheme: "light", recordVideo: { dir: path.join(OUT, "tmp"), size: SIZE } });
+  // Filming only: hide the development overlay (AG Grid's license notice counts as an "issue" there).
+  await ctx.addInitScript(() => {
+    const style = document.createElement("style");
+    style.textContent = "nextjs-portal { display: none !important; }";
+    document.addEventListener("DOMContentLoaded", () => document.head.appendChild(style));
+  });
   // Warm the dev server so the first frames are not a compile.
   const warm = await ctx.request.get(`${BASE}/`);
   void warm;
