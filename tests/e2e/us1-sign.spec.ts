@@ -61,8 +61,8 @@ test("buyer drafts, edits, signs a mandate and gets a verifiable fingerprint", a
   await expect(page.getByText(/^SHA256/)).toBeVisible();
   await expect(page.getByRole("button", { name: /Edit/ })).toHaveCount(0);
 
-  // PayPal link step: no sandbox keys in this environment.
-  await expect(page.getByRole("alert").filter({ hasText: /PayPal/ })).toBeVisible();
+  // PayPal link step: the official button with sandbox keys, an explanation without them.
+  await expect(page.locator("paypal-button").or(page.getByRole("alert").filter({ hasText: /PayPal/ }))).toBeVisible({ timeout: 30_000 });
   await page.screenshot({ path: info.outputPath("signed.png"), fullPage: true });
 
   // State survives a reload (code in the URL).

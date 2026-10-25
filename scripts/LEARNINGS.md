@@ -158,3 +158,10 @@ Dated findings from the scripts in `/scripts`, run against the PayPal sandbox.
 - The app matched the dispute to order 918366 by the capture id, put it in the pool (Sample Sports Outlet), and assembled the evidence file: signed mandate, check report, PayPal transaction, tracking stated as missing. Claude drafted the response; every kept sentence rests on an included item.
 - The seller's response is due 10 days after filing (seller_response_due_date), which sets the pool refresh rhythm during judging.
 - For the hosted demo, the webhook points to the stable Render URL, not a quick tunnel.
+
+## Evidence submitted to PayPal from the app, 2026-10-25 08:55 UTC
+
+- The merchant claimed PP-R-ZNP-10194423 in the demo, kept the three items (signed mandate, check report, transaction), confirmed accuracy and pressed Submit Evidence. provide-evidence (multipart: `input` JSON with evidences[], one PDF as `file1`) was accepted.
+- PayPal then showed the dispute UNDER_REVIEW (stage CHARGEBACK) with one evidence SUBMITTED_BY_SELLER carrying the document mandate-evidence-PP-R-ZNP-10194423.pdf and the 1,439 character response as notes. The only action left to the seller is provide_supporting_info.
+- PayPal recorded the evidence type as OTHER although it was sent as BILLING_AGREEMENT; for an unauthorized claim in the chargeback stage, the requested types were PROOF_OF_FULFILLMENT, PROOF_OF_REFUND and OTHER.
+- Before the submission, the dispute's evidences[] lists what PayPal requests (source REQUESTED_FROM_SELLER); reading them first would let the app choose the evidence type PayPal asks for.

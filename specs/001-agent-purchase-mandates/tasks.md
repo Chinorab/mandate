@@ -52,8 +52,8 @@ credentials in .env.local.
 - [X] T013 Script 01: create + capture order with custom_id, invoice_id, description and PayPal-Request-Id replay; log to scripts/LEARNINGS.md, in scripts/01-auth-and-order.ts
 - [X] T014 Script 02 (approval link instead of a local SDK page; the app's SDK flow is checked in T043): vault setup token, local static page using JS SDK v6 createPayPalSavePaymentSession, payment token creation; store ids in .scripts-state/ (gitignored), in scripts/02-vault-setup.ts and scripts/02-vault-page.html
 - [X] T015 Script 03: merchant initiated charge with vault_id + stored_credential to each of the 3 payees; record outcome and the R2 decision in scripts/LEARNINGS.md, in scripts/03-vault-charge-payee.ts
-- [ ] T016 Script 04: webhook listener behind a cloudflared tunnel, verify-webhook-signature for real capture and vault events, tampered body check, in scripts/04-webhook-listener.ts
-- [ ] T017 Script 05: open a dispute manually as sandbox buyer (write exact click steps), then list it, require-evidence if UNDER_REVIEW, provide-evidence multipart (PDF + notes + tracking), in scripts/05-dispute.ts
+- [X] T016 (done through the app's own route /api/webhooks/paypal behind a cloudflared tunnel; real capture and dispute events verified, unsigned bodies refused) Script 04: webhook listener behind a cloudflared tunnel, verify-webhook-signature for real capture and vault events, tampered body check, in scripts/04-webhook-listener.ts
+- [X] T017 (done through the app: dispute opened by the sandbox buyer, evidence submitted from the dispute page, PayPal UNDER_REVIEW) Script 05: open a dispute manually as sandbox buyer (write exact click steps), then list it, require-evidence if UNDER_REVIEW, provide-evidence multipart (PDF + notes + tracking), in scripts/05-dispute.ts
 - [X] T018 [P] Script 06: Agent Toolkit get_order, list_disputes, get_dispute, create_shipment_tracking in sandbox, in scripts/06-toolkit.ts
 - [X] T019 [P] Script 07: delete payment token then attempt a charge (must fail), in scripts/07-revoke.ts
 - [ ] T020 Record decisions from T013 to T019 in research.md (R1, R2, R5 marked confirmed or fallback) and docs/dispute-pool-runbook.md (manual dispute steps, pool refill dates)
@@ -100,7 +100,7 @@ time and fingerprint; /verify returns match.
 - [X] T040 [US1] Vault link service: setup token (description names the mandate), confirm to payment token, store server side, activate, in lib/payments/vault.ts
 - [X] T041 [US1] Route handlers per contracts/http-api.md (draft, patch, sign, verify, vault setup-token, vault confirm, client-token) in app/api/mandates/ and app/api/paypal/client-token/route.ts
 - [X] T042 [US1] New mandate page matching design/project/MandateCreate.dc.html: instructions textarea with one tap example, terms card with inline edit per term, assumption notes, budget copy "total for this mandate", Sign Mandate, in app/(buyer)/mandates/new/page.tsx and components/mandate/
-- [ ] T043 [US1] PayPal link step after signing with JS SDK v6 save session (official button only), states for cancel and error, in components/mandate/LinkPayPal.tsx (written; needs sandbox keys to verify the start() promise shape and the button type)
+- [X] T043 [US1] PayPal link step after signing with JS SDK v6 save session (official button only), states for cancel and error, in components/mandate/LinkPayPal.tsx (written; needs sandbox keys to verify the start() promise shape and the button type)
 - [ ] T044 [US1] E2E: create, edit size, sign, link PayPal with sandbox buyer, see Active + fingerprint, in tests/e2e/us1-sign.spec.ts (keyless part done: manual draft, edits, sign, fingerprint verify, reload, discard; linked path pending keys in tests/e2e/us1-link.spec.ts)
 
 **Checkpoint**: US1 works alone.

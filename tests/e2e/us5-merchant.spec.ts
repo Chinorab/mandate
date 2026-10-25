@@ -15,6 +15,8 @@ const rowParts = (page: Page, code: string) => page.locator(`.ag-row[row-id="${c
 const rowText = (page: Page, code: string) => expect.poll(async () => (await rowParts(page, code).allInnerTexts()).join(" "));
 
 test("merchant grid: search, master detail, tracking, grouping, filters and CSV export", async ({ page, baseURL }, info) => {
+  // Eight paid orders through the gate, a grid of every local order, and a real tracking call when keys are set.
+  test.setTimeout(240_000);
   const codes = await merchantScenario(page, baseURL);
   const unshipped = codes[0]; // Daily Miler, paid, not shipped
   await page.goto("/merchant");

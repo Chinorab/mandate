@@ -90,6 +90,13 @@ is a step of the sandbox scripts (`/scripts`) and is resolved before application
   card funding); webhook events fired; the response deadline in sandbox (expected about 10 days, which
   sets the refresh date for the pool).
 
+- **Confirmed in the sandbox (2026-10-24/25)**: the buyer opens the dispute from the Resolution Center
+  ("Report Issue to PayPal" after the automatic payment notice); choosing "unauthorized" first asks the buyer
+  to secure the account. The dispute (id `PP-R-...`, UNAUTHORISED, WAITING_FOR_SELLER_RESPONSE, stage
+  CHARGEBACK, seller response due 10 days later) appeared about 10 minutes later. `provide-evidence` with an
+  `input` JSON part and one PDF (`file1`) was accepted: status UNDER_REVIEW, one evidence SUBMITTED_BY_SELLER
+  with the PDF and the notes; PayPal stored the type as OTHER. `require-evidence` was not needed.
+
 ## R6. Webhooks
 
 - **Decision**: one endpoint `/api/webhooks/paypal`; verify each event with
@@ -98,6 +105,11 @@ is a step of the sandbox scripts (`/scripts`) and is resolved before application
   event). Store `event.id` unique for idempotency. Events: `CUSTOMER.DISPUTE.CREATED|UPDATED|RESOLVED`,
   `PAYMENT.CAPTURE.COMPLETED|REFUNDED`, `VAULT.PAYMENT-TOKEN.CREATED|DELETED`.
 - **Note**: Dashboard simulator events are not verifiable; real sandbox actions are used in scripts.
+
+- **Confirmed in the sandbox (2026-10-24/25)**: PAYMENT.CAPTURE.COMPLETED and CUSTOMER.DISPUTE.CREATED/UPDATED
+  pass `verify-webhook-signature` through the app's route. A cloudflared quick tunnel expires overnight;
+  updating the webhook URL (PATCH `/v1/notifications/webhooks/{id}`) and `POST .../webhooks-events/{id}/resend`
+  recover lost events, still verifiable. The hosted demo uses the stable Render URL.
 
 ## R7. PayPal Agent Toolkit
 

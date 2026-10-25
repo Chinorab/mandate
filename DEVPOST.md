@@ -49,7 +49,9 @@ No sign up: each visitor gets a private demo session and can switch between buye
 - **Letting an agent pay without letting it decide.** The model proposes; it never supplies an amount, a verdict or a term to the payment path. Money moving toolkit tools are not registered at all, and a static test fails if any file outside `lib/payments` reaches the PayPal transport.
 - **Concurrency.** Two carts can race for the last allowed order, or a revocation can race a capture. Row locks on the mandate and a re check before capture make both impossible, and tests prove it.
 - **A draft that cannot invent.** Free text is where a dispute response could overclaim. Sentences carry the evidence keys they rest on, and the server drops any sentence whose numbers or identifiers are not in those items.
-- _[Sandbox specifics: filled after the sandbox runs]_
+- **Who owns the money owns the case.** Our first REST app belonged to a different business account than the store receiving the money through `payee`. Payments worked, but PayPal refused tracking on those sales, and disputes follow the same rule. We moved the app to the demo store's own account, which also meant the buyer had to save PayPal again: a saved PayPal belongs to the merchant whose app created it.
+- **Errors that look like successes.** The Agent Toolkit returns PayPal errors as normal content. Our first sandbox run read a refused tracking call as done, so we taught the wrapper to raise them; the screen now says PayPal refused it. The toolkit's server SDK also needed a dependency it only lists for development, which we supplied with a pnpm package extension.
+- **A real dispute is slow and stateful.** The buyer had to secure the sandbox account before an "unauthorized" report went through, the case appeared about ten minutes later, and our local tunnel expired overnight with the events in flight. Updating the webhook URL and asking PayPal to resend recovered them, signature intact.
 
 ## Accomplishments that we're proud of
 
@@ -60,7 +62,11 @@ No sign up: each visitor gets a private demo session and can switch between buye
 
 ## What we learned
 
-_[Filled after the sandbox runs: see "What we learned from the sandbox" in the README.]_
+- A merchant initiated charge on a saved PayPal completes in one call, to any of three stores through `payee`, with the mandate reference kept on the order and the capture. The buyer approves once; the agent pays afterwards.
+- `PayPal-Request-Id` makes retries safe: a replayed order or capture returns the stored result instead of charging twice.
+- Ownership is the rule to design around: tracking, disputes and saved payment methods belong to the merchant that received the money or created the token.
+- A dispute answered from our page reached PayPal as one seller evidence with the evidence report PDF and the response; the case moved to Under review. PayPal filed the evidence as OTHER, so the next step is to read the evidence types it requests before sending.
+- Every finding is dated in [`scripts/LEARNINGS.md`](https://github.com/Chinorab/mandate/blob/main/scripts/LEARNINGS.md) and summarized in the README.
 
 ## What's next
 

@@ -1,4 +1,8 @@
 import { defineConfig, devices } from "@playwright/test";
+import { config } from "dotenv";
+
+// Same env files as the dev server, so tests can tell which services are configured (keys stay local).
+config({ path: [".env.local"], quiet: true });
 
 const baseURL = process.env.E2E_BASE_URL || "http://localhost:3000";
 const isLocal = baseURL.startsWith("http://localhost");

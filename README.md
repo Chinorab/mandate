@@ -157,20 +157,34 @@ AG Studio insights and the Studio agent are planned with the trial license.
 
 ## Open a sandbox dispute
 
-Judges get a ready dispute from the demo pool when they open **Disputes** in the merchant view. When every pool dispute has been answered, the page shows one read only and links here. To open a new one yourself:
+Judges get a ready dispute from the demo pool when they open **Disputes** in the merchant view. When every pool dispute has been answered, the page shows one read only and links here. To open a new one yourself (steps confirmed in the sandbox on Oct 25, 2026):
 
 1. In the demo, create a mandate, link PayPal with the sandbox buyer from the testing instructions, and let the agent buy an item from **Sample Sports Outlet** (the merchant view shows that store).
-2. Sign in to the [PayPal sandbox](https://www.sandbox.paypal.com) as the same sandbox buyer.
-3. Open **Activity**, select the payment to Sample Sports Outlet, and choose **Report a problem**.
-4. Pick a reason, for example that you did not authorize the payment or did not receive the item, and submit.
-5. PayPal sends `CUSTOMER.DISPUTE.CREATED` to the app. Within a minute, the order shows **In dispute** in the merchant grid, with its evidence file and draft.
-6. If PayPal places the case **Under review** before asking the seller for evidence, the operator runs `pnpm pool:sync --apply`, which asks the sandbox for seller evidence (`require-evidence`) and adds the case to the pool.
-
-Steps 2 to 4 follow the sandbox interface at the time of writing; the exact labels are confirmed in [What we learned from the sandbox](#what-we-learned-from-the-sandbox).
+2. In a private browser window, sign in to the [PayPal sandbox](https://www.sandbox.paypal.com) as the same sandbox buyer. The store appears there as **Test Store**, the sandbox business account's default name.
+3. Open the [Resolution Center](https://www.sandbox.paypal.com/resolutioncenter), choose the payment and **Report a problem**. Because the agent paid with a saved PayPal, PayPal first shows "You have an automatic payment set up with Test Store": do **not** use *Manage Automatic Payments* (it cancels the agent's link); choose **Report Issue to PayPal**.
+4. Pick a reason. With "I didn't authorize this transaction", PayPal first asks the buyer to secure the account: choose **Secure Your Account** and set a new password (*Skip this* blocks the sandbox buyer). Then submit.
+5. About ten minutes later PayPal creates the case (id `PP-R-...`, waiting for the seller) and sends `CUSTOMER.DISPUTE.CREATED` to the app. The order shows **In dispute** in the merchant grid, with its evidence file and draft, and the case joins the pool.
+6. If a case ever sits **Under review** before the seller is asked for evidence, the operator runs `pnpm pool:sync --apply`, which calls the sandbox only `require-evidence` and adds the case to the pool. It was not needed in our runs.
 
 ## What we learned from the sandbox
 
-> **Placeholder.** This section is written after the sandbox scripts in `/scripts` run against real sandbox accounts (vault charge without the buyer present, `payee` across three business accounts, webhook delivery and verification, opening a dispute as the sandbox buyer, `provide-evidence`). Until then, the PayPal paths are covered by tests with recorded request shapes only.
+Every finding below comes from runs against real sandbox accounts on Oct 24 and 25, 2026; the dated log is [`scripts/LEARNINGS.md`](scripts/LEARNINGS.md) and the scripts are in [`/scripts`](scripts).
+
+**The agent can pay without the buyer, once PayPal is linked.** A setup token with `usage_type: MERCHANT` and `usage_pattern: UNSCHEDULED_PREPAID`, approved once by the buyer, becomes a payment token. Merchant initiated orders with `vault_id` and `stored_credential` then complete in a single call (status COMPLETED, no separate capture), to each of the three stores through `payee`, with `custom_id` kept on the order and on the capture. The per payment approval fallback we had planned was not needed.
+
+**Idempotency holds.** Replaying an order or a capture with the same `PayPal-Request-Id` returns the stored result: no second order, no second charge. A replayed id also returns a stored failure, so a retry after an error needs a new id.
+
+**Ownership decides what an app may do.** Tracking and disputes belong to the merchant that received the money. With the REST app owned by one business account and the money routed by `payee` to another, `create_shipment_tracking` is refused (`USER_NOT_AUTHORIZED`). The demo's REST app is therefore owned by Sample Sports Outlet, the store of the merchant view. A saved PayPal also belongs to the merchant whose app created it: another app gets `PERMISSION_DENIED` when charging it.
+
+**One unticked box blocks the whole Vault.** Until "Save payment methods" is ticked in the app's features, every Vault call answers `403 NOT_AUTHORIZED`, card and PayPal alike, although the OAuth scopes look fine.
+
+**Revocation also works at PayPal.** After `DELETE /v3/vault/payment-tokens/{id}`, the token reads 404 and any charge with it is refused, on top of the consent gate's own refusal.
+
+**The Agent Toolkit does not throw.** It returns PayPal errors as content (`{"errors": [...]}` or `{"ok": false}`), so a refused call can look like a success. Our wrapper now turns those into errors; before that, the tracking screen could have said "reported to PayPal" for a refused call. The toolkit's PayPal server SDK also needs `tslib` 2 but lists it only as a development dependency; with pnpm it resolved `tslib` 1 and crashed until a package extension gave it the right version.
+
+**Webhooks verify, tunnels expire.** Real `PAYMENT.CAPTURE.COMPLETED` and `CUSTOMER.DISPUTE.*` events pass `verify-webhook-signature`. A local quick tunnel expired overnight and the dispute events were lost; updating the webhook URL and calling the resend endpoint delivered them again, still verifiable. The hosted demo uses its stable Render address.
+
+**Disputes take a while and change shape.** The buyer's report became a merchant visible case about ten minutes later, in the chargeback stage, due ten days later. Before the response, the case lists the evidence PayPal requests (`REQUESTED_FROM_SELLER`). `provide-evidence` with a JSON `input` part and the evidence report PDF was accepted: the case moved to **Under review** with one evidence submitted by the seller, the PDF and the 1,439 character response. PayPal filed it as `OTHER` although it was sent as `BILLING_AGREEMENT`.
 
 ## Setup
 
@@ -230,9 +244,9 @@ E2E_BASE_URL=http://localhost:3000 pnpm e2e
 
 ## Project status
 
-Done and tested without keys: mandate drafting, signing and verification, the consent gate and its bypass suite, the shopping agent, blocked carts and amendments, revocation, history and receipts, the AG Grid merchant view, the dispute flow from webhook to submission, the landing and privacy pages.
+Done and tested: mandate drafting, signing and verification, the consent gate and its bypass suite, the shopping agent, blocked carts and amendments, revocation, history and receipts, the AG Grid merchant view, the dispute flow from webhook to submission, the landing and privacy pages.
 
-Waiting for sandbox keys: the runs against the real sandbox listed above, which also fill [What we learned from the sandbox](#what-we-learned-from-the-sandbox). Waiting for the trial license: AG Studio insights.
+Run end to end in the PayPal sandbox: linking PayPal from the app, the agent paying without the buyer, webhook verification, a real dispute answered from the dispute page and accepted by PayPal. Still to come: the hosted demo on Render, AG Studio insights (trial license), the demo video.
 
 The spec driven record of the work is in [`specs/001-agent-purchase-mandates`](specs/001-agent-purchase-mandates) and the project principles in [`.specify/memory/constitution.md`](.specify/memory/constitution.md).
 
