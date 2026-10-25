@@ -7,7 +7,7 @@ Draft of the Devpost page and form answers for the [PayPal AI Hackathon](https:/
 **Links**
 
 - Demo: https://mandate-thsn.onrender.com
-- Video: _[YouTube URL]_
+- Video: https://youtu.be/CUtU4nXVPLU
 - Code: https://github.com/Chinorab/mandate (MIT)
 
 ---
