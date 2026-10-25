@@ -137,3 +137,24 @@ Dated findings from the scripts in `/scripts`, run against the PayPal sandbox.
 - DELETE /v3/vault/payment-tokens/{id} succeeded (no content).
 - Reading the deleted token answers 404 RESOURCE_NOT_FOUND.
 - A charge with the deleted token is refused: 403 NOT_AUTHORIZED (PERMISSION_DENIED). Revocation removes the agent's ability to pay at PayPal too, on top of the gate's own refusal.
+
+## Full app journey with real services, 2026-10-24 (evening ET)
+
+- In the app: Claude drafted the example mandate, the buyer signed, then linked PayPal with the JS SDK v6 save flow (official PayPal button, client token from our server, setup token created on click, payment token swapped on our server). The mandate became active without any change to the code written before the sandbox runs (T043).
+- The shopping agent bought the Daily Miler at Sample Sports Outlet through the consent gate: 7 of 7 terms, $103.92, mandate reference in the PayPal order's custom_id, payment completed without the buyer.
+- PayPal's webhook reached the app through a cloudflared quick tunnel and passed verify-webhook-signature (answered 200; unverified events get 400).
+- The SDK button reads "Pay with PayPal" for a save without purchase (type "pay"); worth a clearer label if the SDK offers one.
+
+## Opening a dispute as the sandbox buyer, 2026-10-25 01:57 Paris
+
+- In the sandbox the merchant shows as "Test Store" (the business account's default name), not as the demo store name.
+- Resolution Center path: sandbox.paypal.com/resolutioncenter, then the payment's filing page (/resolutioncenter/filing/{transaction id}). For a payment made with a vaulted PayPal, PayPal first shows "You have an automatic payment set up with Test Store" with "Manage Automatic Payments" (do not use it: it cancels the agent's link) and "Report Issue to PayPal".
+- First attempt, a few minutes after the payment: "Report Issue to PayPal" answered "We're sorry, looks like something went wrong on our end. Please try again." (sandbox side error).
+
+## Dispute delivered to the app, 2026-10-25 08:20 UTC
+
+- PayPal created the dispute PP-R-ZNP-10194423 (UNAUTHORISED, WAITING_FOR_SELLER_RESPONSE, $103.92) about 10 minutes after the buyer's filing, with a "PP-R-" case id, and generated CUSTOMER.DISPUTE.CREATED followed by two CUSTOMER.DISPUTE.UPDATED within 20 seconds.
+- The cloudflared quick tunnel had expired overnight ("Tunnel not found"), so those deliveries were lost. After a new tunnel, PATCH /v1/notifications/webhooks/{id} (replace /url) and POST /v1/notifications/webhooks-events/{id}/resend delivered them again; all three passed signature verification (200).
+- The app matched the dispute to order 918366 by the capture id, put it in the pool (Sample Sports Outlet), and assembled the evidence file: signed mandate, check report, PayPal transaction, tracking stated as missing. Claude drafted the response; every kept sentence rests on an included item.
+- The seller's response is due 10 days after filing (seller_response_due_date), which sets the pool refresh rhythm during judging.
+- For the hosted demo, the webhook points to the stable Render URL, not a quick tunnel.

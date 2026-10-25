@@ -39,7 +39,7 @@ export type DisputeView = {
   } | null;
   claimedByYou: boolean;
   canEdit: boolean;
-  readOnlyReason: "claimed_by_other" | "submitted" | "resolved" | "not_ready" | null;
+  readOnlyReason: "claimed_by_other" | "unclaimed" | "submitted" | "resolved" | "not_ready" | null;
 };
 
 const STATUS: Record<string, string> = {
@@ -79,9 +79,11 @@ export async function disputeView(db: DbOrTx, sessionId: string, id: string): Pr
       ? "submitted"
       : resolved
         ? "resolved"
-        : !claimedByYou
-          ? "claimed_by_other"
-          : null;
+        : d.claimedBySessionId === null
+          ? "unclaimed"
+          : !claimedByYou
+            ? "claimed_by_other"
+            : null;
 
   const timeline: TimelineStep[] = [];
   if (r.mandate) {

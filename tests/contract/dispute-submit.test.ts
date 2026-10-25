@@ -93,6 +93,13 @@ describe("GET /api/merchant/disputes/:id", () => {
     expect(JSON.stringify(v)).not.toContain(d.sessionId);
   });
 
+  it("shows an unclaimed pool dispute as free to claim, not as someone else's", async () => {
+    const d = await poolDispute();
+    const v = view(await api.getDispute(handle.db, await newSession(handle.db), d.id));
+    expect(v.readOnlyReason).toBe("unclaimed");
+    expect(v.canEdit).toBe(false);
+  });
+
   it("404s on an unknown id", async () => {
     expect((await api.getDispute(handle.db, await newSession(handle.db), crypto.randomUUID())).status).toBe(404);
     expect((await api.getDispute(handle.db, await newSession(handle.db), "not-a-uuid")).status).toBe(404);

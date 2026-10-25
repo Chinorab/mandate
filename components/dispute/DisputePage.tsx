@@ -66,7 +66,9 @@ function Notice({ view, poolEmpty }: { view: DisputeView; poolEmpty: boolean }) 
         ? "This dispute is resolved. Nothing more can be sent."
         : r === "not_ready"
           ? "The evidence file is being assembled from the order records. This page updates on its own."
-          : "Another demo session is answering this dispute. You can read everything here; only that session can change or submit it.";
+          : r === "unclaimed"
+            ? "No demo session is answering this dispute yet. Open Disputes in the merchant view to take it and answer it."
+            : "Another demo session is answering this dispute. You can read everything here; only that session can change or submit it.";
   return (
     <div className={s.notice} role="status">
       <StateIcon name={r === "submitted" ? "compliant" : "info"} size={18} />
